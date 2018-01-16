@@ -11,7 +11,7 @@ title: "Linguistic data: quantitative analysis and visualisation"
 
 ### 1. Introduction to R. Types of data. Dataframe. User's functions
 * (18.01.2018)	[Lab 1: Base R objects. Simple plots. Simple functions. Base R functions code. User’s functions. Loops. Functions in functions. Default arguments. Optional arguments.]()
-* (..2018)	[Dataframes. Read and write data. Manipulation with data (R base vs. dplyr)]()
+* (18.01.2018)	[Dataframes. Read and write data. Manipulation with data (R base vs. dplyr)]()
 
 * [HW-1. Deadline: ..2018]()
 
