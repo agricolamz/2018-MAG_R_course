@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Linguistic data: quantitative analysis and visualisation</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/lumen.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 54px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+
+.section h2 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h3 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h4 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h5 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h6 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Linguistic data: quantitative analysis and visualisation</h1>
+
+</div>
+
+
+<div id="r-and-rstudio-installation" class="section level3">
+<h3>R and RStudio installation</h3>
+<p><a href="https://www.r-project.org/">R</a>, <a href="https://www.rstudio.com/products/rstudio/download/#download">RStudio</a>, <a href="https://www.rollapp.com/app/rstudio">RStudio online</a>, <a href="http://happygitwithr.com/rstudio-git-github.html">Connecting RStudio и GitHub</a>, <a href="https://www.r-bloggers.com/">R-bloggers</a></p>
+<ul>
+<li>(18.01.2018) <a href="https://agricolamz.github.io/2018-MAG_R_course/Lec_1_Course_description.html">Lec 1: Course description</a></li>
+<li><a href="https://github.com/agricolamz/2018-MAG_R_course/raw/master/projects.pdf">about projects</a></li>
+<li><a href="">assignment grades</a></li>
+</ul>
+</div>
+<div id="introduction-to-r.-types-of-data.-dataframe.-users-functions" class="section level3">
+<h3>1. Introduction to R. Types of data. Dataframe. User’s functions</h3>
+<ul>
+<li>(18.01.2018) <a href="">Lab 1: Base R objects. Simple plots. Simple functions. Base R functions code. User’s functions. Loops. Functions in functions. Default arguments. Optional arguments.</a></li>
+<li><p>(..2018) <a href="">Dataframes. Read and write data. Manipulation with data (R base vs. dplyr)</a></p></li>
+<li><p><a href="">HW-1. Deadline: ..2018</a></p></li>
+</ul>
+</div>
+<div id="visualization." class="section level3">
+<h3>2. Visualization.</h3>
+<ul>
+<li>(.2018) <a href="">Base R vs. ggplot2: 2 variables, 3 variables, many variables</a></li>
+<li>(.2018) <a href="">Lab 2: Data manipulation and visualization</a></li>
+<li>(.2018) RMarkdown</li>
+<li><a href="">HW-2. Deadline: ..2018</a></li>
+</ul>
+</div>
+<div id="descriptive-statistics-a.-confidence-intervals.-t-tests.-p-values.-normality-tests" class="section level3">
+<h3>3. 4. Descriptive statistics A. Confidence intervals. T-tests. P-values. Normality tests</h3>
+<ul>
+<li>(.2018) <a href="">Lecture: Central limit theorem. Confidence intervals</a></li>
+<li>(.2018) Lab 3 and 4: Descriptive statistics, Confidence intervals, T-tests. P-value. Boxplot, errorbar.
+<ul>
+<li><a href="">Assignment</a></li>
+<li>Files from class: <a href="">Lab 3 and 4</a></li>
+</ul></li>
+</ul>
+</div>
+<div id="more-about-t-test-one-tailed-paired-test-power-coehns-d.-mannwhitney-u-test." class="section level3">
+<h3>5. More about t-test: one-tailed, paired, test power, Coehn’s d. Mann–Whitney U-test.</h3>
+<ul>
+<li>(.2018) lecture</li>
+<li>(.2018) <a href="">Lab 5</a>, <a href="">Assignment</a></li>
+</ul>
+</div>
+<div id=".-exact-fisher-test.-correlations" class="section level3">
+<h3>6. χ². Exact Fisher test. Correlations</h3>
+<ul>
+<li>(.2018) lecture</li>
+<li>(.2018) <a href="">Lab 6</a>, <a href="">Assignment</a></li>
+</ul>
+</div>
+<div id="linear-regressions" class="section level3">
+<h3>7. Linear regressions</h3>
+<ul>
+<li>(.2018) lecture</li>
+<li>(.2018) <a href="">Lab 7</a>, <a href="">Assignment</a></li>
+</ul>
+</div>
+<div id="anova-dummy-variables-multiple-linear-regression" class="section level3">
+<h3>8. ANOVA, dummy variables, Multiple linear regression</h3>
+<ul>
+<li>(.2018) <a href="">lecture 8</a></li>
+<li>(.2018) <a href="">Lab 8</a>, <a href="">Assignment</a></li>
+</ul>
+</div>
+<div id="binary-logistic-regressions" class="section level3">
+<h3>9. Binary logistic regressions</h3>
+<ul>
+<li>(.2018) <a href="">lecture 9</a></li>
+<li>(.2018) <a href="">Lab 9</a>, <a href="">Assignment</a></li>
+</ul>
+</div>
+<div id="linear-mixed-effects-models" class="section level3">
+<h3>10. Linear Mixed-effects models</h3>
+<ul>
+<li>(.2018) lecture</li>
+<li>(.2018) <a href="">Lab 10</a>, <a href="">Assignment</a></li>
+</ul>
+</div>
+<div id="decision-trees.-decision-forests" class="section level3">
+<h3>11. Decision trees. Decision forests</h3>
+<ul>
+<li>(.2018) lecture</li>
+<li>(.2018) <a href="">Lab 11 (CART)</a>, <a href="">Assignment</a></li>
+</ul>
+</div>
+<div id="clusterization" class="section level3">
+<h3>12. Clusterization</h3>
+<ul>
+<li>(.2018) lecture</li>
+<li>(.2018) <a href="">Lab 12: Clusterization.</a> <a href="">Assignment link</a></li>
+</ul>
+</div>
+<div id="pca-mca" class="section level3">
+<h3>13. PCA, MCA</h3>
+<ul>
+<li>(.2018) <a href="">lecture 13</a></li>
+<li>(.2018) <a href="">Lab 13: PCA, MCA</a>, <a href="">Assignment link</a></li>
+<li>(.2018) lecture</li>
+<li>(.2018) <a href="">Lab 13: PCA, MCA</a>, <a href="">Assignment link</a></li>
+</ul>
+</div>
+<div id="empirical-bayes" class="section level3">
+<h3>14. Empirical Bayes</h3>
+<ul>
+<li>(.2018) lecture</li>
+<li>(.2018) <a href="">Lab 14</a>, <a href="">Assignment link</a></li>
+</ul>
+</div>
+<div id="statistics-for-hackers" class="section level3">
+<h3>15. Statistics for Hackers</h3>
+<ul>
+<li>(.2018) <a href="">lecture</a></li>
+<li>(.2018) <a href="">Lab 15</a>, <a href="">Assignment link</a></li>
+</ul>
+</div>
+<div id="project-presentation-schedule" class="section level3">
+<h3><a href="">Project presentation schedule</a></h3>
+</div>
+<div id="textbooks" class="section level3">
+<h3>Textbooks</h3>
+<ul>
+<li>Levshina, Natalia. 2015. How to do Linguistics with R. <a href="https://benjamins.com/#catalog/books/z.195/main">Info</a> <a href="https://benjamins.com/sites/z.195/">Companion web site</a>. The e-book is available in HSE library.</li>
+<li>Gries, Stefan Th. 2013. Statistics for Linguistics with R: A Practical Introduction. 2nd ed. Mouton de Gruyter. <a href="https://www.degruyter.com/view/product/203826">Info</a></li>
+<li>Gries, Stefan Th. 2009 (2nd ed.: 2018). Quantitative Corpus Linguistics with R. Routledge. <a href="https://www.routledge.com/Quantitative-Corpus-Linguistics-with-R-A-Practical-Introduction/Gries/p/book/9780415962704">Info</a> <a href="https://www.routledge.com/Quantitative-Corpus-Linguistics-with-R-A-Practical-Introduction-2nd-Edition/Gries/p/book/9781138816275">2nd Edition</a> <a href="http://www.linguistics.ucsb.edu/faculty/stgries/research/qclwr/qclwr.html">Companion page</a></li>
+<li>Baayen, Harald. 2008 (2nd ed.: 2014). Analyzing Linguistic Data: A Practical Introduction to Statistics using R. Cambridge University Press. <a href="http://www.cambridge.org/gb/academic/subjects/languages-linguistics/grammar-and-syntax/analyzing-linguistic-data-practical-introduction-statistics-using-r?format=AR">Info</a> <a href="https://books.google.ru/books?id=UvWkIg5E4foC&amp;printsec=frontcover&amp;source=gbs_ge_summary_r&amp;cad=0#v=onepage&amp;q&amp;f=false">Google books</a></li>
+</ul>
+<p>see also our <a href="https://www.hse.ru/data/2016/09/19/1117082144/program-1549532002-kSLnTng0SN.pdf">Course Program</a></p>
+</div>
+<div id="r-markdown" class="section level3">
+<h3>R Markdown</h3>
+<ul>
+<li><a href="https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf">R Markdown cheatsheet</a></li>
+<li><a href="http://rmarkdown.rstudio.com/lesson-1.html">Online Introduction to R Markdown</a></li>
+</ul>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<p> <center> &copy; О. Ляшевская, И. Щуров, Г. Мороз, code on
+<a href="https://github.com/agricolamz/2018-MAG_R_course"> GitHub<img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png"  style="width:30px;height:30px;border:0"> </center></p>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
