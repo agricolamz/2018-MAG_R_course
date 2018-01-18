@@ -3,37 +3,43 @@ title: "Linguistic data: quantitative analysis and visualisation"
 ---
 
 ### R and RStudio installation
-[R](https://www.r-project.org/), [RStudio](https://www.rstudio.com/products/rstudio/download/#download), [RStudio online](https://www.rollapp.com/app/rstudio), [Connecting RStudio и GitHub](http://happygitwithr.com/rstudio-git-github.html), [R-bloggers](https://www.r-bloggers.com/)
+[R](https://www.r-project.org/), [RStudio](https://www.rstudio.com/products/rstudio/download/#download), [RStudio online](https://www.rollapp.com/app/rstudio) ------- [Connecting RStudio and GitHub](http://happygitwithr.com/rstudio-git-github.html), [R-bloggers](https://www.r-bloggers.com/)
 
-* (18.01.2018)	[Lec 1: Course description](https://agricolamz.github.io/2018-MAG_R_course/Lec_1_Course_description.html)
-* [about projects](https://github.com/agricolamz/2018-MAG_R_course/raw/master/projects.pdf)
-* [assignment grades]()
+### Course Info	
+[Course description](https://agricolamz.github.io/2018-MAG_R_course/Lec_1_Course_description.html)
+ -- [about Final exam projects](https://github.com/agricolamz/2018-MAG_R_course/raw/master/projects.pdf)
+ -- [assignment grades]()   
 
 ### 1. Introduction to R. Types of data. Dataframe. User's functions
-* (18.01.2018)	[Lab 1: Base R objects. Simple plots. Simple functions. Base R functions code. User’s functions. Loops. Functions in functions. Default arguments. Optional arguments.]()
+* [Please fill in the form](https://docs.google.com/forms/d/e/1FAIpQLSeHEP4ivqpKUqPJpuruwbbOb_6x05m8ExA_YdiHer7gC3Hzng/viewform?usp=sf_link)  
+* (18.01.2018)	[Lab 1: Base R objects. Simple plots. Simple functions. Base R functions code. User's functions. Loops. Functions in functions. Default arguments. Optional arguments.]()
 * (18.01.2018)	[Dataframes. Read and write data. Manipulation with data (R base vs. dplyr)]()
 
-* [HW-1. Deadline: ..2018]()
+* [HW-1. Self-paced online course. Section 1-5 ](https://www.edx.org/course/introduction-r-data-science-microsoft-dat204x-7)
 
-### 2. Visualization.
+### 2. Descriptive statistics A. Confidence intervals. P-values
+* (25.01.2018) [Lec 2: Central limit theorem. Confidence intervals]()
+* (25.01.2018) Lab 2: 
+    * [Test # 1: Basic R techniques (based on online course))[]
+    * [Lab 2 Assignment]()
+    * RMarkdown
+    * Files from class: [Lab 2]()
 
-*	(.2018) [Base R vs. ggplot2: 2 variables, 3 variables, many variables]()
-* (.2018) [Lab 2: Data manipulation and visualization]()
-* (.2018) RMarkdown
-* [HW-2. Deadline: ..2018]()
+### 3. Data manipulation and visualization.
 
-### 3. 4. Descriptive statistics A. Confidence intervals. T-tests. P-values. Normality tests
-* (.2018) [Lecture: Central limit theorem. Confidence intervals]()
-* (.2018) Lab 3 and 4: Descriptive statistics, Confidence intervals, T-tests. P-value. Boxplot, errorbar.
+*	(01.02.2018) [Base R vs. ggplot2: 2 variables, 3 variables, many variables]()
+* (01.02.2018) [Lab 3: Data manipulation and visualization]()
+* [HW-2. Deadline: next class]()
+
+### 4-5. Descriptive statistics B. Normality tests. T-tests: one-tailed, paired, test power, Coehn's d. Mann-Whitney U-test.
+* (08/??.02.2018) [Lec 4-5: Central limit theorem. Confidence intervals]()
+* (08/??.02..2018) Lab 4: Descriptive statistics, Confidence intervals, T-tests. P-value. Boxplot, errorbar.
     * [Assignment]()
-    * Files from class: [Lab 3 and 4]()
+    * Files from class: [Lab 4 and 5]()
 
-### 5. More about t-test: one-tailed, paired, test power, Coehn's d. Mann–Whitney U-test.
-
-* (.2018) lecture
 * (.2018) [Lab 5](), [Assignment]()
 
-### 6. χ². Exact Fisher test. Correlations																									
+### 6. Exact Fisher test. Correlations																									
 * (.2018) lecture
 * (.2018) [Lab 6](), [Assignment]()
 
@@ -44,7 +50,6 @@ title: "Linguistic data: quantitative analysis and visualisation"
 ### 8. ANOVA, dummy variables, Multiple linear regression																		
 * (.2018) [lecture 8]() 
 * (.2018) [Lab 8](), [Assignment]()
-
 
 ### 9. Binary logistic regressions
 
