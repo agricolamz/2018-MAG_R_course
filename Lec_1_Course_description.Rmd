@@ -1,0 +1,44 @@
+---
+title: "Linguistic data: quantitative analysis and visualisation"
+subtitle: "About course"
+date: 19.01.2017
+font-family: 'Brill'
+transition: none
+output:
+  slidy_presentation:
+    df_print: paged
+    footer: "Presentation link: https://goo.gl/gNqTPM"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Who?
+
+Lectures and laboratory:
+
+* [Olya Lyashevskaya](mailto:olesar@yandex.ru)
+* [George Moroz](mailto:agricolamz@gmail.com)
+* [Ilya Schurov](mailto:ilya@schurov.com)
+
+Teaching Assistant:
+
+* [Sasha Kozhukhar](mailto:dunnowhatsthis@gmail.com)
+
+## How?
+
+* [Here](https://www.hse.ru/data/2016/09/19/1117082144/program-1549532002-kSLnTng0SN.pdf) is a link to a course programme.
+* 12 lectures and 20 laboratories
+* Final Score = 0.12 × ([Online course](https://www.edx.org/course/introduction-r-data-science-microsoft-dat204x-3)) + 0.48 × (Written Assignments) + 0.4 × (Project)
+
+## What?
+
+* [R](https://www.r-project.org/), [RStudio](https://www.rstudio.com/products/rstudio/download/#download), [RStudio online](https://www.rollapp.com/app/rstudio)
+* Data collection
+* Exploratory visualization
+* Cleaning and transform Data
+* Modeling and Model Validation
+* Communicate visualization
+
+It is not just Statistics or R programming. It is Data Science.
