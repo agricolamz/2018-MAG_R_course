@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Research Project Paper and Presentation</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/lumen.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 54px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+
+.section h2 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h3 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h4 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h5 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h6 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Research Project Paper and Presentation</h1>
+
+</div>
+
+
+<p>Final Examination<br />
+MA course <b>Linguistic data: quantitative analysis and visualization, HSE, Moscow</b></p>
+<div id="a-quantitative-analysis-of-rival-forms" class="section level2">
+<h2>A Quantitative Analysis of Rival Forms</h2>
+<p>In the project, the students are supposed to explore the use of the rival forms in the written or oral speech. This can be a choice between:</p>
+<ul>
+<li>two or more synonyms<br />
+</li>
+<li>two or more grammatical forms<br />
+</li>
+<li>rival word formation models<br />
+</li>
+<li>rival syntactic constructions<br />
+</li>
+<li>rival pronunciation models, etc.</li>
+</ul>
+<p>Possible research tracks (<a href="#note1">1</a>)</p>
+<ul>
+<li>a corpus-based study<br />
+</li>
+<li>experimental work:
+<ul>
+<li>psycholinguistic, neurolinguistic experiments<br />
+</li>
+<li>experimental phonetics<br />
+</li>
+<li>sociolinguistic surveys</li>
+</ul></li>
+</ul>
+<p>Just to give an idea, the choice of the rival units can be driven by certain contextual factors (e.g. words, syntactics patterns), features of the rival units themselves (e.g. the gender of the noun, the tense of the verb), genre and register of the text, sociolinguistic parameters (e.g. age, sex, profession, education, place of birth). We expect students to explore at least three factors of any kind in their case study. For inspiration, you can look at some examples of the data annotation at the open repository Trolling (<a href="https://opendata.uit.no/dataverse/trolling">https://opendata.uit.no/dataverse/trolling</a>).</p>
+<p>During the project, the students formulate their initial hypothesis, collect data (either corpus-based or experimental), annotate data and do the preliminary desctiptive, exploratory and inferential statistical analysis. After that, they can update their hypothesis, include more or exclude some factors, and collect more data/annotate more parameters in order to improve the empirical basis for their analysis. The amount of the data collected should be enough to support the statistic analysis. It is by no means evident that it is strongly prohibited to exclude data that contradict the hypothesis or make any other sort of the hypothesis-biased fraud.</p>
+<div id="research-paper" class="section level3">
+<h3>Research paper</h3>
+<p>The students prepare the final project in a written form as an electronic ￼document (R markdown) that include the following parts:</p>
+<ul>
+<li>Research objectives and hypothesis to be tested.<br />
+</li>
+<li>Description of input data: features and values, descriptive statistics, data visualisation.<br />
+</li>
+<li>Discussion of the methods of analysis and their applicability.<br />
+</li>
+<li>Obtained results and their linguistic interpretation. Comparison and discussion of the ￼￼￼results produced by different models.</li>
+<li>R code used for the analysis (<a href="#note1">2</a>).<br />
+</li>
+<li>Annotated data (file in repository in the .csv format, the paper contains a link to this file).<br />
+</li>
+<li>Experimental survey questionaries, if applicable (files in repository in the .csv format, the paper contains a link to this file).</li>
+</ul>
+<p>Language under analysis: any natural language<br />
+Type of analysis: multi-factor analysis. At least two multi-factor analysis techniques should be demonstrated in the paper.<br />
+Type of the project: individual or group (max. 2 people) project<br />
+￼￼Language of the project paper: English</p>
+</div>
+<div id="data-annotation" class="section level3">
+<h3>Data annotation</h3>
+<p>The students</p>
+</div>
+<div id="course-project-schedule" class="section level3">
+<h3>Course project schedule</h3>
+<ul>
+<li>Topic of the project, research hypothesis formulated – due February 15
+<ul>
+<li>please fill in the <a href="https://docs.google.com/spreadsheets/d/1HdjLzF3jUXddq2N7pUpGn7P1tMJ4ut9mskucVjiNlwQ/edit?usp=sharing">table</a>, Research projects sheet<br />
+</li>
+</ul></li>
+<li>Data collection and annotation – due April 2
+<ul>
+<li>please fill in the <a href="https://docs.google.com/spreadsheets/d/1HdjLzF3jUXddq2N7pUpGn7P1tMJ4ut9mskucVjiNlwQ/edit?usp=sharing">table</a>, Research projects sheet, column Link to data<br />
+</li>
+</ul></li>
+<li>Data analysis &amp; discussion (in class/individual meetings) – in April-May<br />
+</li>
+<li>Paper submission – one week before the exam<br />
+</li>
+<li>Presentation of the projects (using slides or Rmd/html files) – exam session, June 18-30, as scheduled by the office</li>
+</ul>
+<div id="notes" class="section level4">
+<h4>Notes ￼</h4>
+<p><a name = "note1"></a><br />
+1. Any other methodologies of research can be dicussed with the lecturers.<br />
+<a name = "note2"></a><br />
+2. ￼￼The use of language R is one of the criteria of evaluation. If you use any statistical tool other than R in your ￼￼project, please discuss it with the examiner. Python etc. scripts used to collect and pre-process your data can also be provided, but are not subject of evaluation.<br />
+￼</p>
+</div>
+</div>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<p> <center> &copy; О. Ляшевская, И. Щуров, Г. Мороз, code on
+<a href="https://github.com/agricolamz/2018-MAG_R_course"> GitHub<img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png"  style="width:30px;height:30px;border:0"> </center></p>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

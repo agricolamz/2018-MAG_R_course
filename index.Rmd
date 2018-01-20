@@ -12,8 +12,7 @@ title: "Linguistic data: quantitative analysis and visualisation"
 
 ### 1. Introduction to R. Types of data. Dataframe. User's functions
 * [Please fill in the form](https://docs.google.com/forms/d/e/1FAIpQLSeHEP4ivqpKUqPJpuruwbbOb_6x05m8ExA_YdiHer7gC3Hzng/viewform?usp=sf_link)  
-* (18.01.2018)	[Lab 1: Base R objects. Simple plots. Simple functions. Base R functions code. User's functions. Loops. Functions in functions. Default arguments. Optional arguments.]()
-* (18.01.2018)	[Dataframes. Read and write data. Manipulation with data (R base vs. dplyr)]()
+* (18.01.2018)	[Lab 1: Base R objects. Simple plots. Simple functions. Base R functions code. User's functions. Loops. Functions in functions. Default arguments. Optional arguments. Dataframes. Read and write data.]()
 
 * [HW-1. Self-paced online course. Section 1-5 ](https://www.edx.org/course/introduction-r-data-science-microsoft-dat204x-7)
 
@@ -21,6 +20,7 @@ title: "Linguistic data: quantitative analysis and visualisation"
 * (25.01.2018) [Lec 2: Central limit theorem. Confidence intervals]()
 * (25.01.2018) Lab 2: 
     * [Test # 1: Basic R techniques (based on online course))[]
+    * (18.01.2018)	[Manipulation with data (R base vs. dplyr)]()
     * [Lab 2 Assignment]()
     * RMarkdown
     * Files from class: [Lab 2]()

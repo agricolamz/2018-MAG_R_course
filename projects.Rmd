@@ -1,0 +1,73 @@
+---
+title: "Research Project Paper and Presentation"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Final Examination   
+MA course <b>Linguistic data: quantitative analysis and visualization, HSE, Moscow</b>    
+
+## A Quantitative Analysis of Rival Forms
+
+In the project, the students are supposed to explore the use of the rival forms in the written or oral speech. This can be a choice between:  
+
+* two or more synonyms  
+* two or more grammatical forms  
+* rival word formation models  
+* rival syntactic constructions  
+* rival pronunciation models, etc.  
+
+Possible research tracks (<a href="#note1">1</a>)  
+
+* a corpus-based study   
+* experimental work:   
+    * psycholinguistic, neurolinguistic experiments  
+    * experimental phonetics  
+    * fieldwork  
+    * sociolinguistic surveys  
+
+Just to give an idea, the choice of the rival units can be driven by certain contextual factors (e.g. words, syntactics patterns), features of the rival units themselves (e.g. the gender of the noun, the tense of the verb), genre and register of the text, sociolinguistic parameters (e.g. age, sex, profession, education, place of birth). We expect students to explore at least three factors of any kind in their case study. For inspiration, you can look at some examples of the data annotation at the open repository Trolling (<a href="https://opendata.uit.no/dataverse/trolling">https://opendata.uit.no/dataverse/trolling</a>). 
+
+During the project, the students formulate their initial hypothesis, collect data (either
+corpus-based or experimental), annotate data and do the preliminary desctiptive, exploratory and inferential statistical analysis. After that, they can update their hypothesis, include more or exclude some factors, and collect more data/annotate more parameters in order to improve the empirical basis for their analysis. The amount of the data collected should be enough to support the statistic analysis. It is by no means evident that it is strongly prohibited to exclude data that contradict the hypothesis or make any other sort of the hypothesis-biased fraud.
+
+### Research paper  
+The students prepare the final project in a written form as an electronic
+￼document (R markdown) that include the following parts: 
+
+* Research objectives and hypothesis to be tested.  
+* Description of input data: features and values, descriptive statistics, data visualisation.  
+* Discussion of the methods of analysis and their applicability.  
+* Obtained results and their linguistic interpretation. Comparison and discussion of the
+￼￼￼results produced by different models.
+* Optional section: previous research on the topic, comparison of current results with previous studies   
+* R code used for the analysis (<a href="#note1">2</a>).  
+* Annotated data (file in repository in the .csv format, the paper contains a link to this file).  
+* Experimental survey questionaries, if applicable (files in repository in the .csv format, the paper contains a link to this file).  
+
+Language under analysis: any natural language  
+Type of analysis: multi-factor analysis. At least two multi-factor analysis techniques should be demonstrated in the paper.  
+Type of the project: individual or group (max. 2 people) project  
+￼￼Language of the project paper: English  
+
+### Data annotation  
+The students can either compile the dataset specifically for this research paper or make use of data collected for their term papers, dissertations, other research actitivities. If you recycle the results of your previous research please be prepared to add more data in your dataset based on your experience with their analysis. If you use data collected and annotated by other people please indicate it in your research paper. In this case, you will have to (a) write an additional section on "previous research on the topic, comparison of current results with previous studies" or (b) do additional model testing to explore the effects of data size, missing data treatment, data sampling, custom methods within models, etc.  
+
+### Course project schedule
+* Topic of the project, research hypothesis formulated -- due February 15   
+    * please fill in the <a href="https://docs.google.com/spreadsheets/d/1HdjLzF3jUXddq2N7pUpGn7P1tMJ4ut9mskucVjiNlwQ/edit?usp=sharing">table</a>, Research projects sheet   
+* Data collection and annotation -- due April 2  
+    * please fill in the <a href="https://docs.google.com/spreadsheets/d/1HdjLzF3jUXddq2N7pUpGn7P1tMJ4ut9mskucVjiNlwQ/edit?usp=sharing">table</a>, Research projects sheet, column Link to data   
+* Data analysis & discussion (in class/individual meetings) -- in April-May  
+* Paper submission -- one week before the exam  
+* Presentation of the projects (using slides or Rmd/html files) -- exam session, June 18-30, as scheduled by the office  
+
+#### Notes ￼
+<a name = "note1"></a>    
+1. Other research methodologies can be dicussed with instructors.  
+<a name = "note2"></a>    
+2. ￼￼The use of language R is one of the criteria of evaluation. If you use any statistical tool other than R in your ￼￼project, please discuss it with the examiner. Python, C, etc. scripts used to collect and pre-process your data can also be provided, but are not subject of evaluation.  
+￼
