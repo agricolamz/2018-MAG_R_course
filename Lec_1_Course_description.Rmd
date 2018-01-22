@@ -24,13 +24,16 @@ Lectures and laboratory:
 
 Teaching Assistant:
 
-* [Sasha Kozhukhar](mailto:dunnowhatsthis@gmail.com)
+* [Yana Kurmacheva](mailto:yana.kurmacheva@gmail.com)
+
+Telegram: LingDA2018 group
+* [join link](https://t.me/joinchat/GOaNBxDTp8WaOwwesmSOsg)
 
 ## How?
 
 * [Here](https://www.hse.ru/data/2016/09/19/1117082144/program-1549532002-kSLnTng0SN.pdf) is a link to a course programme.
 * 12 lectures and 20 laboratories
-* Final Score = 0.12 × ([Online course](https://www.edx.org/course/introduction-r-data-science-microsoft-dat204x-3)) + 0.48 × (Written Assignments) + 0.4 × (Project)
+* Final Score = 0.12 ?? ([Online course](https://www.edx.org/course/introduction-r-data-science-microsoft-dat204x-3)) + 0.48 ?? (Written Assignments) + 0.4 ?? (Project)
 
 ## What?
 

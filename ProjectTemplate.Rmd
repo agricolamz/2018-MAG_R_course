@@ -66,17 +66,12 @@ library(tidyverse)
 ## Analysis: descriptive statistics
 In this section you can put tables and plots that show data distribution for individual variables and distribution for pairs of variables. Histograms, density plots, boxplots (or violin plots), mosaic plots are recommended. You can also provide some basic statistical analysis, such as correlation, statistical significance, t-test and other simple tests. If you calculate a chi-square statistic, do not forget to estimate the effect size.
 
-## Multifactorial analysis
-It is recommended that you use one of the following approaches to data modeling / analysis:
-* colloquilibrium analysis (in comparison with metrics from Schmid et al.)
-* decision tree (+ random forest for variable importance)
-* Logistic regression (give examples of several models, ending with the optimal one, in which only significant factors remain)
-* (multiple) correspondence analysis ((M) CA), possibly in conjunction with clustering / k-means
-It is required to show the output model (s) and graphs
+## Multi-factor analysis  
+At least two different methods have to be used. Please provide the output models summaries and graphs. Please evaluate your models (show and interpret relevant indicators such as classification accuracy, goodness of fit, classification power, inertia, variable significance, variable importance, etc.).   
+It is recommended to report, when needed, how did you fit the model, did you find any signs of overfitting, why do you believe that certain model is an optimal one, etc.
 
-## Substantial linguistic analysis of the results of statistical analysis
-Without a meaningful analysis of design selection factors (the interaction of the variables you have identified, their significance / importance), the project will not be considered completed.
+## Linguistic interpretation of the quantitative results  
 
-## Discussion of the quantitative methods used
-Here or earlier in the course of analysis, it is necessary to discuss the accuracy of classifying models, classification power, adjusted R2, goodness of fit, and so on. - standard indicators of the quality of modeling, as well as the importance / importance of factors.
-In conclusion, you can suggest ideas for further work with the data and their statistical analysis.
+## Discussion on data distribution and quantitative methods in use   
+
+In conclusion, you can suggest ideas for further development of your research (correction of hypotheses, work with the data, their statistical analysis).

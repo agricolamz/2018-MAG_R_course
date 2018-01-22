@@ -29,6 +29,52 @@
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+div.sourceCode {
+  overflow-x: visible;
+}
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
 
 
 <style type="text/css">
@@ -300,15 +346,6 @@ div.tocify {
 </div>
 
 
-<pre><code>## Loading tidyverse: ggplot2
-## Loading tidyverse: tibble
-## Loading tidyverse: tidyr
-## Loading tidyverse: readr
-## Loading tidyverse: purrr
-## Loading tidyverse: dplyr</code></pre>
-<pre><code>## Conflicts with tidy packages ----------------------------------------------</code></pre>
-<pre><code>## filter(): dplyr, stats
-## lag():    dplyr, stats</code></pre>
 <div id="materials" class="section level3">
 <h3>Materials</h3>
 <p><a href="https://github.com/...">Link to the data set</a> (csv file)<br />
@@ -333,9 +370,92 @@ Formulate null hypothesis.</p>
 <li><p>Predictor variables, their types, range/levels</p></li>
 <li><p>Number of observations</p></li>
 </ul>
-<div id="data-collection" class="section level3">
-<h3>Data collection</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;example.csv&quot;</span>)  
+<span class="kw">summary</span>(df)</code></pre></div>
+<pre><code>##                 street                city          zip        state   
+##  1223 LAMBERTON CIR:  2   SACRAMENTO    :439   Min.   :95603   CA:985  
+##  4734 14TH AVE     :  2   ELK GROVE     :114   1st Qu.:95660           
+##  7 CRYSTALWOOD CIR :  2   LINCOLN       : 72   Median :95762           
+##  8306 CURLEW CT    :  2   ROSEVILLE     : 48   Mean   :95751           
+##  1 KENNELFORD CIR  :  1   CITRUS HEIGHTS: 35   3rd Qu.:95828           
+##  10 SEA FOAM CT    :  1   ANTELOPE      : 33   Max.   :95864           
+##  (Other)           :975   (Other)       :244                           
+##       beds           baths           sq__ft               type    
+##  Min.   :0.000   Min.   :0.000   Min.   :   0   Condo       : 54  
+##  1st Qu.:2.000   1st Qu.:1.000   1st Qu.: 952   Multi-Family: 13  
+##  Median :3.000   Median :2.000   Median :1304   Residential :917  
+##  Mean   :2.912   Mean   :1.777   Mean   :1315   Unkown      :  1  
+##  3rd Qu.:4.000   3rd Qu.:2.000   3rd Qu.:1718                     
+##  Max.   :8.000   Max.   :5.000   Max.   :5822                     
+##                                                                   
+##                         sale_date       price           latitude    
+##  Fri May 16 00:00:00 EDT 2008:264   Min.   :  1551   Min.   :38.24  
+##  Mon May 19 00:00:00 EDT 2008:268   1st Qu.:145000   1st Qu.:38.48  
+##  Thu May 15 00:00:00 EDT 2008:118   Median :213750   Median :38.63  
+##  Tue May 20 00:00:00 EDT 2008:177   Mean   :234144   Mean   :38.61  
+##  Wed May 21 00:00:00 EDT 2008:158   3rd Qu.:300000   3rd Qu.:38.70  
+##                                     Max.   :884790   Max.   :39.02  
+##                                                                     
+##    longitude     
+##  Min.   :-121.6  
+##  1st Qu.:-121.4  
+##  Median :-121.4  
+##  Mean   :-121.4  
+##  3rd Qu.:-121.3  
+##  Max.   :-120.6  
+## </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(df)</code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    985 obs. of  12 variables:
+##  $ street   : Factor w/ 981 levels &quot;1 KENNELFORD CIR&quot;,..: 352 523 261 264 620 599 630 240 51 743 ...
+##  $ city     : Factor w/ 39 levels &quot;ANTELOPE&quot;,&quot;AUBURN&quot;,..: 34 34 34 34 34 34 34 34 29 31 ...
+##  $ zip      : int  95838 95823 95815 95815 95824 95841 95842 95820 95670 95673 ...
+##  $ state    : Factor w/ 1 level &quot;CA&quot;: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ beds     : int  2 3 2 2 2 3 3 3 2 3 ...
+##  $ baths    : int  1 1 1 1 1 1 2 1 2 2 ...
+##  $ sq__ft   : int  836 1167 796 852 797 1122 1104 1177 941 1146 ...
+##  $ type     : Factor w/ 4 levels &quot;Condo&quot;,&quot;Multi-Family&quot;,..: 3 3 3 3 3 1 3 3 1 3 ...
+##  $ sale_date: Factor w/ 5 levels &quot;Fri May 16 00:00:00 EDT 2008&quot;,..: 5 5 5 5 5 5 5 5 5 5 ...
+##  $ price    : int  59222 68212 68880 69307 81900 89921 90895 91002 94905 98937 ...
+##  $ latitude : num  38.6 38.5 38.6 38.6 38.5 ...
+##  $ longitude: num  -121 -121 -121 -121 -121 ...</code></pre>
+<div id="data-collection-and-annotation" class="section level3">
+<h3>Data collection and annotation</h3>
+<p>Mention the source of your data, details of data collection. Justify the amount of data under study. In addition, you can discuss certain difficulties, peculiarities and shortcomings in data collection and annotation.</p>
 </div>
+<div id="data-considerations" class="section level3">
+<h3>Data considerations</h3>
+<p>Discuss research design (if applicable), independence, autocorrelation, nestedness of data, possible biases, etc.</p>
+</div>
+</div>
+<div id="r-libraries-in-use" class="section level2">
+<h2>R libraries in use</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)</code></pre></div>
+<pre><code>## Loading tidyverse: ggplot2
+## Loading tidyverse: tibble
+## Loading tidyverse: tidyr
+## Loading tidyverse: readr
+## Loading tidyverse: purrr
+## Loading tidyverse: dplyr</code></pre>
+<pre><code>## Conflicts with tidy packages ----------------------------------------------</code></pre>
+<pre><code>## filter(): dplyr, stats
+## lag():    dplyr, stats</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># include R libraries here or later</span></code></pre></div>
+</div>
+<div id="analysis-descriptive-statistics" class="section level2">
+<h2>Analysis: descriptive statistics</h2>
+<p>In this section you can put tables and plots that show data distribution for individual variables and distribution for pairs of variables. Histograms, density plots, boxplots (or violin plots), mosaic plots are recommended. You can also provide some basic statistical analysis, such as correlation, statistical significance, t-test and other simple tests. If you calculate a chi-square statistic, do not forget to estimate the effect size.</p>
+</div>
+<div id="multi-factor-analysis" class="section level2">
+<h2>Multi-factor analysis</h2>
+<p>At least two different methods have to be used. Please provide the output models summaries and graphs. Please evaluate your models (show and interpret relevant indicators such as classification accuracy, goodness of fit, classification power, inertia, variable significance, variable importance, etc.).<br />
+It is recommended to report, when needed, how did you fit the model, did you find any signs of overfitting, why do you believe that certain model is an optimal one, etc.</p>
+</div>
+<div id="linguistic-interpretation-of-the-quantitative-results" class="section level2">
+<h2>Linguistic interpretation of the quantitative results</h2>
+</div>
+<div id="discussion-on-data-distribution-and-quantitative-methods-in-use" class="section level2">
+<h2>Discussion on data distribution and quantitative methods in use</h2>
+<p>In conclusion, you can suggest ideas for further development of your research (correction of hypotheses, work with the data, their statistical analysis).</p>
 </div>
 
 <br>

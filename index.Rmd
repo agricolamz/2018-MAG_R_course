@@ -7,7 +7,7 @@ title: "Linguistic data: quantitative analysis and visualisation"
 
 ### Course Info	
 [Course description](https://agricolamz.github.io/2018-MAG_R_course/Lec_1_Course_description.html)
- -- [about Final exam projects](https://github.com/agricolamz/2018-MAG_R_course/raw/master/projects.pdf)
+ -- [about Final exam projects](https://agricolamz.github.io/2018-MAG_R_course/projects.html)
  -- [Students & grades](https://docs.google.com/spreadsheets/d/1HdjLzF3jUXddq2N7pUpGn7P1tMJ4ut9mskucVjiNlwQ)   
 
 ### 1. Introduction to the course. Introduction to R. Types of data. 
