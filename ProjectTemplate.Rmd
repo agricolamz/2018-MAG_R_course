@@ -1,0 +1,82 @@
+---
+title: "Research project paper template"
+date: 19.01.2018
+author: Olga Lyashevskaya
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: show
+
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Materials  
+[Link to the data set](https://github.com/...) (csv file)  
+[Links to additional scripts, with comments](https://github.com/...) (optional)  
+[Links to other supplementary materials (questionnaires, etc.)](https://github.com/...) (optional)  
+
+## Introduction  
+
+Describe the phenomenon.
+
+Provide information about the language (only for minor languages).
+
+Mention some previous research (optional).
+
+
+## Research hypothesis  
+
+...
+Discuss possible relevant factors.  
+Formulate null hypothesis.
+
+
+## Data  
+
+* Dependent variable, its type  
+
+* Predictor variables, their types, range/levels  
+
+* Number of observations  
+
+```{r dataset}
+df <- read.csv("example.csv")  
+summary(df)
+str(df)
+```
+
+### Data collection and annotation   
+Mention the source of your data, details of data collection. Justify the amount of data under study. In addition, you can discuss certain difficulties, peculiarities and shortcomings in data collection and annotation.  
+
+### Data considerations
+Discuss research design (if applicable), independence, autocorrelation, nestedness of data, possible biases, etc.
+
+
+## R libraries in use
+```{r libraries}
+library(tidyverse)
+# include R libraries here or later
+```
+
+
+## Analysis: descriptive statistics
+In this section you can put tables and plots that show data distribution for individual variables and distribution for pairs of variables. Histograms, density plots, boxplots (or violin plots), mosaic plots are recommended. You can also provide some basic statistical analysis, such as correlation, statistical significance, t-test and other simple tests. If you calculate a chi-square statistic, do not forget to estimate the effect size.
+
+## Multifactorial analysis
+It is recommended that you use one of the following approaches to data modeling / analysis:
+* colloquilibrium analysis (in comparison with metrics from Schmid et al.)
+* decision tree (+ random forest for variable importance)
+* Logistic regression (give examples of several models, ending with the optimal one, in which only significant factors remain)
+* (multiple) correspondence analysis ((M) CA), possibly in conjunction with clustering / k-means
+It is required to show the output model (s) and graphs
+
+## Substantial linguistic analysis of the results of statistical analysis
+Without a meaningful analysis of design selection factors (the interaction of the variables you have identified, their significance / importance), the project will not be considered completed.
+
+## Discussion of the quantitative methods used
+Here or earlier in the course of analysis, it is necessary to discuss the accuracy of classifying models, classification power, adjusted R2, goodness of fit, and so on. - standard indicators of the quality of modeling, as well as the importance / importance of factors.
+In conclusion, you can suggest ideas for further work with the data and their statistical analysis.

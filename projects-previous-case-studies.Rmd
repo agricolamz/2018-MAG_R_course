@@ -1,0 +1,55 @@
+---
+title: "Examples of research papers"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+NB The following lists contains documents, scripts and data of different quality    
+For orientation only, not to be cited and distributed      
+
+## Bachelor and master papers, HSE, 2014--2017  
+
+## In English  
+* Daria Shershneva, Varvara Gutz. Pronunciation of the word 'chto' in Russian dialects  
+* Natalia Akutina. Russian multiverb constructions  
+* Vasilisa Zhigulskaya. Initial [n] in the third person pronouns in prepositional constructions in the dialect of Mikhalevskaya village  
+* Elizaveta Kuzmenko. Attributive participial clauses in English and learner English  
+* Ilya Chechuro, Polina Kasyanova. Rival forms in UDI  
+* Evgeniya Murzinova, Maria Yaroslavtseva. Expressing Plurality in West Circassian  
+* Aygul' Zakirova. The debitive nominalization in Moksha: a case of differential object marking  
+* Alexey Shelepov, Daria Lapenkova. Мигнуть / подмигнуть usage  
+* Denis Arsentyev. The variability of number in Latin borrowings in the English language  
+* George Moiseev, Alexander Nasedkin. Social Network writing style analysis  
+* Kirill Milinzevich, Ivan Rodin. Barbarisms in the Russian web-discourse  
+* Sunigel Menes, Maxim Bode Indirect vs. direct borrowing in Northern Chinchay Quechua  
+* Maria Sapozhnikova, Anastasia Dolgova. The Variability in conjugation of the verb "chtit'"  
+* Daria Bikina. Irregular gaps in the systems of indefinite pronouns based on interrogatives  
+* Ivan Levin. Usage and semantics of seven Russian polysemic words (sociolinguistic and semantic aspects)  
+* Anastasia Lopukhina. Generic-nongeneric utterances interpretation in healthy population and in population with aphasia   
+
+## In Russian
+* Соня Никифорова, Яна Курмачева. Распределение предлогов ПРО и О/ОБ в речи  
+* Ангелина Присяжная. Тенденции выбора падежной формы в конструкциях типа "Фермер продал три овцы / трех овец"  
+* Михаил Садов, Сергей Михайлов. Интерферирующее влияние итальянского языка на категорию рода заимствованных из него слов в русском языке  
+* Вероника Данилова, Мария Пономарева. Партитивное использование формы генитива с местоимениями  
+
+## Datasets for some case studies  
+
+* Галина Абдурашитова. Двойное отрицание в английском	[Данные](https://drive.google.com/drive/folders/0B_wha02nRkzkQUZsZXVhV1NIeVE)
+
+* Василиса Андриянец.	Конструкции, описывающие передвижение на транспорте в русском языке (на поезде/поездом/в поезде) [Данные](https://drive.google.com/drive/folders/0B21wcBDQwYJbekpfRGVSM1JHOUk?usp=sharing)
+
+* Анна Кузнецова.	Конструкции "the type to", "the sort to", "the kind to": сравнение по семантике, синтаксису и употреблению	[Данные](https://drive.google.com/drive/folders/0B1jo4wnZ3s7uOWg5ck5rNk9wVFk)
+
+* Шакурова Лена.	Изучение конструкций с предлогами места в русском и немецком языках [Данные](https://docs.google.com/spreadsheets/d/1ZSQzDZirzGuxE0i1z_9vlm8nLqmRmGchyTyRdJpl4go/edit?usp=sharing)
+
+* Маша Шеянова.	Конструкция X do Y в польском: семантика и конкуренты [Данные](https://drive.google.com/drive/u/0/folders/0B82eKZSAQ0dbXzI2TjJCdk5FWVk)
+
+* Ксения Сухова. Описание конструкции "Уж Х то ..."	[Данные](https://docs.google.com/spreadsheets/d/1W08hG6Jm0q5UwKkwQldwY4ywebSoqIDX8M-u8YP__yM/edit?usp=sharing)
+
+* Ковалевская Владислава	Употребление наречных выражений с "по", образованных от глаголов (по приезду, по приходу, по отправлении и др.)	[Данные](https://docs.google.com/spreadsheets/d/1wSiwc80LCiB_6JeEJboypYEsUtALYL0Wzi7n7OU1VI4/edit#gid=0)
+
+* Игнатьев Григорий Александрович	Анализ конструкций "(не) мочь/уметь в Х-а" ("я не умею в начерталку") на материале твиттера	[Данные](https://github.com/gree-gorey/constructions)
