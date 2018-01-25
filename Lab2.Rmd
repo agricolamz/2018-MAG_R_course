@@ -1,0 +1,98 @@
+---
+title: Lab 2
+subtitle: "Linguistic data: quantitative analysis and visualisation"
+author: "George Moroz, Olga Lyashevskaya, Ilya Schurov"
+date: '25 Jan 2018'
+output: html_document
+---
+
+## 0. Libraries in use
+Today we will use the library `tidyverse` which is a collection of R packages for data manipulation, exploration and visualization that share a common design philosophy. 
+
+```{r library1}
+# install.packages("tidyverse") # uncomment this code
+# Please make sure that you use quotes.
+```
+That is how we install libraries for the first time. You can be asked to pick up a CRAN repository (say, in Belgium), and the library will be downloaded from this place.
+You can also use Tools - Install packages menu in RStudio to install packages.
+The library has to be installed only once.
+
+```{r library2}
+# install.packages("devtools") 
+# devtools::install_github("....")
+```
+You can also install the development versions from GitHub.
+
+```{r eval = FALSE}
+library(tidyverse) 
+# or library('tidyverse')
+# or library("tidyverse")
+```
+Now we include the library (in the beginning of the session, script). We can also include the library any place before the first use of any functions, data, etc. included in the library.
+
+## 1. Orientation data set
+This set is based on (Chi-kuk 2007). Experiment consisted of a perception and judgment test aimed at measuring the correlation between acoustic cues and perceived sexual orientation. Na??ve Cantonese speakers were asked to listen to the Cantonese speech samples collected in Experiment and judge whether the speakers were gay or heterosexual. There are 14 speakers and following parameters:
+    [s] duration (s.duration.ms)
+    vowel duration (vowel.duration.ms)
+    fundamental frequencies mean (F0) (average.f0.Hz)
+    fundamental frequencies range (f0.range.Hz)
+    percentage of homosexual impression (perceived.as.homo)
+    percentage of heterosexal impression (perceived.as.hetero)
+    speakers' orientation (orientation)
+    speakers' age (age)
+Use [read.csv]("http://goo.gl/Zjr9aF") to download data.
+```{r read data set}
+# z <- read.table("a.csv", sep = "...") # text and a separator (delimiter) type, eg. sep="\t", sep=";" 
+# y <- read.csv("b.txt") # delimiter ","
+# x <- read.csv2("c.csv") # delimiter ";"
+# w <- read.delim("d.txt") # delimiter "\t"
+# v <- readLines("e.txt") # reads text 'as is'
+```
+
+## Calculate mean and median of [s] duration using mean() and median()
+Please provide the answers below.  
+
+### 1.1
+
+### 1.2  
+
+## Calculate standard deviation and standard error of [s] duration using sd() and se()
+Please provide the answers below.
+
+### 1.3  
+
+### 1.4  
+
+## Provide a summary of your data set
+
+### 1.5  
+
+
+## Confidence interval
+Confidence intervals are used to indicate how confident we are that a reported statistic falls within a certain range. Confidence intervals can be calculated for a variety of statistics, such as the mean, median, or slope of a linear regression. Here we will focus on confidences intervals for means.  
+```{r eval = FALSE}
+x <- c(1, 1, 3, 1, 5, 6, 7, 3, 6, 8, 10, 10, 13)
+CI = 1.96*sd(x)/sqrt(length(x)))
+```
+
+And that is how we can get some statistics using pipes:  
+```{r eval = FALSE}
+homo %>% 
+  group_by(orientation) %>%
+  summarise(mean = mean(s.duration.ms),
+            CI = 1.96*sd(s.duration.ms)/sqrt(length(s.duration.ms)))
+```
+
+## Calculate 95% confidence interval for mean vowel duration.
+Please provide the answer below:
+
+### 2.1  
+
+## Calculate 95% confidence interval for mean vowel duration variable for heterosexual speakers.
+
+### 2.2  
+
+## If you have time, you can play with some basic descriptive plots. You can provide your code below:  
+
+```{r}
+```
