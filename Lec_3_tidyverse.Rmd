@@ -1,6 +1,6 @@
 ---
 title: "3. tidyverse"
-author: "Г. Мороз"
+author: "G. Moroz"
 editor_options: 
   chunk_output_type: console
 ---
