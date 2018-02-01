@@ -28,9 +28,7 @@ title: "Linguistic data: quantitative analysis and visualisation"
 ### 3. Data manipulation and visualization.
 
 *	(01.02.2018) [Base R vs. ggplot2: 2 variables, 3 variables, many variables](Lec_3_tidyverse.html)
-    * [Lab 3 Assignment](https://docs.google.com/forms/d/e/1FAIpQLSc2Z6snhSEZRVzHysYsUdKFkl4flE63AY4TFd-UrkmstV8s4g/viewform)
-
-* [HW-3. Due: next class]()
+* [HW-3. Due: 15.02.2018](https://docs.google.com/forms/d/e/1FAIpQLSc2Z6snhSEZRVzHysYsUdKFkl4flE63AY4TFd-UrkmstV8s4g/viewform)
 
 ### 4-5. Descriptive statistics B. Normality tests. T-tests: one-tailed, paired, test power, Coehn's d. Mann-Whitney U-test.
 * (08/??.02.2018) [Lec 4-5: ]()
