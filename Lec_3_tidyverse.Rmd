@@ -1,0 +1,672 @@
+---
+title: "3. tidyverse"
+author: "Г. Мороз"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+```
+
+<style>
+.parallax {
+    /* The image used */
+    background-image: url("3_tidyverse.png");
+    
+    /* Set a specific height */
+    min-height: 300px; 
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto;
+}
+.parallax2 {
+    /* The image used */
+    background-image: url("3_magrittr.png");
+    
+    /* Set a specific height */
+    min-height: 300px; 
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto;
+}
+</style>
+
+<div class="parallax"></div>
+
+
+### 1. Introduction
+The [_tidyverse_](https://blog.rstudio.org/2016/09/15/tidyverse-1-0-0/) is a set of packages:
+
+* _dplyr_, for data manipulation
+* _ggplot2_, for data visualisation
+* _tidyr_, for data tidying
+* _readr_, for data import
+* _purrr_, for functional programming
+* _tibble_, for tibbles, a modern re-imagining of data frames
+
+Install _tidyverse_ package using _install.packages("tidyverse")_.
+
+```{r, message = TRUE}
+library(tidyverse)
+```
+
+<div class="parallax"></div>
+### 2. tible
+
+```{r, eval=FALSE}
+head(iris)
+as_tibble(iris)
+data_frame(id = 1:12,
+           letters = month.name)
+```
+
+
+<div class="parallax"></div>
+
+### 3. Reading files: `readr`
+
+```{r}
+library(readr) # included in tidyverse
+df <- read_csv("https://goo.gl/v7nvho")
+head(df)
+df <- read_tsv("https://goo.gl/33r2Ut")
+head(df)
+df <- read_delim("https://goo.gl/33r2Ut", delim = "\t")
+head(df)
+```
+
+<div class="parallax"></div>
+
+### 4. `dplyr`
+
+```{r}
+homo <- read_csv("http://goo.gl/Zjr9aF")
+homo
+```
+
+The majority of examples in that presentation are based on [Hau 2007](http://goo.gl/MKfSc6). Experiment consisted of a perception and judgment test aimed at measuring the correlation between acoustic cues and perceived sexual orientation. Naïve Cantonese speakers were asked to listen to the Cantonese speech samples collected in Experiment and judge whether the speakers were gay or heterosexual. There are 14 speakers and following parameters:
+
+* [s] duration (_s.duration.ms_)
+* vowel duration (_vowel.duration.ms_)
+* fundamental frequencies mean (F0) (_average.f0.Hz_)
+* fundamental frequencies range (_f0.range.Hz_)
+* percentage of homosexual impression (_perceived.as.homo_)
+* percentage of heterosexal impression (_perceived.as.hetero_)
+* speakers orientation (_orientation_)
+* speakers age (_age_)
+
+#### 4.1 `dplyr::filter()`
+How many speakers are older than 28?
+
+```{r}
+homo %>%
+  filter(age > 28, s.duration.ms < 60)
+```
+
+The `%>%` operators pipe their left-hand side values forward into expressions that appear on the right-hand side, i.e. one can replace f(x) with x %>% f().
+
+```{r}
+sort(sqrt(abs(sin(1:22))), decreasing = TRUE)
+1:22 %>% 
+  sin() %>% 
+  abs() %>% 
+  sqrt() %>% 
+  sort(., decreasing = TRUE) # зачем здесь точка?
+```
+
+<div class="parallax2"></div>
+
+#### 4.2 `dplyr::slice()`
+
+```{r}
+homo %>%
+  slice(3:7)
+```
+
+<div class="parallax2"></div>
+
+#### 4.3 `dplyr::select()`
+
+```{r}
+homo %>%
+  select(8:10)
+homo %>%
+  select(speaker:average.f0.Hz)
+homo %>%
+  select(-speaker)
+homo %>%
+  select(-c(speaker, perceived.as.hetero, perceived.as.homo, perceived.as.homo.percent))
+homo %>%
+  select(speaker, age, s.duration.ms)
+```
+
+<div class="parallax2"></div>
+
+#### 4.4 `dplyr::arrange()`
+
+```{r}
+homo %>%
+  arrange(orientation, desc(age))
+```
+
+<div class="parallax2"></div>
+
+#### 4.5 `dplyr::distinct()`
+
+```{r}
+homo %>%
+  distinct(orientation)
+homo %>%
+  distinct(orientation, age > 20)
+```
+
+<div class="parallax2"></div>
+
+#### 4.6 `dplyr::mutate()`
+
+```{r}
+homo %>%
+  mutate(f0.mn = average.f0.Hz - f0.range.Hz/2,
+         f0.mx = (average.f0.Hz + f0.range.Hz/2))
+```
+
+<div class="parallax2"></div>
+
+#### 4.7 `dplyr::group_by(...) %>% summarise(...)`
+
+```{r}
+homo %>%
+  summarise(min(age), mean(s.duration.ms))
+homo %>%
+  group_by(orientation) %>% 
+  summarise(my_mean = mean(s.duration.ms))
+homo %>%
+  group_by(orientation) %>% 
+  summarise(mean(s.duration.ms))
+homo %>%
+  group_by(orientation) %>% 
+  summarise(mean_by_orientation = mean(s.duration.ms))
+```
+
+If you need to count number of group members, it is posible to use function `n()` in `summarise()` or `count()` function if you don't need any other statistics.
+
+```{r}
+homo %>% 
+  group_by(orientation, age > 20) %>% 
+  summarise(my_mean = mean(s.duration.ms), n_observations = n())
+
+homo %>% 
+  count(orientation, age > 20)
+```
+
+<div class="parallax2"></div>
+
+#### 4.8 `dplyr::.._join()`
+
+```{r}
+languages <- data_frame(
+  languages = c("Selkup", "French", "Chukchi", "Kashubian"),
+  countries = c("Russia", "France", "Russia", "Poland"),
+  iso = c("sel", "fra", "ckt", "pol")
+  )
+languages
+country_population <- data_frame(
+  countries = c("Russia", "Poland", "Finland"),
+  population_mln = c(143, 38, 5))
+country_population
+inner_join(languages, country_population)
+left_join(languages, country_population)
+right_join(languages, country_population)
+anti_join(languages, country_population)
+anti_join(country_population, languages)
+full_join(country_population, languages)
+```
+
+There is a nice trick that groups together calculated statistics with source data.frame. Just use `.._join()`:
+
+```{r}
+homo %>% 
+  group_by(orientation, age > 20) %>% 
+  summarise(my_mean = mean(s.duration.ms), n_observations = n())
+homo %>% 
+  group_by(orientation, age > 20) %>% 
+  summarise(my_mean = mean(s.duration.ms), n_observations = n()) %>% 
+  left_join(homo)
+```
+
+
+<div class="parallax2"></div>
+<div class="parallax"></div>
+
+### 5. tidyr package
+
+* Short format
+
+```{r}
+df.short <- data.frame(
+                   consonant = c("stops", "fricatives", "affricates", "nasals"),
+                   initial = c(123, 87, 73, 7),
+                   intervocal = c(57, 77, 82, 78),
+                   final = c(30, 69, 12, 104))
+df.short
+```
+
+* Long format
+
+```{r, echo = FALSE}
+df.short %>% 
+  gather(position, number, initial:final) ->
+  df.long
+df.long
+```
+
+* Short format → Long format: `tidyr::gather()`
+
+```{r}
+df.short <- data.frame(
+                   consonant = c("stops", "fricatives", "affricates", "nasals"),
+                   initial = c(123, 87, 73, 7),
+                   intervocal = c(57, 77, 82, 78),
+                   final = c(30, 69, 12, 104))
+df.short
+
+df.short %>% 
+  gather(position, number, initial:final) ->
+  df.long
+df.long
+```
+
+* Long format → Short format: `tidyr::spread()`
+
+```{r}
+df.long %>% 
+  spread(position, number) ->
+  df.short
+df.short
+```
+
+<div class="parallax"></div>
+
+### 6.1 Anscombe's quartet
+In Anscombe, F. J. (1973). "Graphs in Statistical Analysis" was presented the next sets of data:
+
+```{r}
+quartet <- read.csv("https://goo.gl/KuuzYy")
+quartet
+```
+
+```{r}
+quartet %>% 
+  group_by(dataset) %>% 
+  summarise(mean_X = mean(x),
+            mean_Y = mean(y),
+            sd_X = sd(x),
+            sd_Y = sd(y),
+            cor = cor(x, y),
+            n_obs = n()) %>% 
+  select(-dataset) %>% 
+  round(., 2)
+```
+
+```{r, echo=FALSE, message= FALSE}
+library(ggplot2)
+quartet %>% 
+  ggplot(aes(x, y))+
+  geom_point()+
+  geom_smooth(method = "lm", se = F)+
+  facet_wrap(~dataset)+
+  theme_bw()
+```
+
+### 5.2 Datasaurus
+In [Matejka and Fitzmaurice (2017) "Same Stats, Different Graphs"](https://www.autodeskresearch.com/sites/default/files/SameStats-DifferentGraphs.pdf) was presented the next sets of data:
+
+```{r, message= FALSE}
+datasaurus <- read_tsv("https://goo.gl/gtaunr")
+head(datasaurus)
+```
+
+```{r, echo=FALSE, message= FALSE}
+datasaurus %>% 
+  ggplot(aes(x, y))+
+  geom_point()+
+  facet_wrap(~dataset)+
+  theme_bw()
+```
+
+```{r}
+datasaurus %>% 
+  group_by(dataset) %>% 
+  summarise(mean_X = mean(x),
+            mean_Y = mean(y),
+            sd_X = sd(x),
+            sd_Y = sd(y),
+            cor = cor(x, y),
+            n_obs = n()) %>% 
+  select(-dataset) %>% 
+  round(., 1)
+```
+
+
+### 6.1 Scaterplot
+
+* ggplot2
+```{r}
+ggplot(data = homo, aes(s.duration.ms, vowel.duration.ms)) +
+  geom_point()
+```
+
+* dplyr, ggplot2
+```{r}
+homo %>%
+  ggplot(aes(average.f0.Hz, age))+
+  geom_smooth(method = "lm")+
+  geom_point(aes(color = orientation))
+```
+
+### 6.1.1 Scaterplot: color
+
+```{r}
+homo %>%
+  ggplot(aes(s.duration.ms, vowel.duration.ms,
+             color = orientation)) +
+  geom_point()
+```
+
+### 6.1.2 Scaterplot: shape
+
+```{r}
+homo %>%
+  ggplot(aes(s.duration.ms, vowel.duration.ms,
+             shape = orientation)) +
+  geom_point(color = "green")
+```
+
+### 6.1.3 Scaterplot: size
+
+```{r}
+homo %>%
+  ggplot(aes(s.duration.ms, vowel.duration.ms,
+             size = age)) +
+  geom_point()
+```
+
+### 6.1.4 Scaterplot: text
+```{r}
+homo %>%
+  mutate(label = ifelse(orientation == "homo","⚣", "⚤")) %>% 
+  ggplot(aes(s.duration.ms, vowel.duration.ms, label = label, fill = orientation)) +
+  geom_label()
+
+homo %>%
+  mutate(label = ifelse(orientation == "homo","⚣", "⚤")) %>% 
+  ggplot(aes(s.duration.ms, vowel.duration.ms, label = label, color = orientation)) +
+  geom_text()
+```
+
+### 6.1.5 Scaterplot: title
+```{r}
+homo %>%
+  ggplot(aes(s.duration.ms, vowel.duration.ms)) +
+  geom_point()+
+  labs(title = "length of [s] vs. length of vowels",
+       subtitle = "based on 14 speakers of Cantonese",
+       caption = "data from [Hau 2007]")
+```
+
+### 6.1.6 Scaterplot: axis
+```{r}
+homo %>%
+  ggplot(aes(s.duration.ms, vowel.duration.ms)) +
+  geom_point()+
+  xlab("duration of [s] in ms")+
+  ylab("vowel duration in ms")
+```
+
+
+### 6.1.7 Log scales
+![](https://pbs.twimg.com/media/CTxg970WwAApE98.png)
+
+Lets use the frequency dictionary for Russian
+```{r, cache= TRUE}
+freq <- read.csv("https://goo.gl/TlX7xW", sep = "\t")
+freq %>%
+  arrange(desc(Freq.ipm.)) %>% 
+  slice(1:200) %>% 
+  ggplot(aes(Rank, Freq.ipm.)) +
+  geom_point() +
+  xlab("") +
+  ylab("ipm")
+
+freq %>%
+  ggplot(aes(1:52138, Freq.ipm.))+
+  geom_point()+
+  xlab("")+
+  ylab("ipm")+
+  scale_y_log10()
+```
+
+### 6.1.8 Scaterplot: rug
+
+```{r}
+homo %>%
+  ggplot(aes(s.duration.ms, vowel.duration.ms, color = orientation)) +
+  geom_point() +
+  geom_rug()
+```
+
+### 6.1.9 Scaterplot: lines
+
+```{r}
+homo %>%
+  ggplot(aes(s.duration.ms, vowel.duration.ms)) +
+  geom_point() +
+  geom_hline(yintercept = mean(homo$vowel.duration.ms))+
+  geom_vline(xintercept = 60)
+
+homo %>%
+  ggplot(aes(s.duration.ms, vowel.duration.ms)) +
+  geom_point() +
+  geom_hline(yintercept = 120, linetype = 2)+
+  geom_vline(xintercept = 60, size = 5)
+
+homo %>%
+  ggplot(aes(s.duration.ms, vowel.duration.ms)) +
+  geom_point() +
+  geom_hline(yintercept = 120, linetype = 4)+
+  geom_vline(xintercept = 60, color = "blue")
+```
+
+### 6.1.10 Scaterplot: annotate
+Функция `annotate` добавляет `geom` к графику.
+```{r}
+homo %>%
+  ggplot(aes(s.duration.ms, vowel.duration.ms)) +
+  geom_point()+
+  annotate(geom = "rect", xmin = 77, xmax = 79,
+           ymin = 117, ymax = 122, fill = "red", alpha = 0.2) + 
+  annotate(geom = "text", x = 78, y = 125,
+           label = "Who is that?\n Outlier?")
+```
+
+
+### 6.2.1 Barplots: basics
+
+There are two possible situations:
+
+* not aggregate data
+```{r}
+head(homo[, c(1, 9)])
+```
+
+* aggregate data
+```{r}
+head(homo[, c(1, 10)])
+```
+
+```{r}
+homo %>%
+  ggplot(aes(orientation)) +
+  geom_bar()
+homo %>%
+  ggplot(aes(speaker, age)) +
+  geom_col()
+homo %>%
+  ggplot(aes(speaker, age, fill = orientation)) +
+  geom_col()
+```
+
+### 6.3.1 Boxplots: basics, points, jitter
+```{r}
+homo %>%
+  ggplot(aes(orientation, s.duration.ms)) +
+  geom_boxplot()
+
+homo %>%
+  ggplot(aes(orientation, s.duration.ms)) +
+  geom_boxplot()+
+  geom_point()
+homo %>%
+  ggplot(aes(orientation, s.duration.ms)) +
+  geom_boxplot() +
+  geom_jitter(width = 0.5)
+homo %>%
+  ggplot(aes(orientation, s.duration.ms)) +
+  geom_violin() +
+  geom_jitter()
+```
+
+### 6. Preliminary summary: two variables
+
+* scaterplot: two quantitative varibles
+* barplot: nominal varible and one number
+* boxplot: nominal varible and quantitative varibles
+* jittered points or sized points: two nominal varibles
+
+```{r}
+mtcars %>% 
+  mutate(newvar = mpg > 22,
+         newvr = mpg < 17) %>% 
+  ggplot(aes(newvr, newvar, color = newvar))+
+  geom_jitter(width = 0.2)
+
+mtcars %>% 
+  mutate(newvar = mpg > 22,
+         newvr = mpg < 17) %>% 
+  group_by(newvar, newvr) %>% 
+  summarise(number = n()) %>% 
+  ggplot(aes(newvr, newvar, label = number))+
+  geom_point(aes(size = number, color = newvar))+
+  geom_text()+
+  scale_size(range = c(10, 30))+
+  guides(size = F)
+```
+
+
+### 6.4.1 Histogram: basics
+```{r}
+homo %>%
+  ggplot(aes(s.duration.ms)) +
+  geom_histogram()
+```
+How many histogram bins do we need?
+
+* [Sturgers 1926] _nclass.Sturges(adyghe$F1)_
+* [Scott 1979] _nclass.scott(adyghe$F1)_
+* [Freedman, Diaconis 1981] _nclass.FD(adyghe$F1)_
+
+```{r}
+homo %>%
+  ggplot(aes(s.duration.ms)) +
+  geom_histogram(bins = nclass.FD(homo$s.duration.ms))
+homo %>%
+  ggplot(aes(s.duration.ms)) +
+  geom_histogram(fill = "lightblue")
+```
+
+### 6.5.1 Density plot
+```{r}
+homo %>%
+  ggplot(aes(s.duration.ms)) +
+  geom_density()
+homo %>%
+  ggplot(aes(s.duration.ms)) +
+  geom_density(color = "blue")
+homo %>%
+  ggplot(aes(s.duration.ms)) +
+  geom_density(fill = "lightblue")
+homo %>%
+  ggplot(aes(s.duration.ms, fill = orientation)) +
+  geom_density()
+homo %>%
+  ggplot(aes(s.duration.ms, fill = orientation)) +
+  geom_density(alpha = 0.2)
+library(ggridges)
+homo %>%
+  ggplot(aes(s.duration.ms, orientation, fill = orientation)) +
+  geom_density_ridges()
+```
+
+
+### 6.7 Facets
+
+#### 6.7.1 `ggplot2::facet_wrap()`
+```{r}
+homo %>% 
+  ggplot(aes(speaker, s.duration.ms))+
+  geom_point() + 
+  facet_wrap(~orientation)
+homo %>% 
+  ggplot(aes(speaker, s.duration.ms))+
+  geom_point() + 
+  facet_wrap(~orientation, scales = "free")
+homo %>% 
+  ggplot(aes(speaker, s.duration.ms))+
+  geom_point() + 
+  facet_wrap(~orientation, scales = "free_x")
+```
+
+
+#### 6.7.2 `ggplot2::facet_grid()`
+
+```{r}
+homo %>% 
+  mutate(older_then_28 = ifelse(age > 28, "older", "younger")) %>% 
+  ggplot(aes(speaker, s.duration.ms))+
+  geom_point() + 
+  facet_wrap(older_then_28~orientation, scales = "free_x")
+homo %>% 
+  mutate(older_then_28 = ifelse(age > 28, "older", "younger")) %>% 
+  ggplot(aes(speaker, s.duration.ms))+
+  geom_point() + 
+  facet_grid(older_then_28~orientation, scales = "free_x")
+```
+
+There is also nice argument `margins`:
+
+```{r}
+homo %>% 
+  mutate(older_then_28 = ifelse(age > 28, "older", "younger")) %>% 
+  ggplot(aes(speaker, s.duration.ms))+
+  geom_point() + 
+  facet_grid(older_then_28~orientation, scales = "free_x", margins = TRUE)
+```
+
+Sometimes it is nice to show all data on each facet:
+
+```{r}
+homo %>% 
+  ggplot(aes(speaker, s.duration.ms))+
+  # Add an additional geom without facetization variable!
+  geom_point(data = homo[,-9], aes(speaker, s.duration.ms), color = "grey") + 
+  geom_point() + 
+  facet_wrap(~orientation)+
+  theme_bw()
+```

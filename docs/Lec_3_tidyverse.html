@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Г. Мороз" />
+
+
+<title></title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/lumen.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 54px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+
+.section h2 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h3 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h4 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h5 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h6 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore"><ol start="3" style="list-style-type: decimal">
+<li>tidyverse</li>
+</ol></h1>
+<h4 class="author"><em>Г. Мороз</em></h4>
+
+</div>
+
+
+<style>
+.parallax {
+    /* The image used */
+    background-image: url("3_tidyverse.png");
+    
+    /* Set a specific height */
+    min-height: 300px; 
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto;
+}
+.parallax2 {
+    /* The image used */
+    background-image: url("3_magrittr.png");
+    
+    /* Set a specific height */
+    min-height: 300px; 
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto;
+}
+</style>
+<div class="parallax">
+
+</div>
+<div id="introduction" class="section level3">
+<h3>1. Introduction</h3>
+<p>The <a href="https://blog.rstudio.org/2016/09/15/tidyverse-1-0-0/"><em>tidyverse</em></a> is a set of packages:</p>
+<ul>
+<li><em>dplyr</em>, for data manipulation</li>
+<li><em>ggplot2</em>, for data visualisation</li>
+<li><em>tidyr</em>, for data tidying</li>
+<li><em>readr</em>, for data import</li>
+<li><em>purrr</em>, for functional programming</li>
+<li><em>tibble</em>, for tibbles, a modern re-imagining of data frames</li>
+</ul>
+<p>Install <em>tidyverse</em> package using <em>install.packages(“tidyverse”)</em>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)</code></pre></div>
+<pre><code>## ── Attaching packages ──────────────────────────────── tidyverse 1.2.1 ──</code></pre>
+<pre><code>## ✔ ggplot2 2.2.1     ✔ purrr   0.2.4
+## ✔ tibble  1.4.2     ✔ dplyr   0.7.4
+## ✔ tidyr   0.7.2     ✔ stringr 1.2.0
+## ✔ readr   1.1.1     ✔ forcats 0.2.0</code></pre>
+<pre><code>## ── Conflicts ─────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<div class="parallax">
+
+</div>
+</div>
+<div id="tible" class="section level3">
+<h3>2. tible</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(iris)
+<span class="kw">as_tibble</span>(iris)
+<span class="kw">data_frame</span>(<span class="dt">id =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">12</span>,
+           <span class="dt">letters =</span> month.name)</code></pre></div>
+<div class="parallax">
+
+</div>
+</div>
+<div id="reading-files-readr" class="section level3">
+<h3>3. Reading files: <code>readr</code></h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(readr) <span class="co"># included in tidyverse</span>
+df &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://goo.gl/v7nvho&quot;</span>)
+<span class="kw">head</span>(df)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Gender"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Age"],"name":[2],"type":["int"],"align":["right"]},{"label":["AgeGroup"],"name":[3],"type":["chr"],"align":["left"]},{"label":["Education"],"name":[4],"type":["chr"],"align":["left"]},{"label":["City"],"name":[5],"type":["chr"],"align":["left"]},{"label":["SubjectCode"],"name":[6],"type":["chr"],"align":["left"]},{"label":["Score"],"name":[7],"type":["chr"],"align":["left"]},{"label":["GivenScore"],"name":[8],"type":["int"],"align":["right"]},{"label":["Stimulus"],"name":[9],"type":["chr"],"align":["left"]},{"label":["Prefix"],"name":[10],"type":["chr"],"align":["left"]},{"label":["WordType"],"name":[11],"type":["chr"],"align":["left"]},{"label":["CorpusFrequency"],"name":[12],"type":["int"],"align":["right"]}],"data":[{"1":"female","2":"16","3":"child","4":"school","5":"Izhevsk","6":"AA","7":"A","8":"5","9":"utochnit","10":"u","11":"standard","12":"2860"},{"1":"female","2":"16","3":"child","4":"school","5":"Izhevsk","6":"AA","7":"A","8":"5","9":"ozhestochit","10":"o","11":"standard","12":"686"},{"1":"female","2":"16","3":"child","4":"school","5":"Izhevsk","6":"AA","7":"E","8":"1","9":"ovneshnit","10":"o","11":"marginal","12":"4"},{"1":"female","2":"16","3":"child","4":"school","5":"Izhevsk","6":"AA","7":"E","8":"1","9":"oblusit","10":"o","11":"nonce","12":"0"},{"1":"female","2":"16","3":"child","4":"school","5":"Izhevsk","6":"AA","7":"A","8":"5","9":"osvezhit","10":"o","11":"standard","12":"280"},{"1":"female","2":"16","3":"child","4":"school","5":"Izhevsk","6":"AA","7":"A","8":"5","9":"oschastlivit","10":"o","11":"standard","12":"343"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&quot;https://goo.gl/33r2Ut&quot;</span>)
+<span class="kw">head</span>(df)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["speaker"],"name":[1],"type":["chr"],"align":["left"]},{"label":["year"],"name":[2],"type":["int"],"align":["right"]},{"label":["gender"],"name":[3],"type":["chr"],"align":["left"]},{"label":["cons"],"name":[4],"type":["int"],"align":["right"]},{"label":["inn"],"name":[5],"type":["int"],"align":["right"]},{"label":["total"],"name":[6],"type":["int"],"align":["right"]}],"data":[{"1":"ait1954","2":"1954","3":"f","4":"222","5":"254","6":"476"},{"1":"anp1929","2":"1929","3":"m","4":"15","5":"16","6":"31"},{"1":"ans1925","2":"1925","3":"f","4":"788","5":"379","6":"1167"},{"1":"avch1930","2":"1930","3":"f","4":"43","5":"6","6":"49"},{"1":"avi1958","2":"1958","3":"f","4":"1","5":"31","6":"32"},{"1":"avm1922","2":"1922","3":"f","4":"778","5":"235","6":"1013"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw">read_delim</span>(<span class="st">&quot;https://goo.gl/33r2Ut&quot;</span>, <span class="dt">delim =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)
+<span class="kw">head</span>(df)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["speaker"],"name":[1],"type":["chr"],"align":["left"]},{"label":["year"],"name":[2],"type":["int"],"align":["right"]},{"label":["gender"],"name":[3],"type":["chr"],"align":["left"]},{"label":["cons"],"name":[4],"type":["int"],"align":["right"]},{"label":["inn"],"name":[5],"type":["int"],"align":["right"]},{"label":["total"],"name":[6],"type":["int"],"align":["right"]}],"data":[{"1":"ait1954","2":"1954","3":"f","4":"222","5":"254","6":"476"},{"1":"anp1929","2":"1929","3":"m","4":"15","5":"16","6":"31"},{"1":"ans1925","2":"1925","3":"f","4":"788","5":"379","6":"1167"},{"1":"avch1930","2":"1930","3":"f","4":"43","5":"6","6":"49"},{"1":"avi1958","2":"1958","3":"f","4":"1","5":"31","6":"32"},{"1":"avm1922","2":"1922","3":"f","4":"778","5":"235","6":"1013"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="parallax">
+
+</div>
+</div>
+<div id="dplyr" class="section level3">
+<h3>4. <code>dplyr</code></h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;http://goo.gl/Zjr9aF&quot;</span>)
+homo</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["speaker"],"name":[1],"type":["chr"],"align":["left"]},{"label":["s.duration.ms"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["vowel.duration.ms"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["average.f0.Hz"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["f0.range.Hz"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["perceived.as.homo"],"name":[6],"type":["int"],"align":["right"]},{"label":["perceived.as.hetero"],"name":[7],"type":["int"],"align":["right"]},{"label":["perceived.as.homo.percent"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["orientation"],"name":[9],"type":["chr"],"align":["left"]},{"label":["age"],"name":[10],"type":["int"],"align":["right"]}],"data":[{"1":"A","2":"61.40","3":"112.60","4":"119.51","5":"52.5","6":"7","7":"18","8":"0.28","9":"hetero","10":"30"},{"1":"B","2":"63.90","3":"126.49","4":"100.29","5":"114.0","6":"20","7":"5","8":"0.80","9":"hetero","10":"19"},{"1":"C","2":"55.08","3":"126.81","4":"114.90","5":"103.2","6":"9","7":"16","8":"0.36","9":"homo","10":"29"},{"1":"D","2":"78.11","3":"119.17","4":"126.61","5":"58.8","6":"15","7":"10","8":"0.60","9":"homo","10":"36"},{"1":"E","2":"64.71","3":"93.68","4":"130.76","5":"37.4","6":"10","7":"15","8":"0.40","9":"homo","10":"27"},{"1":"F","2":"67.00","3":"127.87","4":"150.79","5":"42.0","6":"17","7":"8","8":"0.68","9":"homo","10":"33"},{"1":"G","2":"65.39","3":"147.52","4":"128.96","5":"118.2","6":"20","7":"5","8":"0.80","9":"hetero","10":"28"},{"1":"H","2":"62.46","3":"120.13","4":"105.26","5":"55.7","6":"21","7":"4","8":"0.84","9":"hetero","10":"22"},{"1":"I","2":"60.45","3":"140.44","4":"109.86","5":"96.4","6":"20","7":"5","8":"0.80","9":"homo","10":"22"},{"1":"J","2":"59.59","3":"121.01","4":"123.90","5":"111.7","6":"8","7":"17","8":"0.32","9":"homo","10":"40"},{"1":"K","2":"62.94","3":"137.37","4":"119.48","5":"87.6","6":"21","7":"4","8":"0.84","9":"homo","10":"30"},{"1":"L","2":"53.31","3":"112.05","4":"146.20","5":"57.8","6":"8","7":"17","8":"0.32","9":"hetero","10":"25"},{"1":"M","2":"45.13","3":"133.74","4":"155.34","5":"100.5","6":"9","7":"16","8":"0.36","9":"hetero","10":"20"},{"1":"N","2":"57.67","3":"118.02","4":"121.48","5":"37.4","6":"4","7":"21","8":"0.16","9":"hetero","10":"29"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>The majority of examples in that presentation are based on <a href="http://goo.gl/MKfSc6">Hau 2007</a>. Experiment consisted of a perception and judgment test aimed at measuring the correlation between acoustic cues and perceived sexual orientation. Naïve Cantonese speakers were asked to listen to the Cantonese speech samples collected in Experiment and judge whether the speakers were gay or heterosexual. There are 14 speakers and following parameters:</p>
+<ul>
+<li>[s] duration (<em>s.duration.ms</em>)</li>
+<li>vowel duration (<em>vowel.duration.ms</em>)</li>
+<li>fundamental frequencies mean (F0) (<em>average.f0.Hz</em>)</li>
+<li>fundamental frequencies range (<em>f0.range.Hz</em>)</li>
+<li>percentage of homosexual impression (<em>perceived.as.homo</em>)</li>
+<li>percentage of heterosexal impression (<em>perceived.as.hetero</em>)</li>
+<li>speakers orientation (<em>orientation</em>)</li>
+<li>speakers age (<em>age</em>)</li>
+</ul>
+<div id="dplyrfilter" class="section level4">
+<h4>4.1 <code>dplyr::filter()</code></h4>
+<p>How many speakers are older than 28?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(age <span class="op">&gt;</span><span class="st"> </span><span class="dv">28</span>, s.duration.ms <span class="op">&lt;</span><span class="st"> </span><span class="dv">60</span>)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["speaker"],"name":[1],"type":["chr"],"align":["left"]},{"label":["s.duration.ms"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["vowel.duration.ms"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["average.f0.Hz"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["f0.range.Hz"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["perceived.as.homo"],"name":[6],"type":["int"],"align":["right"]},{"label":["perceived.as.hetero"],"name":[7],"type":["int"],"align":["right"]},{"label":["perceived.as.homo.percent"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["orientation"],"name":[9],"type":["chr"],"align":["left"]},{"label":["age"],"name":[10],"type":["int"],"align":["right"]}],"data":[{"1":"C","2":"55.08","3":"126.81","4":"114.90","5":"103.2","6":"9","7":"16","8":"0.36","9":"homo","10":"29"},{"1":"J","2":"59.59","3":"121.01","4":"123.90","5":"111.7","6":"8","7":"17","8":"0.32","9":"homo","10":"40"},{"1":"N","2":"57.67","3":"118.02","4":"121.48","5":"37.4","6":"4","7":"21","8":"0.16","9":"hetero","10":"29"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>The <code>%&gt;%</code> operators pipe their left-hand side values forward into expressions that appear on the right-hand side, i.e. one can replace f(x) with x %&gt;% f().</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sort</span>(<span class="kw">sqrt</span>(<span class="kw">abs</span>(<span class="kw">sin</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">22</span>))), <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>##  [1] 0.9999951 0.9952926 0.9946649 0.9805088 0.9792468 0.9554817 0.9535709
+##  [8] 0.9173173 0.9146888 0.8699440 0.8665952 0.8105471 0.8064043 0.7375779
+## [15] 0.7325114 0.6482029 0.6419646 0.5365662 0.5285977 0.3871398 0.3756594
+## [22] 0.0940814</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span><span class="op">:</span><span class="dv">22</span> <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">sin</span>() <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">abs</span>() <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">sqrt</span>() <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">sort</span>(., <span class="dt">decreasing =</span> <span class="ot">TRUE</span>) <span class="co"># зачем здесь точка?</span></code></pre></div>
+<pre><code>##  [1] 0.9999951 0.9952926 0.9946649 0.9805088 0.9792468 0.9554817 0.9535709
+##  [8] 0.9173173 0.9146888 0.8699440 0.8665952 0.8105471 0.8064043 0.7375779
+## [15] 0.7325114 0.6482029 0.6419646 0.5365662 0.5285977 0.3871398 0.3756594
+## [22] 0.0940814</code></pre>
+<div class="parallax2">
+
+</div>
+</div>
+<div id="dplyrslice" class="section level4">
+<h4>4.2 <code>dplyr::slice()</code></h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">slice</span>(<span class="dv">3</span><span class="op">:</span><span class="dv">7</span>)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["speaker"],"name":[1],"type":["chr"],"align":["left"]},{"label":["s.duration.ms"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["vowel.duration.ms"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["average.f0.Hz"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["f0.range.Hz"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["perceived.as.homo"],"name":[6],"type":["int"],"align":["right"]},{"label":["perceived.as.hetero"],"name":[7],"type":["int"],"align":["right"]},{"label":["perceived.as.homo.percent"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["orientation"],"name":[9],"type":["chr"],"align":["left"]},{"label":["age"],"name":[10],"type":["int"],"align":["right"]}],"data":[{"1":"C","2":"55.08","3":"126.81","4":"114.90","5":"103.2","6":"9","7":"16","8":"0.36","9":"homo","10":"29"},{"1":"D","2":"78.11","3":"119.17","4":"126.61","5":"58.8","6":"15","7":"10","8":"0.60","9":"homo","10":"36"},{"1":"E","2":"64.71","3":"93.68","4":"130.76","5":"37.4","6":"10","7":"15","8":"0.40","9":"homo","10":"27"},{"1":"F","2":"67.00","3":"127.87","4":"150.79","5":"42.0","6":"17","7":"8","8":"0.68","9":"homo","10":"33"},{"1":"G","2":"65.39","3":"147.52","4":"128.96","5":"118.2","6":"20","7":"5","8":"0.80","9":"hetero","10":"28"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="parallax2">
+
+</div>
+</div>
+<div id="dplyrselect" class="section level4">
+<h4>4.3 <code>dplyr::select()</code></h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(<span class="dv">8</span><span class="op">:</span><span class="dv">10</span>)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["perceived.as.homo.percent"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["orientation"],"name":[2],"type":["chr"],"align":["left"]},{"label":["age"],"name":[3],"type":["int"],"align":["right"]}],"data":[{"1":"0.28","2":"hetero","3":"30"},{"1":"0.80","2":"hetero","3":"19"},{"1":"0.36","2":"homo","3":"29"},{"1":"0.60","2":"homo","3":"36"},{"1":"0.40","2":"homo","3":"27"},{"1":"0.68","2":"homo","3":"33"},{"1":"0.80","2":"hetero","3":"28"},{"1":"0.84","2":"hetero","3":"22"},{"1":"0.80","2":"homo","3":"22"},{"1":"0.32","2":"homo","3":"40"},{"1":"0.84","2":"homo","3":"30"},{"1":"0.32","2":"hetero","3":"25"},{"1":"0.36","2":"hetero","3":"20"},{"1":"0.16","2":"hetero","3":"29"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(speaker<span class="op">:</span>average.f0.Hz)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["speaker"],"name":[1],"type":["chr"],"align":["left"]},{"label":["s.duration.ms"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["vowel.duration.ms"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["average.f0.Hz"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"A","2":"61.40","3":"112.60","4":"119.51"},{"1":"B","2":"63.90","3":"126.49","4":"100.29"},{"1":"C","2":"55.08","3":"126.81","4":"114.90"},{"1":"D","2":"78.11","3":"119.17","4":"126.61"},{"1":"E","2":"64.71","3":"93.68","4":"130.76"},{"1":"F","2":"67.00","3":"127.87","4":"150.79"},{"1":"G","2":"65.39","3":"147.52","4":"128.96"},{"1":"H","2":"62.46","3":"120.13","4":"105.26"},{"1":"I","2":"60.45","3":"140.44","4":"109.86"},{"1":"J","2":"59.59","3":"121.01","4":"123.90"},{"1":"K","2":"62.94","3":"137.37","4":"119.48"},{"1":"L","2":"53.31","3":"112.05","4":"146.20"},{"1":"M","2":"45.13","3":"133.74","4":"155.34"},{"1":"N","2":"57.67","3":"118.02","4":"121.48"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>speaker)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["s.duration.ms"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["vowel.duration.ms"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["average.f0.Hz"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["f0.range.Hz"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["perceived.as.homo"],"name":[5],"type":["int"],"align":["right"]},{"label":["perceived.as.hetero"],"name":[6],"type":["int"],"align":["right"]},{"label":["perceived.as.homo.percent"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["orientation"],"name":[8],"type":["chr"],"align":["left"]},{"label":["age"],"name":[9],"type":["int"],"align":["right"]}],"data":[{"1":"61.40","2":"112.60","3":"119.51","4":"52.5","5":"7","6":"18","7":"0.28","8":"hetero","9":"30"},{"1":"63.90","2":"126.49","3":"100.29","4":"114.0","5":"20","6":"5","7":"0.80","8":"hetero","9":"19"},{"1":"55.08","2":"126.81","3":"114.90","4":"103.2","5":"9","6":"16","7":"0.36","8":"homo","9":"29"},{"1":"78.11","2":"119.17","3":"126.61","4":"58.8","5":"15","6":"10","7":"0.60","8":"homo","9":"36"},{"1":"64.71","2":"93.68","3":"130.76","4":"37.4","5":"10","6":"15","7":"0.40","8":"homo","9":"27"},{"1":"67.00","2":"127.87","3":"150.79","4":"42.0","5":"17","6":"8","7":"0.68","8":"homo","9":"33"},{"1":"65.39","2":"147.52","3":"128.96","4":"118.2","5":"20","6":"5","7":"0.80","8":"hetero","9":"28"},{"1":"62.46","2":"120.13","3":"105.26","4":"55.7","5":"21","6":"4","7":"0.84","8":"hetero","9":"22"},{"1":"60.45","2":"140.44","3":"109.86","4":"96.4","5":"20","6":"5","7":"0.80","8":"homo","9":"22"},{"1":"59.59","2":"121.01","3":"123.90","4":"111.7","5":"8","6":"17","7":"0.32","8":"homo","9":"40"},{"1":"62.94","2":"137.37","3":"119.48","4":"87.6","5":"21","6":"4","7":"0.84","8":"homo","9":"30"},{"1":"53.31","2":"112.05","3":"146.20","4":"57.8","5":"8","6":"17","7":"0.32","8":"hetero","9":"25"},{"1":"45.13","2":"133.74","3":"155.34","4":"100.5","5":"9","6":"16","7":"0.36","8":"hetero","9":"20"},{"1":"57.67","2":"118.02","3":"121.48","4":"37.4","5":"4","6":"21","7":"0.16","8":"hetero","9":"29"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span><span class="kw">c</span>(speaker, perceived.as.hetero, perceived.as.homo, perceived.as.homo.percent))</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["s.duration.ms"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["vowel.duration.ms"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["average.f0.Hz"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["f0.range.Hz"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["orientation"],"name":[5],"type":["chr"],"align":["left"]},{"label":["age"],"name":[6],"type":["int"],"align":["right"]}],"data":[{"1":"61.40","2":"112.60","3":"119.51","4":"52.5","5":"hetero","6":"30"},{"1":"63.90","2":"126.49","3":"100.29","4":"114.0","5":"hetero","6":"19"},{"1":"55.08","2":"126.81","3":"114.90","4":"103.2","5":"homo","6":"29"},{"1":"78.11","2":"119.17","3":"126.61","4":"58.8","5":"homo","6":"36"},{"1":"64.71","2":"93.68","3":"130.76","4":"37.4","5":"homo","6":"27"},{"1":"67.00","2":"127.87","3":"150.79","4":"42.0","5":"homo","6":"33"},{"1":"65.39","2":"147.52","3":"128.96","4":"118.2","5":"hetero","6":"28"},{"1":"62.46","2":"120.13","3":"105.26","4":"55.7","5":"hetero","6":"22"},{"1":"60.45","2":"140.44","3":"109.86","4":"96.4","5":"homo","6":"22"},{"1":"59.59","2":"121.01","3":"123.90","4":"111.7","5":"homo","6":"40"},{"1":"62.94","2":"137.37","3":"119.48","4":"87.6","5":"homo","6":"30"},{"1":"53.31","2":"112.05","3":"146.20","4":"57.8","5":"hetero","6":"25"},{"1":"45.13","2":"133.74","3":"155.34","4":"100.5","5":"hetero","6":"20"},{"1":"57.67","2":"118.02","3":"121.48","4":"37.4","5":"hetero","6":"29"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(speaker, age, s.duration.ms)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["speaker"],"name":[1],"type":["chr"],"align":["left"]},{"label":["age"],"name":[2],"type":["int"],"align":["right"]},{"label":["s.duration.ms"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"A","2":"30","3":"61.40"},{"1":"B","2":"19","3":"63.90"},{"1":"C","2":"29","3":"55.08"},{"1":"D","2":"36","3":"78.11"},{"1":"E","2":"27","3":"64.71"},{"1":"F","2":"33","3":"67.00"},{"1":"G","2":"28","3":"65.39"},{"1":"H","2":"22","3":"62.46"},{"1":"I","2":"22","3":"60.45"},{"1":"J","2":"40","3":"59.59"},{"1":"K","2":"30","3":"62.94"},{"1":"L","2":"25","3":"53.31"},{"1":"M","2":"20","3":"45.13"},{"1":"N","2":"29","3":"57.67"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="parallax2">
+
+</div>
+</div>
+<div id="dplyrarrange" class="section level4">
+<h4>4.4 <code>dplyr::arrange()</code></h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">arrange</span>(orientation, <span class="kw">desc</span>(age))</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["speaker"],"name":[1],"type":["chr"],"align":["left"]},{"label":["s.duration.ms"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["vowel.duration.ms"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["average.f0.Hz"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["f0.range.Hz"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["perceived.as.homo"],"name":[6],"type":["int"],"align":["right"]},{"label":["perceived.as.hetero"],"name":[7],"type":["int"],"align":["right"]},{"label":["perceived.as.homo.percent"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["orientation"],"name":[9],"type":["chr"],"align":["left"]},{"label":["age"],"name":[10],"type":["int"],"align":["right"]}],"data":[{"1":"A","2":"61.40","3":"112.60","4":"119.51","5":"52.5","6":"7","7":"18","8":"0.28","9":"hetero","10":"30"},{"1":"N","2":"57.67","3":"118.02","4":"121.48","5":"37.4","6":"4","7":"21","8":"0.16","9":"hetero","10":"29"},{"1":"G","2":"65.39","3":"147.52","4":"128.96","5":"118.2","6":"20","7":"5","8":"0.80","9":"hetero","10":"28"},{"1":"L","2":"53.31","3":"112.05","4":"146.20","5":"57.8","6":"8","7":"17","8":"0.32","9":"hetero","10":"25"},{"1":"H","2":"62.46","3":"120.13","4":"105.26","5":"55.7","6":"21","7":"4","8":"0.84","9":"hetero","10":"22"},{"1":"M","2":"45.13","3":"133.74","4":"155.34","5":"100.5","6":"9","7":"16","8":"0.36","9":"hetero","10":"20"},{"1":"B","2":"63.90","3":"126.49","4":"100.29","5":"114.0","6":"20","7":"5","8":"0.80","9":"hetero","10":"19"},{"1":"J","2":"59.59","3":"121.01","4":"123.90","5":"111.7","6":"8","7":"17","8":"0.32","9":"homo","10":"40"},{"1":"D","2":"78.11","3":"119.17","4":"126.61","5":"58.8","6":"15","7":"10","8":"0.60","9":"homo","10":"36"},{"1":"F","2":"67.00","3":"127.87","4":"150.79","5":"42.0","6":"17","7":"8","8":"0.68","9":"homo","10":"33"},{"1":"K","2":"62.94","3":"137.37","4":"119.48","5":"87.6","6":"21","7":"4","8":"0.84","9":"homo","10":"30"},{"1":"C","2":"55.08","3":"126.81","4":"114.90","5":"103.2","6":"9","7":"16","8":"0.36","9":"homo","10":"29"},{"1":"E","2":"64.71","3":"93.68","4":"130.76","5":"37.4","6":"10","7":"15","8":"0.40","9":"homo","10":"27"},{"1":"I","2":"60.45","3":"140.44","4":"109.86","5":"96.4","6":"20","7":"5","8":"0.80","9":"homo","10":"22"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="parallax2">
+
+</div>
+</div>
+<div id="dplyrdistinct" class="section level4">
+<h4>4.5 <code>dplyr::distinct()</code></h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">distinct</span>(orientation)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["orientation"],"name":[1],"type":["chr"],"align":["left"]}],"data":[{"1":"hetero"},{"1":"homo"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">distinct</span>(orientation, age <span class="op">&gt;</span><span class="st"> </span><span class="dv">20</span>)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["orientation"],"name":[1],"type":["chr"],"align":["left"]},{"label":["age > 20"],"name":[2],"type":["lgl"],"align":["right"]}],"data":[{"1":"hetero","2":"TRUE"},{"1":"hetero","2":"FALSE"},{"1":"homo","2":"TRUE"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="parallax2">
+
+</div>
+</div>
+<div id="dplyrmutate" class="section level4">
+<h4>4.6 <code>dplyr::mutate()</code></h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">f0.mn =</span> average.f0.Hz <span class="op">-</span><span class="st"> </span>f0.range.Hz<span class="op">/</span><span class="dv">2</span>,
+         <span class="dt">f0.mx =</span> (average.f0.Hz <span class="op">+</span><span class="st"> </span>f0.range.Hz<span class="op">/</span><span class="dv">2</span>))</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["speaker"],"name":[1],"type":["chr"],"align":["left"]},{"label":["s.duration.ms"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["vowel.duration.ms"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["average.f0.Hz"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["f0.range.Hz"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["perceived.as.homo"],"name":[6],"type":["int"],"align":["right"]},{"label":["perceived.as.hetero"],"name":[7],"type":["int"],"align":["right"]},{"label":["perceived.as.homo.percent"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["orientation"],"name":[9],"type":["chr"],"align":["left"]},{"label":["age"],"name":[10],"type":["int"],"align":["right"]},{"label":["f0.mn"],"name":[11],"type":["dbl"],"align":["right"]},{"label":["f0.mx"],"name":[12],"type":["dbl"],"align":["right"]}],"data":[{"1":"A","2":"61.40","3":"112.60","4":"119.51","5":"52.5","6":"7","7":"18","8":"0.28","9":"hetero","10":"30","11":"93.26","12":"145.76"},{"1":"B","2":"63.90","3":"126.49","4":"100.29","5":"114.0","6":"20","7":"5","8":"0.80","9":"hetero","10":"19","11":"43.29","12":"157.29"},{"1":"C","2":"55.08","3":"126.81","4":"114.90","5":"103.2","6":"9","7":"16","8":"0.36","9":"homo","10":"29","11":"63.30","12":"166.50"},{"1":"D","2":"78.11","3":"119.17","4":"126.61","5":"58.8","6":"15","7":"10","8":"0.60","9":"homo","10":"36","11":"97.21","12":"156.01"},{"1":"E","2":"64.71","3":"93.68","4":"130.76","5":"37.4","6":"10","7":"15","8":"0.40","9":"homo","10":"27","11":"112.06","12":"149.46"},{"1":"F","2":"67.00","3":"127.87","4":"150.79","5":"42.0","6":"17","7":"8","8":"0.68","9":"homo","10":"33","11":"129.79","12":"171.79"},{"1":"G","2":"65.39","3":"147.52","4":"128.96","5":"118.2","6":"20","7":"5","8":"0.80","9":"hetero","10":"28","11":"69.86","12":"188.06"},{"1":"H","2":"62.46","3":"120.13","4":"105.26","5":"55.7","6":"21","7":"4","8":"0.84","9":"hetero","10":"22","11":"77.41","12":"133.11"},{"1":"I","2":"60.45","3":"140.44","4":"109.86","5":"96.4","6":"20","7":"5","8":"0.80","9":"homo","10":"22","11":"61.66","12":"158.06"},{"1":"J","2":"59.59","3":"121.01","4":"123.90","5":"111.7","6":"8","7":"17","8":"0.32","9":"homo","10":"40","11":"68.05","12":"179.75"},{"1":"K","2":"62.94","3":"137.37","4":"119.48","5":"87.6","6":"21","7":"4","8":"0.84","9":"homo","10":"30","11":"75.68","12":"163.28"},{"1":"L","2":"53.31","3":"112.05","4":"146.20","5":"57.8","6":"8","7":"17","8":"0.32","9":"hetero","10":"25","11":"117.30","12":"175.10"},{"1":"M","2":"45.13","3":"133.74","4":"155.34","5":"100.5","6":"9","7":"16","8":"0.36","9":"hetero","10":"20","11":"105.09","12":"205.59"},{"1":"N","2":"57.67","3":"118.02","4":"121.48","5":"37.4","6":"4","7":"21","8":"0.16","9":"hetero","10":"29","11":"102.78","12":"140.18"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="parallax2">
+
+</div>
+</div>
+<div id="dplyrgroup_by...-summarise..." class="section level4">
+<h4>4.7 <code>dplyr::group_by(...) %&gt;% summarise(...)</code></h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="kw">min</span>(age), <span class="kw">mean</span>(s.duration.ms))</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["min(age)"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["mean(s.duration.ms)"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"19","2":"61.22429"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(orientation) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">my_mean =</span> <span class="kw">mean</span>(s.duration.ms))</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["orientation"],"name":[1],"type":["chr"],"align":["left"]},{"label":["my_mean"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"hetero","2":"58.46571"},{"1":"homo","2":"63.98286"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(orientation) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="kw">mean</span>(s.duration.ms))</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["orientation"],"name":[1],"type":["chr"],"align":["left"]},{"label":["mean(s.duration.ms)"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"hetero","2":"58.46571"},{"1":"homo","2":"63.98286"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(orientation) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_by_orientation =</span> <span class="kw">mean</span>(s.duration.ms))</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["orientation"],"name":[1],"type":["chr"],"align":["left"]},{"label":["mean_by_orientation"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"hetero","2":"58.46571"},{"1":"homo","2":"63.98286"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>If you need to count number of group members, it is posible to use function <code>n()</code> in <code>summarise()</code> or <code>count()</code> function if you don’t need any other statistics.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(orientation, age <span class="op">&gt;</span><span class="st"> </span><span class="dv">20</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">my_mean =</span> <span class="kw">mean</span>(s.duration.ms), <span class="dt">n_observations =</span> <span class="kw">n</span>())</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["orientation"],"name":[1],"type":["chr"],"align":["left"]},{"label":["age > 20"],"name":[2],"type":["lgl"],"align":["right"]},{"label":["my_mean"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["n_observations"],"name":[4],"type":["int"],"align":["right"]}],"data":[{"1":"hetero","2":"FALSE","3":"54.51500","4":"2"},{"1":"hetero","2":"TRUE","3":"60.04600","4":"5"},{"1":"homo","2":"TRUE","3":"63.98286","4":"7"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">count</span>(orientation, age <span class="op">&gt;</span><span class="st"> </span><span class="dv">20</span>)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["orientation"],"name":[1],"type":["chr"],"align":["left"]},{"label":["age > 20"],"name":[2],"type":["lgl"],"align":["right"]},{"label":["n"],"name":[3],"type":["int"],"align":["right"]}],"data":[{"1":"hetero","2":"FALSE","3":"2"},{"1":"hetero","2":"TRUE","3":"5"},{"1":"homo","2":"TRUE","3":"7"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="parallax2">
+
+</div>
+</div>
+<div id="dplyr.._join" class="section level4">
+<h4>4.8 <code>dplyr::.._join()</code></h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">languages &lt;-<span class="st"> </span><span class="kw">data_frame</span>(
+  <span class="dt">languages =</span> <span class="kw">c</span>(<span class="st">&quot;Selkup&quot;</span>, <span class="st">&quot;French&quot;</span>, <span class="st">&quot;Chukchi&quot;</span>, <span class="st">&quot;Kashubian&quot;</span>),
+  <span class="dt">countries =</span> <span class="kw">c</span>(<span class="st">&quot;Russia&quot;</span>, <span class="st">&quot;France&quot;</span>, <span class="st">&quot;Russia&quot;</span>, <span class="st">&quot;Poland&quot;</span>),
+  <span class="dt">iso =</span> <span class="kw">c</span>(<span class="st">&quot;sel&quot;</span>, <span class="st">&quot;fra&quot;</span>, <span class="st">&quot;ckt&quot;</span>, <span class="st">&quot;pol&quot;</span>)
+  )
+languages</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["languages"],"name":[1],"type":["chr"],"align":["left"]},{"label":["countries"],"name":[2],"type":["chr"],"align":["left"]},{"label":["iso"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"Selkup","2":"Russia","3":"sel"},{"1":"French","2":"France","3":"fra"},{"1":"Chukchi","2":"Russia","3":"ckt"},{"1":"Kashubian","2":"Poland","3":"pol"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">country_population &lt;-<span class="st"> </span><span class="kw">data_frame</span>(
+  <span class="dt">countries =</span> <span class="kw">c</span>(<span class="st">&quot;Russia&quot;</span>, <span class="st">&quot;Poland&quot;</span>, <span class="st">&quot;Finland&quot;</span>),
+  <span class="dt">population_mln =</span> <span class="kw">c</span>(<span class="dv">143</span>, <span class="dv">38</span>, <span class="dv">5</span>))
+country_population</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["countries"],"name":[1],"type":["chr"],"align":["left"]},{"label":["population_mln"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"Russia","2":"143"},{"1":"Poland","2":"38"},{"1":"Finland","2":"5"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">inner_join</span>(languages, country_population)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["languages"],"name":[1],"type":["chr"],"align":["left"]},{"label":["countries"],"name":[2],"type":["chr"],"align":["left"]},{"label":["iso"],"name":[3],"type":["chr"],"align":["left"]},{"label":["population_mln"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"Selkup","2":"Russia","3":"sel","4":"143"},{"1":"Chukchi","2":"Russia","3":"ckt","4":"143"},{"1":"Kashubian","2":"Poland","3":"pol","4":"38"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">left_join</span>(languages, country_population)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["languages"],"name":[1],"type":["chr"],"align":["left"]},{"label":["countries"],"name":[2],"type":["chr"],"align":["left"]},{"label":["iso"],"name":[3],"type":["chr"],"align":["left"]},{"label":["population_mln"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"Selkup","2":"Russia","3":"sel","4":"143"},{"1":"French","2":"France","3":"fra","4":"NA"},{"1":"Chukchi","2":"Russia","3":"ckt","4":"143"},{"1":"Kashubian","2":"Poland","3":"pol","4":"38"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">right_join</span>(languages, country_population)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["languages"],"name":[1],"type":["chr"],"align":["left"]},{"label":["countries"],"name":[2],"type":["chr"],"align":["left"]},{"label":["iso"],"name":[3],"type":["chr"],"align":["left"]},{"label":["population_mln"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"Selkup","2":"Russia","3":"sel","4":"143"},{"1":"Chukchi","2":"Russia","3":"ckt","4":"143"},{"1":"Kashubian","2":"Poland","3":"pol","4":"38"},{"1":"NA","2":"Finland","3":"NA","4":"5"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">anti_join</span>(languages, country_population)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["languages"],"name":[1],"type":["chr"],"align":["left"]},{"label":["countries"],"name":[2],"type":["chr"],"align":["left"]},{"label":["iso"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"French","2":"France","3":"fra"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">anti_join</span>(country_population, languages)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["countries"],"name":[1],"type":["chr"],"align":["left"]},{"label":["population_mln"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"Finland","2":"5"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">full_join</span>(country_population, languages)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["countries"],"name":[1],"type":["chr"],"align":["left"]},{"label":["population_mln"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["languages"],"name":[3],"type":["chr"],"align":["left"]},{"label":["iso"],"name":[4],"type":["chr"],"align":["left"]}],"data":[{"1":"Russia","2":"143","3":"Selkup","4":"sel"},{"1":"Russia","2":"143","3":"Chukchi","4":"ckt"},{"1":"Poland","2":"38","3":"Kashubian","4":"pol"},{"1":"Finland","2":"5","3":"NA","4":"NA"},{"1":"France","2":"NA","3":"French","4":"fra"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>There is a nice trick that groups together calculated statistics with source data.frame. Just use <code>.._join()</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(orientation, age <span class="op">&gt;</span><span class="st"> </span><span class="dv">20</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">my_mean =</span> <span class="kw">mean</span>(s.duration.ms), <span class="dt">n_observations =</span> <span class="kw">n</span>())</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["orientation"],"name":[1],"type":["chr"],"align":["left"]},{"label":["age > 20"],"name":[2],"type":["lgl"],"align":["right"]},{"label":["my_mean"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["n_observations"],"name":[4],"type":["int"],"align":["right"]}],"data":[{"1":"hetero","2":"FALSE","3":"54.51500","4":"2"},{"1":"hetero","2":"TRUE","3":"60.04600","4":"5"},{"1":"homo","2":"TRUE","3":"63.98286","4":"7"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(orientation, age <span class="op">&gt;</span><span class="st"> </span><span class="dv">20</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">my_mean =</span> <span class="kw">mean</span>(s.duration.ms), <span class="dt">n_observations =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">left_join</span>(homo)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["orientation"],"name":[1],"type":["chr"],"align":["left"]},{"label":["age > 20"],"name":[2],"type":["lgl"],"align":["right"]},{"label":["my_mean"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["n_observations"],"name":[4],"type":["int"],"align":["right"]},{"label":["speaker"],"name":[5],"type":["chr"],"align":["left"]},{"label":["s.duration.ms"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["vowel.duration.ms"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["average.f0.Hz"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["f0.range.Hz"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["perceived.as.homo"],"name":[10],"type":["int"],"align":["right"]},{"label":["perceived.as.hetero"],"name":[11],"type":["int"],"align":["right"]},{"label":["perceived.as.homo.percent"],"name":[12],"type":["dbl"],"align":["right"]},{"label":["age"],"name":[13],"type":["int"],"align":["right"]}],"data":[{"1":"hetero","2":"FALSE","3":"54.51500","4":"2","5":"A","6":"61.40","7":"112.60","8":"119.51","9":"52.5","10":"7","11":"18","12":"0.28","13":"30"},{"1":"hetero","2":"FALSE","3":"54.51500","4":"2","5":"B","6":"63.90","7":"126.49","8":"100.29","9":"114.0","10":"20","11":"5","12":"0.80","13":"19"},{"1":"hetero","2":"FALSE","3":"54.51500","4":"2","5":"G","6":"65.39","7":"147.52","8":"128.96","9":"118.2","10":"20","11":"5","12":"0.80","13":"28"},{"1":"hetero","2":"FALSE","3":"54.51500","4":"2","5":"H","6":"62.46","7":"120.13","8":"105.26","9":"55.7","10":"21","11":"4","12":"0.84","13":"22"},{"1":"hetero","2":"FALSE","3":"54.51500","4":"2","5":"L","6":"53.31","7":"112.05","8":"146.20","9":"57.8","10":"8","11":"17","12":"0.32","13":"25"},{"1":"hetero","2":"FALSE","3":"54.51500","4":"2","5":"M","6":"45.13","7":"133.74","8":"155.34","9":"100.5","10":"9","11":"16","12":"0.36","13":"20"},{"1":"hetero","2":"FALSE","3":"54.51500","4":"2","5":"N","6":"57.67","7":"118.02","8":"121.48","9":"37.4","10":"4","11":"21","12":"0.16","13":"29"},{"1":"hetero","2":"TRUE","3":"60.04600","4":"5","5":"A","6":"61.40","7":"112.60","8":"119.51","9":"52.5","10":"7","11":"18","12":"0.28","13":"30"},{"1":"hetero","2":"TRUE","3":"60.04600","4":"5","5":"B","6":"63.90","7":"126.49","8":"100.29","9":"114.0","10":"20","11":"5","12":"0.80","13":"19"},{"1":"hetero","2":"TRUE","3":"60.04600","4":"5","5":"G","6":"65.39","7":"147.52","8":"128.96","9":"118.2","10":"20","11":"5","12":"0.80","13":"28"},{"1":"hetero","2":"TRUE","3":"60.04600","4":"5","5":"H","6":"62.46","7":"120.13","8":"105.26","9":"55.7","10":"21","11":"4","12":"0.84","13":"22"},{"1":"hetero","2":"TRUE","3":"60.04600","4":"5","5":"L","6":"53.31","7":"112.05","8":"146.20","9":"57.8","10":"8","11":"17","12":"0.32","13":"25"},{"1":"hetero","2":"TRUE","3":"60.04600","4":"5","5":"M","6":"45.13","7":"133.74","8":"155.34","9":"100.5","10":"9","11":"16","12":"0.36","13":"20"},{"1":"hetero","2":"TRUE","3":"60.04600","4":"5","5":"N","6":"57.67","7":"118.02","8":"121.48","9":"37.4","10":"4","11":"21","12":"0.16","13":"29"},{"1":"homo","2":"TRUE","3":"63.98286","4":"7","5":"C","6":"55.08","7":"126.81","8":"114.90","9":"103.2","10":"9","11":"16","12":"0.36","13":"29"},{"1":"homo","2":"TRUE","3":"63.98286","4":"7","5":"D","6":"78.11","7":"119.17","8":"126.61","9":"58.8","10":"15","11":"10","12":"0.60","13":"36"},{"1":"homo","2":"TRUE","3":"63.98286","4":"7","5":"E","6":"64.71","7":"93.68","8":"130.76","9":"37.4","10":"10","11":"15","12":"0.40","13":"27"},{"1":"homo","2":"TRUE","3":"63.98286","4":"7","5":"F","6":"67.00","7":"127.87","8":"150.79","9":"42.0","10":"17","11":"8","12":"0.68","13":"33"},{"1":"homo","2":"TRUE","3":"63.98286","4":"7","5":"I","6":"60.45","7":"140.44","8":"109.86","9":"96.4","10":"20","11":"5","12":"0.80","13":"22"},{"1":"homo","2":"TRUE","3":"63.98286","4":"7","5":"J","6":"59.59","7":"121.01","8":"123.90","9":"111.7","10":"8","11":"17","12":"0.32","13":"40"},{"1":"homo","2":"TRUE","3":"63.98286","4":"7","5":"K","6":"62.94","7":"137.37","8":"119.48","9":"87.6","10":"21","11":"4","12":"0.84","13":"30"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="parallax2">
+
+</div>
+<div class="parallax">
+
+</div>
+</div>
+</div>
+<div id="tidyr-package" class="section level3">
+<h3>5. tidyr package</h3>
+<ul>
+<li>Short format</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df.short &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+                   <span class="dt">consonant =</span> <span class="kw">c</span>(<span class="st">&quot;stops&quot;</span>, <span class="st">&quot;fricatives&quot;</span>, <span class="st">&quot;affricates&quot;</span>, <span class="st">&quot;nasals&quot;</span>),
+                   <span class="dt">initial =</span> <span class="kw">c</span>(<span class="dv">123</span>, <span class="dv">87</span>, <span class="dv">73</span>, <span class="dv">7</span>),
+                   <span class="dt">intervocal =</span> <span class="kw">c</span>(<span class="dv">57</span>, <span class="dv">77</span>, <span class="dv">82</span>, <span class="dv">78</span>),
+                   <span class="dt">final =</span> <span class="kw">c</span>(<span class="dv">30</span>, <span class="dv">69</span>, <span class="dv">12</span>, <span class="dv">104</span>))
+df.short</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["consonant"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["initial"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["intervocal"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["final"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"stops","2":"123","3":"57","4":"30"},{"1":"fricatives","2":"87","3":"77","4":"69"},{"1":"affricates","2":"73","3":"82","4":"12"},{"1":"nasals","2":"7","3":"78","4":"104"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<ul>
+<li>Long format</li>
+</ul>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["consonant"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["position"],"name":[2],"type":["chr"],"align":["left"]},{"label":["number"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"stops","2":"initial","3":"123"},{"1":"fricatives","2":"initial","3":"87"},{"1":"affricates","2":"initial","3":"73"},{"1":"nasals","2":"initial","3":"7"},{"1":"stops","2":"intervocal","3":"57"},{"1":"fricatives","2":"intervocal","3":"77"},{"1":"affricates","2":"intervocal","3":"82"},{"1":"nasals","2":"intervocal","3":"78"},{"1":"stops","2":"final","3":"30"},{"1":"fricatives","2":"final","3":"69"},{"1":"affricates","2":"final","3":"12"},{"1":"nasals","2":"final","3":"104"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<ul>
+<li>Short format → Long format: <code>tidyr::gather()</code></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df.short &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+                   <span class="dt">consonant =</span> <span class="kw">c</span>(<span class="st">&quot;stops&quot;</span>, <span class="st">&quot;fricatives&quot;</span>, <span class="st">&quot;affricates&quot;</span>, <span class="st">&quot;nasals&quot;</span>),
+                   <span class="dt">initial =</span> <span class="kw">c</span>(<span class="dv">123</span>, <span class="dv">87</span>, <span class="dv">73</span>, <span class="dv">7</span>),
+                   <span class="dt">intervocal =</span> <span class="kw">c</span>(<span class="dv">57</span>, <span class="dv">77</span>, <span class="dv">82</span>, <span class="dv">78</span>),
+                   <span class="dt">final =</span> <span class="kw">c</span>(<span class="dv">30</span>, <span class="dv">69</span>, <span class="dv">12</span>, <span class="dv">104</span>))
+df.short</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["consonant"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["initial"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["intervocal"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["final"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"stops","2":"123","3":"57","4":"30"},{"1":"fricatives","2":"87","3":"77","4":"69"},{"1":"affricates","2":"73","3":"82","4":"12"},{"1":"nasals","2":"7","3":"78","4":"104"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df.short <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">gather</span>(position, number, initial<span class="op">:</span>final) -&gt;
+<span class="st">  </span>df.long
+df.long</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["consonant"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["position"],"name":[2],"type":["chr"],"align":["left"]},{"label":["number"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"stops","2":"initial","3":"123"},{"1":"fricatives","2":"initial","3":"87"},{"1":"affricates","2":"initial","3":"73"},{"1":"nasals","2":"initial","3":"7"},{"1":"stops","2":"intervocal","3":"57"},{"1":"fricatives","2":"intervocal","3":"77"},{"1":"affricates","2":"intervocal","3":"82"},{"1":"nasals","2":"intervocal","3":"78"},{"1":"stops","2":"final","3":"30"},{"1":"fricatives","2":"final","3":"69"},{"1":"affricates","2":"final","3":"12"},{"1":"nasals","2":"final","3":"104"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<ul>
+<li>Long format → Short format: <code>tidyr::spread()</code></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df.long <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">spread</span>(position, number) -&gt;
+<span class="st">  </span>df.short
+df.short</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["consonant"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["final"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["initial"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["intervocal"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"affricates","2":"12","3":"73","4":"82","_rn_":"1"},{"1":"fricatives","2":"69","3":"87","4":"77","_rn_":"2"},{"1":"nasals","2":"104","3":"7","4":"78","_rn_":"3"},{"1":"stops","2":"30","3":"123","4":"57","_rn_":"4"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="parallax">
+
+</div>
+</div>
+<div id="anscombes-quartet" class="section level3">
+<h3>6.1 Anscombe’s quartet</h3>
+<p>In Anscombe, F. J. (1973). “Graphs in Statistical Analysis” was presented the next sets of data:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">quartet &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://goo.gl/KuuzYy&quot;</span>)
+quartet</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["x"],"name":[1],"type":["int"],"align":["right"]},{"label":["y"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["dataset"],"name":[3],"type":["int"],"align":["right"]}],"data":[{"1":"10","2":"8.04","3":"1"},{"1":"8","2":"6.95","3":"1"},{"1":"13","2":"7.58","3":"1"},{"1":"9","2":"8.81","3":"1"},{"1":"11","2":"8.33","3":"1"},{"1":"14","2":"9.96","3":"1"},{"1":"6","2":"7.24","3":"1"},{"1":"4","2":"4.26","3":"1"},{"1":"12","2":"10.84","3":"1"},{"1":"7","2":"4.82","3":"1"},{"1":"5","2":"5.68","3":"1"},{"1":"10","2":"9.14","3":"2"},{"1":"8","2":"8.14","3":"2"},{"1":"13","2":"8.74","3":"2"},{"1":"9","2":"8.77","3":"2"},{"1":"11","2":"9.26","3":"2"},{"1":"14","2":"8.10","3":"2"},{"1":"6","2":"6.13","3":"2"},{"1":"4","2":"3.10","3":"2"},{"1":"12","2":"9.13","3":"2"},{"1":"7","2":"7.26","3":"2"},{"1":"5","2":"4.74","3":"2"},{"1":"10","2":"7.46","3":"3"},{"1":"8","2":"6.77","3":"3"},{"1":"13","2":"12.74","3":"3"},{"1":"9","2":"7.11","3":"3"},{"1":"11","2":"7.81","3":"3"},{"1":"14","2":"8.84","3":"3"},{"1":"6","2":"6.08","3":"3"},{"1":"4","2":"5.39","3":"3"},{"1":"12","2":"8.15","3":"3"},{"1":"7","2":"6.42","3":"3"},{"1":"5","2":"5.73","3":"3"},{"1":"8","2":"6.58","3":"4"},{"1":"8","2":"5.76","3":"4"},{"1":"8","2":"7.71","3":"4"},{"1":"8","2":"8.84","3":"4"},{"1":"8","2":"8.47","3":"4"},{"1":"8","2":"7.04","3":"4"},{"1":"8","2":"5.25","3":"4"},{"1":"19","2":"12.50","3":"4"},{"1":"8","2":"5.56","3":"4"},{"1":"8","2":"7.91","3":"4"},{"1":"8","2":"6.89","3":"4"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">quartet <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(dataset) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_X =</span> <span class="kw">mean</span>(x),
+            <span class="dt">mean_Y =</span> <span class="kw">mean</span>(y),
+            <span class="dt">sd_X =</span> <span class="kw">sd</span>(x),
+            <span class="dt">sd_Y =</span> <span class="kw">sd</span>(y),
+            <span class="dt">cor =</span> <span class="kw">cor</span>(x, y),
+            <span class="dt">n_obs =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>dataset) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">round</span>(., <span class="dv">2</span>)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["mean_X"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["mean_Y"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sd_X"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["sd_Y"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["cor"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["n_obs"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"9","2":"7.5","3":"3.32","4":"2.03","5":"0.82","6":"11"},{"1":"9","2":"7.5","3":"3.32","4":"2.03","5":"0.82","6":"11"},{"1":"9","2":"7.5","3":"3.32","4":"2.03","5":"0.82","6":"11"},{"1":"9","2":"7.5","3":"3.32","4":"2.03","5":"0.82","6":"11"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+</div>
+<div id="datasaurus" class="section level3">
+<h3>5.2 Datasaurus</h3>
+<p>In <a href="https://www.autodeskresearch.com/sites/default/files/SameStats-DifferentGraphs.pdf">Matejka and Fitzmaurice (2017) “Same Stats, Different Graphs”</a> was presented the next sets of data:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">datasaurus &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&quot;https://goo.gl/gtaunr&quot;</span>)
+<span class="kw">head</span>(datasaurus)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["dataset"],"name":[1],"type":["chr"],"align":["left"]},{"label":["x"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["y"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"dino","2":"55.3846","3":"97.1795"},{"1":"dino","2":"51.5385","3":"96.0256"},{"1":"dino","2":"46.1538","3":"94.4872"},{"1":"dino","2":"42.8205","3":"91.4103"},{"1":"dino","2":"40.7692","3":"88.3333"},{"1":"dino","2":"38.7179","3":"84.8718"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">datasaurus <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(dataset) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_X =</span> <span class="kw">mean</span>(x),
+            <span class="dt">mean_Y =</span> <span class="kw">mean</span>(y),
+            <span class="dt">sd_X =</span> <span class="kw">sd</span>(x),
+            <span class="dt">sd_Y =</span> <span class="kw">sd</span>(y),
+            <span class="dt">cor =</span> <span class="kw">cor</span>(x, y),
+            <span class="dt">n_obs =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>dataset) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">round</span>(., <span class="dv">1</span>)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["mean_X"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["mean_Y"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sd_X"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["sd_Y"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["cor"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["n_obs"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"54.3","2":"47.8","3":"16.8","4":"26.9","5":"-0.1","6":"142"},{"1":"54.3","2":"47.8","3":"16.8","4":"26.9","5":"-0.1","6":"142"},{"1":"54.3","2":"47.8","3":"16.8","4":"26.9","5":"-0.1","6":"142"},{"1":"54.3","2":"47.8","3":"16.8","4":"26.9","5":"-0.1","6":"142"},{"1":"54.3","2":"47.8","3":"16.8","4":"26.9","5":"-0.1","6":"142"},{"1":"54.3","2":"47.8","3":"16.8","4":"26.9","5":"-0.1","6":"142"},{"1":"54.3","2":"47.8","3":"16.8","4":"26.9","5":"-0.1","6":"142"},{"1":"54.3","2":"47.8","3":"16.8","4":"26.9","5":"-0.1","6":"142"},{"1":"54.3","2":"47.8","3":"16.8","4":"26.9","5":"-0.1","6":"142"},{"1":"54.3","2":"47.8","3":"16.8","4":"26.9","5":"-0.1","6":"142"},{"1":"54.3","2":"47.8","3":"16.8","4":"26.9","5":"-0.1","6":"142"},{"1":"54.3","2":"47.8","3":"16.8","4":"26.9","5":"-0.1","6":"142"},{"1":"54.3","2":"47.8","3":"16.8","4":"26.9","5":"-0.1","6":"142"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="scaterplot" class="section level3">
+<h3>6.1 Scaterplot</h3>
+<ul>
+<li>ggplot2</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> homo, <span class="kw">aes</span>(s.duration.ms, vowel.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<ul>
+<li>dplyr, ggplot2</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(average.f0.Hz, age))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">color =</span> orientation))</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+</div>
+<div id="scaterplot-color" class="section level3">
+<h3>6.1.1 Scaterplot: color</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms,
+             <span class="dt">color =</span> orientation)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+</div>
+<div id="scaterplot-shape" class="section level3">
+<h3>6.1.2 Scaterplot: shape</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms,
+             <span class="dt">shape =</span> orientation)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">color =</span> <span class="st">&quot;green&quot;</span>)</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+</div>
+<div id="scaterplot-size" class="section level3">
+<h3>6.1.3 Scaterplot: size</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms,
+             <span class="dt">size =</span> age)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+</div>
+<div id="scaterplot-text" class="section level3">
+<h3>6.1.4 Scaterplot: text</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">label =</span> <span class="kw">ifelse</span>(orientation <span class="op">==</span><span class="st"> &quot;homo&quot;</span>,<span class="st">&quot;⚣&quot;</span>, <span class="st">&quot;⚤&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms, <span class="dt">label =</span> label, <span class="dt">fill =</span> orientation)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_label</span>()</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">label =</span> <span class="kw">ifelse</span>(orientation <span class="op">==</span><span class="st"> &quot;homo&quot;</span>,<span class="st">&quot;⚣&quot;</span>, <span class="st">&quot;⚤&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms, <span class="dt">label =</span> label, <span class="dt">color =</span> orientation)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_text</span>()</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-31-2.png" width="672" /></p>
+</div>
+<div id="scaterplot-title" class="section level3">
+<h3>6.1.5 Scaterplot: title</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;length of [s] vs. length of vowels&quot;</span>,
+       <span class="dt">subtitle =</span> <span class="st">&quot;based on 14 speakers of Cantonese&quot;</span>,
+       <span class="dt">caption =</span> <span class="st">&quot;data from [Hau 2007]&quot;</span>)</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
+</div>
+<div id="scaterplot-axis" class="section level3">
+<h3>6.1.6 Scaterplot: axis</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;duration of [s] in ms&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;vowel duration in ms&quot;</span>)</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
+</div>
+<div id="log-scales" class="section level3">
+<h3>6.1.7 Log scales</h3>
+<div class="figure">
+<img src="https://pbs.twimg.com/media/CTxg970WwAApE98.png" />
+
+</div>
+<p>Lets use the frequency dictionary for Russian</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">freq &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://goo.gl/TlX7xW&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)
+freq <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(Freq.ipm.)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">slice</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">200</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(Rank, Freq.ipm.)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;ipm&quot;</span>)</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">freq <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">52138</span>, Freq.ipm.))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;ipm&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_y_log10</span>()</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-34-2.png" width="672" /></p>
+</div>
+<div id="scaterplot-rug" class="section level3">
+<h3>6.1.8 Scaterplot: rug</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms, <span class="dt">color =</span> orientation)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_rug</span>()</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
+</div>
+<div id="scaterplot-lines" class="section level3">
+<h3>6.1.9 Scaterplot: lines</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="kw">mean</span>(homo<span class="op">$</span>vowel.duration.ms))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="dv">60</span>)</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">120</span>, <span class="dt">linetype =</span> <span class="dv">2</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="dv">60</span>, <span class="dt">size =</span> <span class="dv">5</span>)</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-36-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">120</span>, <span class="dt">linetype =</span> <span class="dv">4</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="dv">60</span>, <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>)</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-36-3.png" width="672" /></p>
+</div>
+<div id="scaterplot-annotate" class="section level3">
+<h3>6.1.10 Scaterplot: annotate</h3>
+<p>Функция <code>annotate</code> добавляет <code>geom</code> к графику.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">annotate</span>(<span class="dt">geom =</span> <span class="st">&quot;rect&quot;</span>, <span class="dt">xmin =</span> <span class="dv">77</span>, <span class="dt">xmax =</span> <span class="dv">79</span>,
+           <span class="dt">ymin =</span> <span class="dv">117</span>, <span class="dt">ymax =</span> <span class="dv">122</span>, <span class="dt">fill =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.2</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">annotate</span>(<span class="dt">geom =</span> <span class="st">&quot;text&quot;</span>, <span class="dt">x =</span> <span class="dv">78</span>, <span class="dt">y =</span> <span class="dv">125</span>,
+           <span class="dt">label =</span> <span class="st">&quot;Who is that?</span><span class="ch">\n</span><span class="st"> Outlier?&quot;</span>)</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
+</div>
+<div id="barplots-basics" class="section level3">
+<h3>6.2.1 Barplots: basics</h3>
+<p>There are two possible situations:</p>
+<ul>
+<li>not aggregate data</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(homo[, <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">9</span>)])</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["speaker"],"name":[1],"type":["chr"],"align":["left"]},{"label":["orientation"],"name":[2],"type":["chr"],"align":["left"]}],"data":[{"1":"A","2":"hetero"},{"1":"B","2":"hetero"},{"1":"C","2":"homo"},{"1":"D","2":"homo"},{"1":"E","2":"homo"},{"1":"F","2":"homo"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<ul>
+<li>aggregate data</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(homo[, <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">10</span>)])</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["speaker"],"name":[1],"type":["chr"],"align":["left"]},{"label":["age"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"A","2":"30"},{"1":"B","2":"19"},{"1":"C","2":"29"},{"1":"D","2":"36"},{"1":"E","2":"27"},{"1":"F","2":"33"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(orientation)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>()</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(speaker, age)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_col</span>()</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-40-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(speaker, age, <span class="dt">fill =</span> orientation)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_col</span>()</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-40-3.png" width="672" /></p>
+</div>
+<div id="boxplots-basics-points-jitter" class="section level3">
+<h3>6.3.1 Boxplots: basics, points, jitter</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(orientation, s.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_boxplot</span>()</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(orientation, s.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_boxplot</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-41-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(orientation, s.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_jitter</span>(<span class="dt">width =</span> <span class="fl">0.5</span>)</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-41-3.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(orientation, s.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_violin</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_jitter</span>()</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-41-4.png" width="672" /></p>
+</div>
+<div id="preliminary-summary-two-variables" class="section level3">
+<h3>6. Preliminary summary: two variables</h3>
+<ul>
+<li>scaterplot: two quantitative varibles</li>
+<li>barplot: nominal varible and one number</li>
+<li>boxplot: nominal varible and quantitative varibles</li>
+<li>jittered points or sized points: two nominal varibles</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">newvar =</span> mpg <span class="op">&gt;</span><span class="st"> </span><span class="dv">22</span>,
+         <span class="dt">newvr =</span> mpg <span class="op">&lt;</span><span class="st"> </span><span class="dv">17</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(newvr, newvar, <span class="dt">color =</span> newvar))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_jitter</span>(<span class="dt">width =</span> <span class="fl">0.2</span>)</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">newvar =</span> mpg <span class="op">&gt;</span><span class="st"> </span><span class="dv">22</span>,
+         <span class="dt">newvr =</span> mpg <span class="op">&lt;</span><span class="st"> </span><span class="dv">17</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(newvar, newvr) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">number =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(newvr, newvar, <span class="dt">label =</span> number))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">size =</span> number, <span class="dt">color =</span> newvar))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_text</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_size</span>(<span class="dt">range =</span> <span class="kw">c</span>(<span class="dv">10</span>, <span class="dv">30</span>))<span class="op">+</span>
+<span class="st">  </span><span class="kw">guides</span>(<span class="dt">size =</span> F)</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-42-2.png" width="672" /></p>
+</div>
+<div id="histogram-basics" class="section level3">
+<h3>6.4.1 Histogram: basics</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_histogram</span>()</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-43-1.png" width="672" /> How many histogram bins do we need?</p>
+<ul>
+<li>[Sturgers 1926] <em>nclass.Sturges(adyghe$F1)</em></li>
+<li>[Scott 1979] <em>nclass.scott(adyghe$F1)</em></li>
+<li>[Freedman, Diaconis 1981] <em>nclass.FD(adyghe$F1)</em></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="kw">nclass.FD</span>(homo<span class="op">$</span>s.duration.ms))</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">fill =</span> <span class="st">&quot;lightblue&quot;</span>)</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-44-2.png" width="672" /></p>
+</div>
+<div id="density-plot" class="section level3">
+<h3>6.5.1 Density plot</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_density</span>()</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-45-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>)</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-45-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">fill =</span> <span class="st">&quot;lightblue&quot;</span>)</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-45-3.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, <span class="dt">fill =</span> orientation)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_density</span>()</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-45-4.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, <span class="dt">fill =</span> orientation)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">alpha =</span> <span class="fl">0.2</span>)</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-45-5.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggridges)
+homo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, orientation, <span class="dt">fill =</span> orientation)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_density_ridges</span>()</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-45-6.png" width="672" /></p>
+</div>
+<div id="facets" class="section level3">
+<h3>6.7 Facets</h3>
+<div id="ggplot2facet_wrap" class="section level4">
+<h4>6.7.1 <code>ggplot2::facet_wrap()</code></h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(speaker, s.duration.ms))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>orientation)</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-46-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(speaker, s.duration.ms))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>orientation, <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>)</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-46-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(speaker, s.duration.ms))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>orientation, <span class="dt">scales =</span> <span class="st">&quot;free_x&quot;</span>)</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-46-3.png" width="672" /></p>
+</div>
+<div id="ggplot2facet_grid" class="section level4">
+<h4>6.7.2 <code>ggplot2::facet_grid()</code></h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">older_then_28 =</span> <span class="kw">ifelse</span>(age <span class="op">&gt;</span><span class="st"> </span><span class="dv">28</span>, <span class="st">&quot;older&quot;</span>, <span class="st">&quot;younger&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(speaker, s.duration.ms))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(older_then_<span class="dv">28</span><span class="op">~</span>orientation, <span class="dt">scales =</span> <span class="st">&quot;free_x&quot;</span>)</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-47-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">older_then_28 =</span> <span class="kw">ifelse</span>(age <span class="op">&gt;</span><span class="st"> </span><span class="dv">28</span>, <span class="st">&quot;older&quot;</span>, <span class="st">&quot;younger&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(speaker, s.duration.ms))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">facet_grid</span>(older_then_<span class="dv">28</span><span class="op">~</span>orientation, <span class="dt">scales =</span> <span class="st">&quot;free_x&quot;</span>)</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-47-2.png" width="672" /></p>
+<p>There is also nice argument <code>margins</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">older_then_28 =</span> <span class="kw">ifelse</span>(age <span class="op">&gt;</span><span class="st"> </span><span class="dv">28</span>, <span class="st">&quot;older&quot;</span>, <span class="st">&quot;younger&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(speaker, s.duration.ms))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">facet_grid</span>(older_then_<span class="dv">28</span><span class="op">~</span>orientation, <span class="dt">scales =</span> <span class="st">&quot;free_x&quot;</span>, <span class="dt">margins =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-48-1.png" width="672" /></p>
+<p>Sometimes it is nice to show all data on each facet:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(speaker, s.duration.ms))<span class="op">+</span>
+<span class="st">  </span><span class="co"># Add an additional geom without facetization variable!</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> homo[,<span class="op">-</span><span class="dv">9</span>], <span class="kw">aes</span>(speaker, s.duration.ms), <span class="dt">color =</span> <span class="st">&quot;grey&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>orientation)<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_bw</span>()</code></pre></div>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-49-1.png" width="672" /></p>
+</div>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<p> <center> &copy; О. Ляшевская, И. Щуров, Г. Мороз, code on
+<a href="https://github.com/agricolamz/2018-MAG_R_course"> GitHub<img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png"  style="width:30px;height:30px;border:0"> </center></p>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

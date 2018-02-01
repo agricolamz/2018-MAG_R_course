@@ -27,9 +27,8 @@ title: "Linguistic data: quantitative analysis and visualisation"
 
 ### 3. Data manipulation and visualization.
 
-*	(01.02.2018) [Base R vs. ggplot2: 2 variables, 3 variables, many variables]()
-* (01.02.2018) [Lab 3: Data manipulation and visualization (ggplot2)]()
-    * [Lab 3 Assignment]()
+*	(01.02.2018) [Base R vs. ggplot2: 2 variables, 3 variables, many variables](Lec_3_tidyverse.html)
+    * [Lab 3 Assignment](https://docs.google.com/forms/d/e/1FAIpQLSc2Z6snhSEZRVzHysYsUdKFkl4flE63AY4TFd-UrkmstV8s4g/viewform)
 
 * [HW-3. Due: next class]()
 
