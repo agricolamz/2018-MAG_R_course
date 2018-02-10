@@ -101,10 +101,18 @@ test parameters:
 <div class="parallax1"></div>
 
 ### 2. One sample test
+### 2.1 Confident interval
+### 2.2 One sample t-test
+### 2.3 Normality
+### 2.4 Power test
+### 2.5 Wilcox test
 
 <div class="parallax2"></div>
 
 ### 3. Two sample test
+### 3.1 Two sample t-test
+### 3.2 Paired t-test
+### 3.3 Wilcox test
 
 <div class="parallax3"></div>
 

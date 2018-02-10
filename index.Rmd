@@ -31,9 +31,9 @@ title: "Linguistic data: quantitative analysis and visualisation"
 *	(01.02.2018) [Base R vs. ggplot2: 2 variables, 3 variables, many variables](Lec_3_tidyverse.html)
 * [HW-1](https://docs.google.com/forms/d/e/1FAIpQLSc2Z6snhSEZRVzHysYsUdKFkl4flE63AY4TFd-UrkmstV8s4g/viewform). Due: 15.02.2018
 
-### 4-5. Descriptive statistics B. Normality tests. T-tests: one-tailed, paired, test power, Coehn's d. Mann-Whitney U-test.
-* (10.02.2018) [Lec 4-5: ]()
-* (10.02.2018) Lab 4: Descriptive statistics, Confidence intervals, T-tests. P-value. Boxplot, errorbar.
+### 4-5. Descriptive statistics B. T-tests. Mann-Whitney U-test.
+* (10.02.2018) [Lec 4-5: ](Lec_4_stats.html)
+* (10.02.2018) Lab 4: Descriptive statistics, Confidence intervals, T-tests. P-value.
     * [Lab 4 Assignment]()
     * Files from class: [Lab 4 and 5]()  
 * Textbook: Levshina Ch.5  
