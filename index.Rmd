@@ -12,55 +12,62 @@ title: "Linguistic data: quantitative analysis and visualisation"
 
 ### 1. Introduction to the course. Introduction to R. Types of data. 
 * [Please fill in the form](https://docs.google.com/forms/d/e/1FAIpQLSeHEP4ivqpKUqPJpuruwbbOb_6x05m8ExA_YdiHer7gC3Hzng/viewform?usp=sf_link)  
-* (18.01.2018)	[Lab 1: Basic R objects. Dataframes. Manipulation with data. Simple functions. Base R functions code. User's functions. User's functions. Loops. Functions in functions. Default arguments. Optional arguments.]()
+* (18.01.2018)	[Lab 1](): Basic R objects. Dataframes. Manipulation with data. Simple functions. Base R functions code. User's functions. User's functions. Loops. Functions in functions. Default arguments. Optional arguments.  
 
 * [HW-1. Self-paced online course. Section 1-5 ](https://www.edx.org/course/introduction-r-data-science-microsoft-dat204x-7). Please upload the screenshot of your Course Progess (Quizes 1-11, Labs 1-11) in the folder OnlineCourse in your github repository. Your student name and email are to be seen on the screenshot. Due: next class.
 
 ### 2. Descriptive statistics A. Confidence intervals. P-values
-* (25.01.2018) [Lec 2: Central limit theorem. Measures of central tendency and dispersion. Confidence intervals]()
-* (25.01.2018) [Lab 2: Simple plots. Read and write data. Manipulation with data (R base vs. dplyr). R markdown.]()
-    * [Test # 1: Basic R techniques (based on online course))[]
-    * [Lab 2 Assignment]()
-    * RMarkdown [in short](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet). [RStudio cheat sheet](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)
+* (25.01.2018) [Lec 2: Central limit theorem. Measures of central tendency and dispersion. Confidence intervals]()  
+* (25.01.2018) [Lab 2: Simple plots. Read and write data. Manipulation with data (R base vs. dplyr). R markdown.]() 
+    * [Test # 1: Basic R techniques (based on online course))[]  
+    * RMarkdown [in short](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet). [RStudio cheat sheet](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)  
+    * [Lab 2 Assignment]()  
+* Textbook: Levshina Ch.3-4  
 
-* [HW-2. Self-paced online course. Section 6-7, Final Exam](https://www.edx.org/course/introduction-r-data-science-microsoft-dat204x-7). Please upload the screenshot of your Course Progess in the folder OnlineCourse in your github repository. Your student name and email are to be seen on the screenshot. Due: next class.
+* [HW-2. Self-paced online course. Section 6-7, Final Exam](https://www.edx.org/course/introduction-r-data-science-microsoft-dat204x-7).  Please upload the screenshot of your Course Progess in the folder OnlineCourse in your github repository. Your student name and email are to be seen on the screenshot. Due: next class.
 
 ### 3. Data manipulation and visualization.
 
 *	(01.02.2018) [Base R vs. ggplot2: 2 variables, 3 variables, many variables](Lec_3_tidyverse.html)
-* [HW-3. Due: 15.02.2018](https://docs.google.com/forms/d/e/1FAIpQLSc2Z6snhSEZRVzHysYsUdKFkl4flE63AY4TFd-UrkmstV8s4g/viewform)
+* [HW-1](https://docs.google.com/forms/d/e/1FAIpQLSc2Z6snhSEZRVzHysYsUdKFkl4flE63AY4TFd-UrkmstV8s4g/viewform). Due: 15.02.2018
 
 ### 4-5. Descriptive statistics B. Normality tests. T-tests: one-tailed, paired, test power, Coehn's d. Mann-Whitney U-test.
-* (08/??.02.2018) [Lec 4-5: ]()
-* (08/??.02.2018) Lab 4: Descriptive statistics, Confidence intervals, T-tests. P-value. Boxplot, errorbar.
+* (10.02.2018) [Lec 4-5: ]()
+* (10.02.2018) Lab 4: Descriptive statistics, Confidence intervals, T-tests. P-value. Boxplot, errorbar.
     * [Lab 4 Assignment]()
-    * Files from class: [Lab 4 and 5]()
+    * Files from class: [Lab 4 and 5]()  
+* Textbook: Levshina Ch.5  
 
-* [HW-4. Due: next class]()
-* Final Exam Projects: Research topic and hypothesis. Please fill in the form, sheet [Projects](https://docs.google.com/spreadsheets/d/1HdjLzF3jUXddq2N7pUpGn7P1tMJ4ut9mskucVjiNlwQ).
+* [HW-2](). Due: 24.02.2018
+
+* Final Exam Projects: Research topic and hypothesis. Please fill in the form, sheet [Projects](https://docs.google.com/spreadsheets/d/1HdjLzF3jUXddq2N7pUpGn7P1tMJ4ut9mskucVjiNlwQ). Due: 15.02.2018.
 
 * (15.02.2018) [Lab 5]()  
     * [Lab 5 Assignment]()
 
-* [HW-5. Due: next class]()
+* [HW-5](). Due: 03.03.2018
 
 ### 6. Exact Fisher test. Correlations																									
-* (22/??.02.2018) lecture
-* (22/??.02.2018) [Lab 6](), [Assignment]()
+* (24.02.2018) lecture  
+* (24.02.2018) [Lab 6](), [Assignment]()  
+* Textbook: Levshina Ch.6 
 
-* [HW-6. Due: next class]()  
+* [HW-6](). Due: 15.03.2018  
 
-### 7. Linear regressions															
-* (01/??.03.2018) lecture
-* (01/??.03.2018) [Lab 7](), [Assignment]()
+### 7. Linear regressions											
+* (03.03.2018) lecture  
+* (03.03.2018) [Lab 7](), [Assignment]()  
+* Textbook: Levshina Ch.7 
 
 * [HW-7. Due: next class]()  
 
 ### 8. ANOVA, dummy variables, Multiple linear regression																		
-* (15/??.03.2018) [Lecture 8]() 
-* (15/??.03.2018) [Lab 8](), [Assignment]()
+* (15.03.2018) [Lecture 8]() 
+* (15.03.2018) [Lab 8](), [Assignment]()
+* Textbook: Levshina Ch.8  
 
 * [HW-8. Due: next class]()  
+
 
 ### 9. Binary logistic regressions
 

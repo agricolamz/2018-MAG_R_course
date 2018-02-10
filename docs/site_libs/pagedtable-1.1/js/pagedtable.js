@@ -357,11 +357,7 @@ var PagedTable = function (pagedTable) {
 
     me.calculateWidths = function(measures) {
       columns.forEach(function(column) {
-        var maxChars = Math.max(
-          column.label.toString().length,
-          column.type.toString().length
-        );
-
+        var maxChars = column.label.toString().length;
         for (var idxRow = 0; idxRow < Math.min(widthsLookAhead, data.length); idxRow++) {
           maxChars = Math.max(maxChars, data[idxRow][column.name.toString()].length);
         }
@@ -897,12 +893,16 @@ var PagedTable = function (pagedTable) {
     me.render();
 
     // retry seizing columns later if the host has not provided space
+    var retries = 100;
     function retryFit() {
-      if (tableDiv.clientWidth <= 0) {
-        setTimeout(retryFit, 100);
-      } else {
-        me.render();
-        triggerOnChange();
+      retries = retries - 1;
+      if (retries > 0) {
+        if (tableDiv.clientWidth <= 0) {
+          setTimeout(retryFit, 100);
+        } else {
+          me.render();
+          triggerOnChange();
+        }
       }
     }
     if (tableDiv.clientWidth <= 0) {
