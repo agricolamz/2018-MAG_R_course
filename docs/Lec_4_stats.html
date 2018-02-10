@@ -350,18 +350,95 @@ homo <span class="op">%&gt;%</span><span class="st"> </span>
 </div>
 <div id="confident-interval" class="section level3">
 <h3>2.1 Confident interval</h3>
+<p><span class="math display">\[\bar{x} \pm z \times \frac{\sigma}{\sqrt{n}}\]</span></p>
+<p>Where is standard error?</p>
+<p>z — z-score, for 95% CI it is 1.96, for 99% CI it is 2.58</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(s.duration.ms),
+            <span class="dt">ci =</span> <span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span><span class="kw">sd</span>(s.duration.ms)<span class="op">/</span><span class="kw">sqrt</span>(<span class="kw">n</span>()),
+            <span class="dt">min =</span> mean <span class="op">-</span><span class="st"> </span>ci,
+            <span class="dt">max =</span> mean <span class="op">+</span><span class="st"> </span>ci,
+            <span class="dt">x =</span> <span class="st">&quot;duration of [s]&quot;</span>)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["mean"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["ci"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["min"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["max"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["x"],"name":[5],"type":["chr"],"align":["left"]}],"data":[{"1":"61.22429","2":"3.938716","3":"57.28557","4":"65.163","5":"duration of [s]"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(s.duration.ms),
+            <span class="dt">ci =</span> <span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span><span class="kw">sd</span>(s.duration.ms)<span class="op">/</span><span class="kw">sqrt</span>(<span class="kw">n</span>()),
+            <span class="dt">min =</span> mean <span class="op">-</span><span class="st"> </span>ci,
+            <span class="dt">max =</span> mean <span class="op">+</span><span class="st"> </span>ci,
+            <span class="dt">x =</span> <span class="st">&quot;duration of [s]&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(x, mean, <span class="dt">ymin =</span> min, <span class="dt">ymax =</span> max))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_pointrange</span>()</code></pre></div>
+<p><img src="Lec_4_stats_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  <span class="co">#geom_errorbar() # For pure line</span>
+  <span class="co">#geom_linerange() # For line with borders</span></code></pre></div>
 </div>
 <div id="one-sample-t-test" class="section level3">
 <h3>2.2 One sample t-test</h3>
+<p>In some article I found out that mean [s] duration for Chineese is 56 ms. Is the data from [Hau 2007] provides statistically significant difference?</p>
+<ul>
+<li>define H_0: <span class="math inline">\(\bar{x} = \mu_o\)</span></li>
+<li>define H_1: <span class="math inline">\(\bar{x} \ne \mu_o\)</span></li>
+<li>define p-value <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/P-value_in_statistical_significance_testing.svg/888px-P-value_in_statistical_significance_testing.svg.png" /></li>
+<li>in most scince fields it is used p-value 0.05</li>
+<li>provide test</li>
+</ul>
+<p><span class="math display">\[t = \frac{\bar{x}-\mu}{s/\sqrt{n}}\]</span></p>
+<p>s — standard error</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">t_statistics =</span> (<span class="kw">mean</span>(s.duration.ms)<span class="op">-</span><span class="dv">56</span>)<span class="op">/</span>(<span class="kw">sd</span>(s.duration.ms)<span class="op">/</span><span class="kw">sqrt</span>(<span class="kw">n</span>())),
+            <span class="dt">df =</span> <span class="kw">n</span>() <span class="op">-</span><span class="st"> </span><span class="dv">1</span>,
+            <span class="dt">p_value =</span> <span class="dv">2</span><span class="op">*</span><span class="kw">pt</span>(<span class="op">-</span><span class="kw">abs</span>(t_statistics),<span class="dt">df=</span>df))</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["t_statistics"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["df"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["p_value"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"2.599731","2":"13","3":"0.02201723"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">t.test</span>(homo<span class="op">$</span>s.duration.ms, <span class="dt">mu =</span> <span class="dv">56</span>)</code></pre></div>
+<pre><code>## 
+##  One Sample t-test
+## 
+## data:  homo$s.duration.ms
+## t = 2.5997, df = 13, p-value = 0.02202
+## alternative hypothesis: true mean is not equal to 56
+## 95 percent confidence interval:
+##  56.88292 65.56565
+## sample estimates:
+## mean of x 
+##  61.22429</code></pre>
 </div>
 <div id="normality" class="section level3">
 <h3>2.3 Normality</h3>
+<p>one sample t-test assumes:</p>
+<ul>
+<li>normal destribution of data</li>
+</ul>
+<p>How to check?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_density</span>()</code></pre></div>
+<p><img src="Lec_4_stats_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(sm)
+<span class="kw">sm.density</span>(homo<span class="op">$</span>s.duration.ms, <span class="dt">model =</span> <span class="st">&quot;Normal&quot;</span>, <span class="dt">col.band=</span><span class="st">&quot;yellowgreen&quot;</span>)</code></pre></div>
+<p><img src="Lec_4_stats_files/figure-html/unnamed-chunk-5-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">sample =</span> s.duration.ms))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_qq</span>()</code></pre></div>
+<p><img src="Lec_4_stats_files/figure-html/unnamed-chunk-5-3.png" width="672" /></p>
 </div>
-<div id="power-test" class="section level3">
-<h3>2.4 Power test</h3>
-</div>
-<div id="wilcox-test" class="section level3">
-<h3>2.5 Wilcox test</h3>
+<div id="wilcoxon-test" class="section level3">
+<h3>2.5 Wilcoxon test</h3>
+<p>What if your data is not normally distributed?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">wilcox.test</span>(homo<span class="op">$</span>s.duration.ms)</code></pre></div>
+<pre><code>## 
+##  Wilcoxon signed rank test
+## 
+## data:  homo$s.duration.ms
+## V = 105, p-value = 0.0001221
+## alternative hypothesis: true location is not equal to 0</code></pre>
 <div class="parallax2">
 
 </div>
@@ -371,12 +448,58 @@ homo <span class="op">%&gt;%</span><span class="st"> </span>
 </div>
 <div id="two-sample-t-test" class="section level3">
 <h3>3.1 Two sample t-test</h3>
+<p>What if we have two samples?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">t.test</span>(s.duration.ms<span class="op">~</span>orientation, <span class="dt">data =</span> homo)</code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  s.duration.ms by orientation
+## t = -1.4263, df = 11.994, p-value = 0.1793
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -13.945621   2.911336
+## sample estimates:
+## mean in group hetero   mean in group homo 
+##             58.46571             63.98286</code></pre>
 </div>
 <div id="paired-t-test" class="section level3">
 <h3>3.2 Paired t-test</h3>
+<p>What if we samples are dependent?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["before"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["after"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"101.37096","2":"98.03510"},{"1":"99.43530","2":"96.39107"},{"1":"100.36313","2":"97.50496"},{"1":"100.63286","2":"95.28299"},{"1":"100.40427","2":"96.21554"},{"1":"99.89388","2":"96.14909"},{"1":"101.51152","2":"94.58579"},{"1":"99.90534","2":"97.03612"},{"1":"102.01842","2":"97.20600"},{"1":"99.93729","2":"96.63894"},{"1":"101.30487","2":"97.75816"},{"1":"102.28665","2":"96.27330"},{"1":"98.61114","2":"95.63172"},{"1":"99.72121","2":"97.43282"},{"1":"99.86668","2":"96.18861"},{"1":"100.63595","2":"98.44410"},{"1":"99.71575","2":"96.56855"},{"1":"97.34354","2":"97.65565"},{"1":"97.55953","2":"97.32193"},{"1":"101.32011","2":"96.21616"},{"1":"99.69336","2":"98.57573"},{"1":"98.21869","2":"97.64290"},{"1":"99.82808","2":"97.08976"},{"1":"101.21467","2":"97.27655"},{"1":"101.89519","2":"97.67929"},{"1":"99.56953","2":"97.08983"},{"1":"99.74273","2":"94.00691"},{"1":"98.23684","2":"97.28488"},{"1":"100.46010","2":"96.63277"},{"1":"99.36001","2":"97.18523"},{"1":"100.45545","2":"97.58182"},{"1":"100.70484","2":"98.39974"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
 </div>
-<div id="wilcox-test-1" class="section level3">
-<h3>3.3 Wilcox test</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">t.test</span>(df<span class="op">$</span>before, df<span class="op">$</span>after, <span class="dt">paired =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>## 
+##  Paired t-test
+## 
+## data:  df$before and df$after
+## t = 10.919, df = 31, p-value = 3.765e-12
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  2.598141 3.791602
+## sample estimates:
+## mean of the differences 
+##                3.194871</code></pre>
+</div>
+<div id="wilcoxon-test-1" class="section level3">
+<h3>3.3 Wilcoxon test</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">wilcox.test</span>(s.duration.ms<span class="op">~</span>orientation, <span class="dt">data =</span> homo)</code></pre></div>
+<pre><code>## 
+##  Wilcoxon rank sum test
+## 
+## data:  s.duration.ms by orientation
+## W = 16, p-value = 0.3176
+## alternative hypothesis: true location shift is not equal to 0</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">wilcox.test</span>(df<span class="op">$</span>before, df<span class="op">$</span>after, <span class="dt">paired =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>## 
+##  Wilcoxon signed rank test
+## 
+## data:  df$before and df$after
+## V = 526, p-value = 1.397e-09
+## alternative hypothesis: true location shift is not equal to 0</code></pre>
 <div class="parallax3">
 
 </div>
@@ -389,6 +512,35 @@ homo <span class="op">%&gt;%</span><span class="st"> </span>
 </div>
 <div id="multiple-comparisons-problem" class="section level3">
 <h3>5. Multiple comparisons problem</h3>
+<p><img src="https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/docs/4_jellybeanexample1.png" /> <img src="https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/docs/4_jellybeanexample2.png" /> <img src="https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/docs/4_jellybeanexample3.png" /></p>
+<p><a href="https://xkcd.com/882/">xkcd Significant</a>. <a href="http://www.explainxkcd.com/wiki/index.php/882">Explonation</a>. This colled: data dredging, data fishing, data snooping, equation fitting, p-hacking…</p>
+<p>If m independent comparisons are performed, the family-wise error rate (FWER), is given by</p>
+<p><span class="math display">\[\alpha = 1 - (1 - \alpha_{for\ each\ pair})^m\]</span> <span class="math display">\[\alpha = 1 - (1 - 0.05)^21 = 1- 0.34 = 0.66\]</span></p>
+<div id="adjustment-for-multiple-tests" class="section level4">
+<h4>5.1 Adjustment for multiple tests</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.04</span>, <span class="fl">0.03</span>, <span class="fl">0.01</span>)
+<span class="kw">p.adjust</span>(x, <span class="dt">method =</span> <span class="st">&#39;bonferroni&#39;</span>) <span class="co"># Bonferroni correction</span></code></pre></div>
+<pre><code>## [1] 0.12 0.09 0.03</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">p.adjust</span>(x, <span class="dt">method =</span> <span class="st">&#39;holm&#39;</span>)</code></pre></div>
+<pre><code>## [1] 0.06 0.06 0.03</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">p.adjust</span>(x, <span class="dt">method =</span> <span class="st">&#39;BH&#39;</span>)</code></pre></div>
+<pre><code>## [1] 0.04 0.04 0.03</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">p.adjust</span>(x, <span class="dt">method =</span> <span class="st">&#39;BY&#39;</span>)</code></pre></div>
+<pre><code>## [1] 0.07333333 0.07333333 0.05500000</code></pre>
+</div>
+</div>
+<div id="for-conclusion" class="section level3">
+<h3>For conclusion</h3>
+<p>p-value is not so loved anymore…</p>
+<ul>
+<li>it is misunderstood all the time [Gigerenzer 2004], [Goodman 2008]</li>
+<li>p-value &lt; 0.05 is not strong evidence [Sterne, Smith 2001], [Nuzzo et al. 2014], <a href="*%20Q:%20Why%20do%20so%20many%20colleges%20and%20grad%20schools%20teach%20p%20=%200.05?">Wasserstein, Lazar 2016</a></li>
+</ul>
+<ul>
+<li>A: Because that’s still what the scientific community and journal editors use.</li>
+<li>Q: Why do so many people still use p = 0.05?</li>
+<li>A: Because that’s what they were taught in college or grad school</li>
+</ul>
 <div class="parallax">
 
 </div>

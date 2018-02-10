@@ -102,17 +102,112 @@ test parameters:
 
 ### 2. One sample test
 ### 2.1 Confident interval
+$$\bar{x} \pm z \times \frac{\sigma}{\sqrt{n}}$$
+
+Where is standard error?
+
+
+z --- z-score, for 95% CI it is 1.96, for 99% CI it is 2.58
+
+```{r}
+homo %>% 
+  summarise(mean = mean(s.duration.ms),
+            ci = 1.96 * sd(s.duration.ms)/sqrt(n()),
+            min = mean - ci,
+            max = mean + ci,
+            x = "duration of [s]")
+homo %>% 
+  summarise(mean = mean(s.duration.ms),
+            ci = 1.96 * sd(s.duration.ms)/sqrt(n()),
+            min = mean - ci,
+            max = mean + ci,
+            x = "duration of [s]") %>% 
+  ggplot(aes(x, mean, ymin = min, ymax = max))+
+  geom_pointrange()
+  #geom_errorbar() # For pure line
+  #geom_linerange() # For line with borders
+```
+
 ### 2.2 One sample t-test
+
+In some article I found out that mean [s] duration for Chineese is 56 ms. Is the data from [Hau 2007] provides statistically significant difference?
+
+* define H_0: $\bar{x} = \mu_o$
+* define H_1: $\bar{x} \ne \mu_o$
+* define p-value
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/P-value_in_statistical_significance_testing.svg/888px-P-value_in_statistical_significance_testing.svg.png)
+* in most scince fields it is used p-value 0.05
+* provide test
+
+$$t = \frac{\bar{x}-\mu}{s/\sqrt{n}}$$
+
+s --- standard error
+
+```{r}
+homo %>% 
+  summarise(t_statistics = (mean(s.duration.ms)-56)/(sd(s.duration.ms)/sqrt(n())),
+            df = n() - 1,
+            p_value = 2*pt(-abs(t_statistics),df=df))
+
+t.test(homo$s.duration.ms, mu = 56)
+```
 ### 2.3 Normality
-### 2.4 Power test
-### 2.5 Wilcox test
+one sample t-test assumes:
+
+* normal destribution of data
+
+How to check?
+
+```{r}
+homo %>% 
+  ggplot(aes(s.duration.ms))+
+  geom_density()
+library(sm)
+sm.density(homo$s.duration.ms, model = "Normal", col.band="yellowgreen")
+
+homo %>% 
+  ggplot(aes(sample = s.duration.ms))+
+  geom_qq()
+```
+
+### 2.5 Wilcoxon test
+What if your data is not normally distributed?
+
+```{r}
+wilcox.test(homo$s.duration.ms)
+```
+
 
 <div class="parallax2"></div>
 
 ### 3. Two sample test
 ### 3.1 Two sample t-test
+What if we have two samples?
+
+```{r}
+t.test(s.duration.ms~orientation, data = homo)
+```
+
 ### 3.2 Paired t-test
-### 3.3 Wilcox test
+
+What if we samples are dependent?
+
+```{r, include=FALSE}
+set.seed(42)
+df <- data.frame(before = rnorm(n = 32, mean = 100),
+                 after = rnorm(n = 32, mean = 97))
+```
+```{r}
+df
+t.test(df$before, df$after, paired = TRUE)
+```
+
+
+### 3.3 Wilcoxon test
+```{r}
+wilcox.test(s.duration.ms~orientation, data = homo)
+wilcox.test(df$before, df$after, paired = TRUE)
+```
 
 <div class="parallax3"></div>
 
@@ -121,5 +216,37 @@ test parameters:
 <div class="parallax"></div>
 
 ### 5. Multiple comparisons problem
+![](https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/docs/4_jellybeanexample1.png)
+![](https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/docs/4_jellybeanexample2.png)
+![](https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/docs/4_jellybeanexample3.png)
+
+[xkcd Significant](https://xkcd.com/882/). [Explonation](http://www.explainxkcd.com/wiki/index.php/882). This colled: data dredging, data fishing, data snooping, equation fitting, p-hacking…
+
+If m independent comparisons are performed, the family-wise error rate (FWER), is given by
+
+$$\alpha = 1 - (1 - \alpha_{for\ each\ pair})^m$$
+$$\alpha = 1 - (1 - 0.05)^21 = 1- 0.34 = 0.66$$
+
+#### 5.1 Adjustment for multiple tests
+```{r}
+x <- c(0.04, 0.03, 0.01)
+p.adjust(x, method = 'bonferroni') # Bonferroni correction
+p.adjust(x, method = 'holm')
+p.adjust(x, method = 'BH')
+p.adjust(x, method = 'BY')
+```
+
+### For conclusion
+
+p-value is not so loved anymore...
+
+* it is misunderstood all the time [Gigerenzer 2004], [Goodman 2008]
+* p-value < 0.05 is not strong evidence [Sterne, Smith 2001], [Nuzzo et al. 2014], [Wasserstein, Lazar 2016]
+
+[Wasserstein, Lazar 2016]:
+* Q: Why do so many colleges and grad schools teach p = 0.05?
+* A: Because that's still what the scientific community and journal editors use. 
+* Q: Why do so many people still use p = 0.05? 
+* A: Because that's what they were taught in college or grad school 
 
 <div class="parallax"></div>
