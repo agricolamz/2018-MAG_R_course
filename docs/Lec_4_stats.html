@@ -432,13 +432,13 @@ homo <span class="op">%&gt;%</span><span class="st"> </span>
 <div id="wilcoxon-test" class="section level3">
 <h3>2.5 Wilcoxon test</h3>
 <p>What if your data is not normally distributed?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">wilcox.test</span>(homo<span class="op">$</span>s.duration.ms)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">wilcox.test</span>(homo<span class="op">$</span>s.duration.ms, <span class="dt">mu =</span> <span class="dv">56</span>)</code></pre></div>
 <pre><code>## 
 ##  Wilcoxon signed rank test
 ## 
 ## data:  homo$s.duration.ms
-## V = 105, p-value = 0.0001221
-## alternative hypothesis: true location is not equal to 0</code></pre>
+## V = 89, p-value = 0.02026
+## alternative hypothesis: true location is not equal to 56</code></pre>
 <div class="parallax2">
 
 </div>
@@ -515,7 +515,7 @@ homo <span class="op">%&gt;%</span><span class="st"> </span>
 <p><img src="https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/docs/4_jellybeanexample1.png" /> <img src="https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/docs/4_jellybeanexample2.png" /> <img src="https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/docs/4_jellybeanexample3.png" /></p>
 <p><a href="https://xkcd.com/882/">xkcd Significant</a>. <a href="http://www.explainxkcd.com/wiki/index.php/882">Explonation</a>. This colled: data dredging, data fishing, data snooping, equation fitting, p-hacking…</p>
 <p>If m independent comparisons are performed, the family-wise error rate (FWER), is given by</p>
-<p><span class="math display">\[\alpha = 1 - (1 - \alpha_{for\ each\ pair})^m\]</span> <span class="math display">\[\alpha = 1 - (1 - 0.05)^21 = 1- 0.34 = 0.66\]</span></p>
+<p><span class="math display">\[\alpha = 1 - (1 - \alpha_{for\ each\ pair})^m\]</span> <span class="math display">\[\alpha = 1 - (1 - 0.05)^{21} = 1- 0.34 = 0.66\]</span></p>
 <div id="adjustment-for-multiple-tests" class="section level4">
 <h4>5.1 Adjustment for multiple tests</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.04</span>, <span class="fl">0.03</span>, <span class="fl">0.01</span>)
@@ -534,16 +534,15 @@ homo <span class="op">%&gt;%</span><span class="st"> </span>
 <p>p-value is not so loved anymore…</p>
 <ul>
 <li>it is misunderstood all the time [Gigerenzer 2004], [Goodman 2008]</li>
-<li>p-value &lt; 0.05 is not strong evidence [Sterne, Smith 2001], [Nuzzo et al. 2014], <a href="*%20Q:%20Why%20do%20so%20many%20colleges%20and%20grad%20schools%20teach%20p%20=%200.05?">Wasserstein, Lazar 2016</a></li>
-</ul>
-<ul>
+<li><p>p-value &lt; 0.05 is not strong evidence [Sterne, Smith 2001], [Nuzzo et al. 2014], [Wasserstein, Lazar 2016]</p></li>
+<li>Q: Why do so many colleges and grad schools teach p = 0.05?</li>
 <li>A: Because that’s still what the scientific community and journal editors use.</li>
 <li>Q: Why do so many people still use p = 0.05?</li>
-<li>A: Because that’s what they were taught in college or grad school</li>
-</ul>
+<li>A: Because that’s what they were taught in college or grad school from (Wasserstein, Lazar 2016)
 <div class="parallax">
 
-</div>
+</div></li>
+</ul>
 </div>
 
 <br>

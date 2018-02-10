@@ -174,7 +174,7 @@ homo %>%
 What if your data is not normally distributed?
 
 ```{r}
-wilcox.test(homo$s.duration.ms)
+wilcox.test(homo$s.duration.ms, mu = 56)
 ```
 
 
@@ -225,7 +225,7 @@ wilcox.test(df$before, df$after, paired = TRUE)
 If m independent comparisons are performed, the family-wise error rate (FWER), is given by
 
 $$\alpha = 1 - (1 - \alpha_{for\ each\ pair})^m$$
-$$\alpha = 1 - (1 - 0.05)^21 = 1- 0.34 = 0.66$$
+$$\alpha = 1 - (1 - 0.05)^{21} = 1- 0.34 = 0.66$$
 
 #### 5.1 Adjustment for multiple tests
 ```{r}
@@ -243,10 +243,9 @@ p-value is not so loved anymore...
 * it is misunderstood all the time [Gigerenzer 2004], [Goodman 2008]
 * p-value < 0.05 is not strong evidence [Sterne, Smith 2001], [Nuzzo et al. 2014], [Wasserstein, Lazar 2016]
 
-[Wasserstein, Lazar 2016]:
 * Q: Why do so many colleges and grad schools teach p = 0.05?
 * A: Because that's still what the scientific community and journal editors use. 
 * Q: Why do so many people still use p = 0.05? 
 * A: Because that's what they were taught in college or grad school 
-
+from (Wasserstein, Lazar 2016)
 <div class="parallax"></div>
