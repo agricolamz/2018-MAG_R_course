@@ -34,7 +34,7 @@ title: "Linguistic data: quantitative analysis and visualisation"
 ### 4-5. Descriptive statistics B. T-tests. Mann-Whitney U-test.
 * (10.02.2018) [Lec 4-5: ](Lec_4_stats.html)
 * (10.02.2018) Lab 4: Descriptive statistics, Confidence intervals, T-tests. P-value.
-    * [Lab 4 Assignment]()
+    * [Lab 4 Assignment](https://docs.google.com/forms/d/e/1FAIpQLSdGZSuPIyO7DOcObhkdwlvUFBQPGMm1uM0tXanSY7Loie0A1A/viewform)
     * Files from class: [Lab 4 and 5]()  
 * Textbook: Levshina Ch.5  
 

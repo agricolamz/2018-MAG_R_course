@@ -132,16 +132,16 @@ homo %>%
 
 In some article I found out that mean [s] duration for Chineese is 56 ms. Is the data from [Hau 2007] provides statistically significant difference?
 
-* define H_0: $\bar{x} = \mu_o$
-* define H_1: $\bar{x} \ne \mu_o$
+* define H$_0$: $\bar{x} = \mu_o$
+* define H$_1$: $\bar{x} \ne \mu_o$
 * define p-value
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/P-value_in_statistical_significance_testing.svg/888px-P-value_in_statistical_significance_testing.svg.png)
 * in most scince fields it is used p-value 0.05
 * provide test
 
-$$t = \frac{\bar{x}-\mu}{s/\sqrt{n}}$$
+$$t = \frac{\bar{x}-\mu_0}{\sigma/\sqrt{n}}$$
 
-s --- standard error
+$\sigma$ --- standard deviation
 
 ```{r}
 homo %>% 

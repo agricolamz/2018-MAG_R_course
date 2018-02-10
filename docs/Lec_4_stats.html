@@ -380,14 +380,14 @@ homo <span class="op">%&gt;%</span><span class="st"> </span>
 <h3>2.2 One sample t-test</h3>
 <p>In some article I found out that mean [s] duration for Chineese is 56 ms. Is the data from [Hau 2007] provides statistically significant difference?</p>
 <ul>
-<li>define H_0: <span class="math inline">\(\bar{x} = \mu_o\)</span></li>
-<li>define H_1: <span class="math inline">\(\bar{x} \ne \mu_o\)</span></li>
+<li>define H<span class="math inline">\(_0\)</span>: <span class="math inline">\(\bar{x} = \mu_o\)</span></li>
+<li>define H<span class="math inline">\(_1\)</span>: <span class="math inline">\(\bar{x} \ne \mu_o\)</span></li>
 <li>define p-value <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/P-value_in_statistical_significance_testing.svg/888px-P-value_in_statistical_significance_testing.svg.png" /></li>
 <li>in most scince fields it is used p-value 0.05</li>
 <li>provide test</li>
 </ul>
-<p><span class="math display">\[t = \frac{\bar{x}-\mu}{s/\sqrt{n}}\]</span></p>
-<p>s — standard error</p>
+<p><span class="math display">\[t = \frac{\bar{x}-\mu_0}{\sigma/\sqrt{n}}\]</span></p>
+<p><span class="math inline">\(\sigma\)</span> — standard deviation</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">summarise</span>(<span class="dt">t_statistics =</span> (<span class="kw">mean</span>(s.duration.ms)<span class="op">-</span><span class="dv">56</span>)<span class="op">/</span>(<span class="kw">sd</span>(s.duration.ms)<span class="op">/</span><span class="kw">sqrt</span>(<span class="kw">n</span>())),
             <span class="dt">df =</span> <span class="kw">n</span>() <span class="op">-</span><span class="st"> </span><span class="dv">1</span>,
