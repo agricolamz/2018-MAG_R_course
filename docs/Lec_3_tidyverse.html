@@ -771,8 +771,10 @@ df.short</code></pre></div>
 
 </div>
 </div>
-<div id="anscombes-quartet" class="section level3">
-<h3>6.1 Anscombe’s quartet</h3>
+<div id="visualisation" class="section level3">
+<h3>6. Visualisation</h3>
+<div id="anscombes-quartet" class="section level4">
+<h4>6.0.1 Anscombe’s quartet</h4>
 <p>In Anscombe, F. J. (1973). “Graphs in Statistical Analysis” was presented the next sets of data:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">quartet &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://goo.gl/KuuzYy&quot;</span>)
 quartet</code></pre></div>
@@ -798,8 +800,8 @@ quartet</code></pre></div>
 </div>
 <p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
 </div>
-<div id="datasaurus" class="section level3">
-<h3>5.2 Datasaurus</h3>
+<div id="datasaurus" class="section level4">
+<h4>6.0.2 Datasaurus</h4>
 <p>In <a href="https://www.autodeskresearch.com/sites/default/files/SameStats-DifferentGraphs.pdf">Matejka and Fitzmaurice (2017) “Same Stats, Different Graphs”</a> was presented the next sets of data:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">datasaurus &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&quot;https://goo.gl/gtaunr&quot;</span>)
 <span class="kw">head</span>(datasaurus)</code></pre></div>
@@ -825,8 +827,8 @@ quartet</code></pre></div>
   </script>
 </div>
 </div>
-<div id="scaterplot" class="section level3">
-<h3>6.1 Scaterplot</h3>
+<div id="scaterplot" class="section level4">
+<h4>6.1 Scaterplot</h4>
 <ul>
 <li>ggplot2</li>
 </ul>
@@ -841,33 +843,32 @@ quartet</code></pre></div>
 <span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)<span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">color =</span> orientation))</code></pre></div>
 <p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
-</div>
-<div id="scaterplot-color" class="section level3">
-<h3>6.1.1 Scaterplot: color</h3>
+<div id="scaterplot-color" class="section level5">
+<h5>6.1.1 Scaterplot: color</h5>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms,
              <span class="dt">color =</span> orientation)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
 <p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
 </div>
-<div id="scaterplot-shape" class="section level3">
-<h3>6.1.2 Scaterplot: shape</h3>
+<div id="scaterplot-shape" class="section level5">
+<h5>6.1.2 Scaterplot: shape</h5>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms,
              <span class="dt">shape =</span> orientation)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">color =</span> <span class="st">&quot;green&quot;</span>)</code></pre></div>
 <p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
 </div>
-<div id="scaterplot-size" class="section level3">
-<h3>6.1.3 Scaterplot: size</h3>
+<div id="scaterplot-size" class="section level5">
+<h5>6.1.3 Scaterplot: size</h5>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms,
              <span class="dt">size =</span> age)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
 <p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
 </div>
-<div id="scaterplot-text" class="section level3">
-<h3>6.1.4 Scaterplot: text</h3>
+<div id="scaterplot-text" class="section level5">
+<h5>6.1.4 Scaterplot: text</h5>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">label =</span> <span class="kw">ifelse</span>(orientation <span class="op">==</span><span class="st"> &quot;homo&quot;</span>,<span class="st">&quot;⚣&quot;</span>, <span class="st">&quot;⚤&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms, <span class="dt">label =</span> label, <span class="dt">fill =</span> orientation)) <span class="op">+</span>
@@ -879,8 +880,8 @@ quartet</code></pre></div>
 <span class="st">  </span><span class="kw">geom_text</span>()</code></pre></div>
 <p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-31-2.png" width="672" /></p>
 </div>
-<div id="scaterplot-title" class="section level3">
-<h3>6.1.5 Scaterplot: title</h3>
+<div id="scaterplot-title" class="section level5">
+<h5>6.1.5 Scaterplot: title</h5>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>()<span class="op">+</span>
@@ -889,8 +890,8 @@ quartet</code></pre></div>
        <span class="dt">caption =</span> <span class="st">&quot;data from [Hau 2007]&quot;</span>)</code></pre></div>
 <p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
 </div>
-<div id="scaterplot-axis" class="section level3">
-<h3>6.1.6 Scaterplot: axis</h3>
+<div id="scaterplot-axis" class="section level5">
+<h5>6.1.6 Scaterplot: axis</h5>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>()<span class="op">+</span>
@@ -898,8 +899,8 @@ quartet</code></pre></div>
 <span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;vowel duration in ms&quot;</span>)</code></pre></div>
 <p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
 </div>
-<div id="log-scales" class="section level3">
-<h3>6.1.7 Log scales</h3>
+<div id="log-scales" class="section level5">
+<h5>6.1.7 Log scales</h5>
 <div class="figure">
 <img src="https://pbs.twimg.com/media/CTxg970WwAApE98.png" />
 
@@ -922,16 +923,16 @@ freq <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">scale_y_log10</span>()</code></pre></div>
 <p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-34-2.png" width="672" /></p>
 </div>
-<div id="scaterplot-rug" class="section level3">
-<h3>6.1.8 Scaterplot: rug</h3>
+<div id="scaterplot-rug" class="section level5">
+<h5>6.1.8 Scaterplot: rug</h5>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms, <span class="dt">color =</span> orientation)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_rug</span>()</code></pre></div>
 <p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
 </div>
-<div id="scaterplot-lines" class="section level3">
-<h3>6.1.9 Scaterplot: lines</h3>
+<div id="scaterplot-lines" class="section level5">
+<h5>6.1.9 Scaterplot: lines</h5>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
@@ -951,8 +952,8 @@ freq <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="dv">60</span>, <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>)</code></pre></div>
 <p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-36-3.png" width="672" /></p>
 </div>
-<div id="scaterplot-annotate" class="section level3">
-<h3>6.1.10 Scaterplot: annotate</h3>
+<div id="scaterplot-annotate" class="section level5">
+<h5>6.1.10 Scaterplot: annotate</h5>
 <p>Функция <code>annotate</code> добавляет <code>geom</code> к графику.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms, vowel.duration.ms)) <span class="op">+</span>
@@ -963,8 +964,9 @@ freq <span class="op">%&gt;%</span>
            <span class="dt">label =</span> <span class="st">&quot;Who is that?</span><span class="ch">\n</span><span class="st"> Outlier?&quot;</span>)</code></pre></div>
 <p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
 </div>
-<div id="barplots-basics" class="section level3">
-<h3>6.2.1 Barplots: basics</h3>
+</div>
+<div id="barplots" class="section level4">
+<h4>6.2 Barplots</h4>
 <p>There are two possible situations:</p>
 <ul>
 <li>not aggregate data</li>
@@ -997,8 +999,8 @@ freq <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">geom_col</span>()</code></pre></div>
 <p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-40-3.png" width="672" /></p>
 </div>
-<div id="boxplots-basics-points-jitter" class="section level3">
-<h3>6.3.1 Boxplots: basics, points, jitter</h3>
+<div id="boxplots-basics-points-jitter" class="section level4">
+<h4>6.3 Boxplots: basics, points, jitter</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(orientation, s.duration.ms)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_boxplot</span>()</code></pre></div>
@@ -1019,8 +1021,8 @@ freq <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">geom_jitter</span>()</code></pre></div>
 <p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-41-4.png" width="672" /></p>
 </div>
-<div id="preliminary-summary-two-variables" class="section level3">
-<h3>6. Preliminary summary: two variables</h3>
+<div id="preliminary-summary-two-variables" class="section level4">
+<h4>6.1-3 Preliminary summary: two variables</h4>
 <ul>
 <li>scaterplot: two quantitative varibles</li>
 <li>barplot: nominal varible and one number</li>
@@ -1045,12 +1047,13 @@ freq <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">guides</span>(<span class="dt">size =</span> F)</code></pre></div>
 <p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-42-2.png" width="672" /></p>
 </div>
-<div id="histogram-basics" class="section level3">
-<h3>6.4.1 Histogram: basics</h3>
+<div id="histogram" class="section level4">
+<h4>6.4 Histogram</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_histogram</span>()</code></pre></div>
-<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-43-1.png" width="672" /> How many histogram bins do we need?</p>
+<p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
+<p>How many histogram bins do we need?</p>
 <ul>
 <li>[Sturgers 1926] <em>nclass.Sturges(adyghe$F1)</em></li>
 <li>[Scott 1979] <em>nclass.scott(adyghe$F1)</em></li>
@@ -1065,8 +1068,8 @@ freq <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">fill =</span> <span class="st">&quot;lightblue&quot;</span>)</code></pre></div>
 <p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-44-2.png" width="672" /></p>
 </div>
-<div id="density-plot" class="section level3">
-<h3>6.5.1 Density plot</h3>
+<div id="density-plot" class="section level4">
+<h4>6.5 Density plot</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_density</span>()</code></pre></div>
@@ -1093,10 +1096,10 @@ homo <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">geom_density_ridges</span>()</code></pre></div>
 <p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-45-6.png" width="672" /></p>
 </div>
-<div id="facets" class="section level3">
-<h3>6.7 Facets</h3>
-<div id="ggplot2facet_wrap" class="section level4">
-<h4>6.7.1 <code>ggplot2::facet_wrap()</code></h4>
+<div id="facets" class="section level4">
+<h4>6.7 Facets</h4>
+<div id="ggplot2facet_wrap" class="section level5">
+<h5>6.7.1 <code>ggplot2::facet_wrap()</code></h5>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(speaker, s.duration.ms))<span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>
@@ -1113,8 +1116,8 @@ homo <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>orientation, <span class="dt">scales =</span> <span class="st">&quot;free_x&quot;</span>)</code></pre></div>
 <p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-46-3.png" width="672" /></p>
 </div>
-<div id="ggplot2facet_grid" class="section level4">
-<h4>6.7.2 <code>ggplot2::facet_grid()</code></h4>
+<div id="ggplot2facet_grid" class="section level5">
+<h5>6.7.2 <code>ggplot2::facet_grid()</code></h5>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">older_then_28 =</span> <span class="kw">ifelse</span>(age <span class="op">&gt;</span><span class="st"> </span><span class="dv">28</span>, <span class="st">&quot;older&quot;</span>, <span class="st">&quot;younger&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(speaker, s.duration.ms))<span class="op">+</span>
@@ -1143,6 +1146,7 @@ homo <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>orientation)<span class="op">+</span>
 <span class="st">  </span><span class="kw">theme_bw</span>()</code></pre></div>
 <p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-49-1.png" width="672" /></p>
+</div>
 </div>
 </div>
 

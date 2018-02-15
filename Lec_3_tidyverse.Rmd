@@ -303,7 +303,8 @@ df.short
 
 <div class="parallax"></div>
 
-### 6.1 Anscombe's quartet
+### 6. Visualisation
+#### 6.0.1 Anscombe's quartet
 In Anscombe, F. J. (1973). "Graphs in Statistical Analysis" was presented the next sets of data:
 
 ```{r}
@@ -334,7 +335,7 @@ quartet %>%
   theme_bw()
 ```
 
-### 5.2 Datasaurus
+#### 6.0.2 Datasaurus
 In [Matejka and Fitzmaurice (2017) "Same Stats, Different Graphs"](https://www.autodeskresearch.com/sites/default/files/SameStats-DifferentGraphs.pdf) was presented the next sets of data:
 
 ```{r, message= FALSE}
@@ -364,7 +365,7 @@ datasaurus %>%
 ```
 
 
-### 6.1 Scaterplot
+#### 6.1 Scaterplot
 
 * ggplot2
 ```{r}
@@ -380,7 +381,7 @@ homo %>%
   geom_point(aes(color = orientation))
 ```
 
-### 6.1.1 Scaterplot: color
+##### 6.1.1 Scaterplot: color
 
 ```{r}
 homo %>%
@@ -389,7 +390,7 @@ homo %>%
   geom_point()
 ```
 
-### 6.1.2 Scaterplot: shape
+##### 6.1.2 Scaterplot: shape
 
 ```{r}
 homo %>%
@@ -398,7 +399,7 @@ homo %>%
   geom_point(color = "green")
 ```
 
-### 6.1.3 Scaterplot: size
+##### 6.1.3 Scaterplot: size
 
 ```{r}
 homo %>%
@@ -407,7 +408,7 @@ homo %>%
   geom_point()
 ```
 
-### 6.1.4 Scaterplot: text
+##### 6.1.4 Scaterplot: text
 ```{r}
 homo %>%
   mutate(label = ifelse(orientation == "homo","⚣", "⚤")) %>% 
@@ -420,7 +421,7 @@ homo %>%
   geom_text()
 ```
 
-### 6.1.5 Scaterplot: title
+##### 6.1.5 Scaterplot: title
 ```{r}
 homo %>%
   ggplot(aes(s.duration.ms, vowel.duration.ms)) +
@@ -430,7 +431,7 @@ homo %>%
        caption = "data from [Hau 2007]")
 ```
 
-### 6.1.6 Scaterplot: axis
+##### 6.1.6 Scaterplot: axis
 ```{r}
 homo %>%
   ggplot(aes(s.duration.ms, vowel.duration.ms)) +
@@ -440,7 +441,7 @@ homo %>%
 ```
 
 
-### 6.1.7 Log scales
+##### 6.1.7 Log scales
 ![](https://pbs.twimg.com/media/CTxg970WwAApE98.png)
 
 Lets use the frequency dictionary for Russian
@@ -462,8 +463,7 @@ freq %>%
   scale_y_log10()
 ```
 
-### 6.1.8 Scaterplot: rug
-
+##### 6.1.8 Scaterplot: rug
 ```{r}
 homo %>%
   ggplot(aes(s.duration.ms, vowel.duration.ms, color = orientation)) +
@@ -471,8 +471,7 @@ homo %>%
   geom_rug()
 ```
 
-### 6.1.9 Scaterplot: lines
-
+##### 6.1.9 Scaterplot: lines
 ```{r}
 homo %>%
   ggplot(aes(s.duration.ms, vowel.duration.ms)) +
@@ -493,7 +492,7 @@ homo %>%
   geom_vline(xintercept = 60, color = "blue")
 ```
 
-### 6.1.10 Scaterplot: annotate
+##### 6.1.10 Scaterplot: annotate
 Функция `annotate` добавляет `geom` к графику.
 ```{r}
 homo %>%
@@ -505,9 +504,7 @@ homo %>%
            label = "Who is that?\n Outlier?")
 ```
 
-
-### 6.2.1 Barplots: basics
-
+#### 6.2 Barplots
 There are two possible situations:
 
 * not aggregate data
@@ -532,7 +529,7 @@ homo %>%
   geom_col()
 ```
 
-### 6.3.1 Boxplots: basics, points, jitter
+#### 6.3 Boxplots: basics, points, jitter
 ```{r}
 homo %>%
   ggplot(aes(orientation, s.duration.ms)) +
@@ -552,7 +549,7 @@ homo %>%
   geom_jitter()
 ```
 
-### 6. Preliminary summary: two variables
+#### 6.1-3 Preliminary summary: two variables
 
 * scaterplot: two quantitative varibles
 * barplot: nominal varible and one number
@@ -578,13 +575,13 @@ mtcars %>%
   guides(size = F)
 ```
 
-
-### 6.4.1 Histogram: basics
+#### 6.4 Histogram
 ```{r}
 homo %>%
   ggplot(aes(s.duration.ms)) +
   geom_histogram()
 ```
+
 How many histogram bins do we need?
 
 * [Sturgers 1926] _nclass.Sturges(adyghe$F1)_
@@ -600,7 +597,7 @@ homo %>%
   geom_histogram(fill = "lightblue")
 ```
 
-### 6.5.1 Density plot
+#### 6.5 Density plot
 ```{r}
 homo %>%
   ggplot(aes(s.duration.ms)) +
@@ -624,9 +621,8 @@ homo %>%
 ```
 
 
-### 6.7 Facets
-
-#### 6.7.1 `ggplot2::facet_wrap()`
+#### 6.7 Facets
+##### 6.7.1 `ggplot2::facet_wrap()`
 ```{r}
 homo %>% 
   ggplot(aes(speaker, s.duration.ms))+
@@ -643,8 +639,7 @@ homo %>%
 ```
 
 
-#### 6.7.2 `ggplot2::facet_grid()`
-
+##### 6.7.2 `ggplot2::facet_grid()`
 ```{r}
 homo %>% 
   mutate(older_then_28 = ifelse(age > 28, "older", "younger")) %>% 
