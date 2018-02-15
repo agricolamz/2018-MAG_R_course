@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="George Moroz, Olga Lyashevskaya, Ilya Schurov" />
+
+<meta name="date" content="2018-01-25" />
+
+<title>Lab 5</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/lumen.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 54px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+
+.section h2 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h3 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h4 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h5 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h6 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Lab 5</h1>
+<h3 class="subtitle"><em>Linguistic data: quantitative analysis and visualisation</em></h3>
+<h4 class="author"><em>George Moroz, Olga Lyashevskaya, Ilya Schurov</em></h4>
+<h4 class="date"><em>25 Jan 2018</em></h4>
+
+</div>
+
+
+<div id="libraries-in-use" class="section level2">
+<h2>0. Libraries in use</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse) </code></pre></div>
+<pre><code>FALSE -- Attaching packages ---------------------------------- tidyverse 1.2.1 --</code></pre>
+<pre><code>FALSE &lt;U+221A&gt; ggplot2 2.2.1     &lt;U+221A&gt; purrr   0.2.4
+FALSE &lt;U+221A&gt; tibble  1.4.2     &lt;U+221A&gt; dplyr   0.7.4
+FALSE &lt;U+221A&gt; tidyr   0.7.2     &lt;U+221A&gt; stringr 1.2.0
+FALSE &lt;U+221A&gt; readr   1.1.1     &lt;U+221A&gt; forcats 0.2.0</code></pre>
+<pre><code>FALSE -- Conflicts ------------------------------------- tidyverse_conflicts() --
+FALSE x dplyr::filter() masks stats::filter()
+FALSE x dplyr::lag()    masks stats::lag()</code></pre>
+</div>
+<div id="prepositions-in-slavic-languages" class="section level2">
+<h2>1. Prepositions in Slavic languages</h2>
+<p>There is a case alternation in Russian and Polish in marking of arguments of some verbs (cf. Russian polozhit’ na stole.Loc vs. polozhit’ na stol.Acc ‘put (smth.) on the table’). Our student Polina Nalotova investigated the case marking after prepositions <code>v</code> ‘into’ and <code>na</code> ‘on the surface’ in Russian and Polish.</p>
+<p>Let’s study if the preposition type (<code>v</code> vs <code>na</code>) is independent or dependent of the case marking in each language.</p>
+<div id="formulate-your-hypothesis" class="section level3">
+<h3>1.0 Formulate your hypothesis:</h3>
+<pre><code>Hypothesis on data distribution:</code></pre>
+<p>and H<sub>0</sub> hypothesis:</p>
+<pre><code>H0 hypothesis:</code></pre>
+<p>Let’s look at Polina’s data sets:<br />
+* Russian data: <a href="http://goo.gl/KljqjU" class="uri">http://goo.gl/KljqjU</a><br />
+* Polish data: <a href="http://goo.gl/xNozm2" class="uri">http://goo.gl/xNozm2</a></p>
+<p>Use <code>read.csv</code> to download data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># z &lt;- read.table(&quot;a.csv&quot;, sep = &quot;...&quot;) # text and a separator (delimiter) type, eg. sep=&quot;\t&quot;, sep=&quot;;&quot; </span>
+<span class="co"># y &lt;- read.csv(&quot;b.txt&quot;) # delimiter &quot;,&quot;</span>
+<span class="co"># x &lt;- read.csv2(&quot;c.csv&quot;) # delimiter &quot;;&quot;</span>
+<span class="co"># w &lt;- read.delim(&quot;d.txt&quot;) # delimiter &quot;\t&quot;</span>
+<span class="co"># v &lt;- readLines(&quot;e.txt&quot;) # reads text &#39;as is&#39;</span>
+russian &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://goo.gl/KljqjU&quot;</span>, <span class="dt">sep=</span><span class="st">&quot;,&quot;</span>) <span class="co"># read using URL for the file</span></code></pre></div>
+<p>Inspect the summary of your data sets. You can use <code>count(var1, var2)</code> to make a cross-tabulation; <code>mutate(prop = prop.table(n))</code> to add a new variable (<code>prop</code>) in your table.</p>
+</div>
+<div id="what-is-the-proportion-of-cases-in-which-na-is-used-with-loc-in-polish-data-set" class="section level3">
+<h3>1.1 &lt;?&gt; What is the proportion of cases in which “na” is used with “loc” in Polish data set?</h3>
+<p>Provide your R code in the block below.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Write your code here.</span></code></pre></div>
+<div id="r-code-tips" class="section level4">
+<h4>R code tips</h4>
+<p>This is an example of the pivot table for the Russian data set:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">russian %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(prep, case) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">n =</span> <span class="kw">n</span>()) %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">prop =</span> <span class="kw">prop.table</span>(n)) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">as.data.frame</span>()</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["prep"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["case"],"name":[2],"type":["fctr"],"align":["left"]},{"label":["n"],"name":[3],"type":["int"],"align":["right"]},{"label":["prop"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"na","2":"acc","3":"156","4":"0.6190476"},{"1":"na","2":"loc","3":"96","4":"0.3809524"},{"1":"w","2":"acc","3":"119","4":"0.5560748"},{"1":"w","2":"loc","3":"95","4":"0.4439252"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>And here is another way to make a cross-tabulation:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">russian %&gt;%<span class="st"> </span><span class="kw">xtabs</span>(~<span class="st"> </span>., <span class="dt">data =</span> .)</code></pre></div>
+<pre><code>##     case
+## prep acc loc
+##   na 156  96
+##   w  119  95</code></pre>
+</div>
+</div>
+<div id="provide-the-results-of-the-chisq-statistics-for-the-russian-data-set." class="section level3">
+<h3>1.2 &lt;?&gt; Provide the results of the chisq statistics for the Russian data set.</h3>
+<p>Use <code>chisq.test(x)</code> where x is your contingency table.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Write your code here.</span></code></pre></div>
+<ol start="5" style="list-style-type: lower-alpha">
+<li><ol start="7" style="list-style-type: lower-alpha">
+<li>X-squared = 3233.3, df = 1, p-value &lt; 2.2-15</li>
+</ol></li>
+</ol>
+</div>
+<div id="calculate-expected-values-of-your-contingency-table" class="section level3">
+<h3>1.3 &lt;?&gt; Calculate expected values of your contingency table</h3>
+<p>We will check if the expected values are always &gt;= 5 using <code>chisq.test(x)$expected</code>.</p>
+</div>
+<div id="calculate-effect-size-using-odds-ratio" class="section level3">
+<h3>1.4 &lt;?&gt; Calculate effect size using odds ratio</h3>
+</div>
+<div id="plot-the-fourfold-diagrams" class="section level3">
+<h3>1.5 &lt;?&gt; Plot the fourfold diagrams</h3>
+</div>
+<div id="calculate-effect-size-using-cramers-v" class="section level3">
+<h3>1.6 &lt;?&gt; Calculate effect size using Cramer’s V</h3>
+</div>
+<div id="provide-the-results-of-the-chisq-statistics-for-the-polish-data-set" class="section level3">
+<h3>1.7 &lt;?&gt; Provide the results of the chisq statistics for the Polish data set</h3>
+</div>
+<div id="whats-wrong-with-the-chisq-test" class="section level3">
+<h3>1.8 &lt;?&gt; What’s wrong with the chisq test?</h3>
+<pre><code></code></pre>
+</div>
+</div>
+<div id="fisher-exact-test" class="section level2">
+<h2>2. &lt;?&gt; Fisher Exact test</h2>
+<pre><code>The Fisher exact test should be preferred always when the total number of observations in all cells is smaller than 20. If the total number of observations is from 20 to 40, the Fisher exact test should be preferred if at least one expected frequency is smaller than 5. If the total number of observations is above 40, the Fisher exact test should be preferred if at least one of expected frequencies is smaller than 1&quot; (Sheskin 2011: 646, as cited by Levshina 2015: 214).</code></pre>
+<div id="apply-fisher-exact-test-to-the-polish-data" class="section level3">
+<h3>2.1 &lt;?&gt; Apply Fisher exact test to the Polish data</h3>
+<p>Use <code>fisher.test(x)</code> to calculate p-value of the two-tailed Fisher Exact test.</p>
+</div>
+<div id="write-down-your-conclusion-could-we-reject-the-h0-hypothesis" class="section level3">
+<h3>2.2 &lt;?&gt; Write down your conclusion, could we reject the H<sub>0</sub> hypothesis?</h3>
+<pre><code></code></pre>
+</div>
+</div>
+<div id="sails-what-kind-of-adposition-type-is-most-dominant" class="section level2">
+<h2>3. SAILS: What kind of adposition type is most dominant?</h2>
+<p>Olga Krasnoukhova investigated the order of adposition and noun phrase in the South American Indigenous Languages (look here for more infrormation on this topic <a href="http://wals.info/chapter/85" class="uri">http://wals.info/chapter/85</a>). Ignoring not known values she obtained, here is her results:</p>
+<ol style="list-style-type: decimal">
+<li>No adpositions 11</li>
+<li>Prepositions 5</li>
+<li>Postpositions 59</li>
+<li>No dominant order 2 [Krasnoukhova 2014]: <a href="http://sails.clld.org/parameters/NP610#5/1.746/289.56" class="uri">http://sails.clld.org/parameters/NP610#5/1.746/289.56</a></li>
+</ol>
+<p>Evaluate whether the obtained results are statistically different from the WALS results:</p>
+<ol style="list-style-type: decimal">
+<li>No adpositions 30</li>
+<li>Prepositions 511</li>
+<li>Postpositions 576</li>
+<li>Inpositions 8</li>
+<li>No dominant order 58</li>
+</ol>
+<div id="use-the-matrix-function-to-create-a-matrix-for-the-statistical-test." class="section level3">
+<h3>3.1 &lt;?&gt; Use the matrix() function to create a matrix for the statistical test.</h3>
+<p>e.g. <code>(matrix(c(5485, 8318, 15913, 8259), nrow = 2))</code></p>
+<p>Don’t forget that WALS data have the “Inpositions” value.</p>
+</div>
+<div id="which-variables-have-expected-values-smaller-then-5" class="section level3">
+<h3>3.2 &lt;?&gt; Which variables have expected values smaller then 5?</h3>
+<p>Write your answer using the following variables (in alphabetic order): <i>inpositions, no_adpositions, no_dominant_order, postpositions, prepositions</i>.</p>
+<pre><code></code></pre>
+</div>
+<div id="perform-fisher-exact-test." class="section level3">
+<h3>3.3 &lt;?&gt; Perform Fisher Exact test.</h3>
+</div>
+<div id="write-down-your-conclusions-whether-krasnoukhovas-results-are-statistically-different-from-the-wals-results." class="section level3">
+<h3>3.4. &lt;?&gt; Write down your conclusions whether Krasnoukhova’s results are statistically different from the WALS results.</h3>
+<pre><code></code></pre>
+</div>
+</div>
+<div id="binomial-test" class="section level2">
+<h2>4. Binomial test</h2>
+<p>In a psycholinguistic experiments, the responses to the sequence recall task showed the following results: Subject A: Native speakers’ speech: 27/28 correct Non-native speakers’ speech: 23/28 correct <a href="http://ling.umd.edu/~colin/courses/psycho_2013/lab1b_binomial.html">U of Maryland data</a></p>
+<p>Is the difference in scores observed here reflects a difference in the perceptual abilities of the Subject A in the native and non-native language, or whether it simply occurred by chance?</p>
+<div id="calculate-the-probability-of-getting-exactly-23-correct-answers-in-non-native-contrast." class="section level3">
+<h3>&lt;?&gt; 4.1 Calculate the probability of getting exactly 23 correct answers in non-native contrast.</h3>
+<p>Use <code>binom.test</code> function like this: <code>binom.test(x=1, n=20, p=5/10, conf.level=0.95</code> taken 27/28 as a default probability.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">binom.test</span>(<span class="dt">x=</span><span class="dv">23</span>, <span class="dt">n=</span><span class="dv">28</span>, <span class="dt">p=</span><span class="dv">27</span>/<span class="dv">28</span>, <span class="dt">conf.level=</span><span class="fl">0.95</span>)</code></pre></div>
+<pre><code>## 
+##  Exact binomial test
+## 
+## data:  23 and 28
+## number of successes = 23, number of trials = 28, p-value =
+## 0.002871
+## alternative hypothesis: true probability of success is not equal to 0.9642857
+## 95 percent confidence interval:
+##  0.6310667 0.9393571
+## sample estimates:
+## probability of success 
+##              0.8214286</code></pre>
+</div>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<p> <center> &copy; О. Ляшевская, И. Щуров, Г. Мороз, code on
+<a href="https://github.com/agricolamz/2018-MAG_R_course"> GitHub<img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png"  style="width:30px;height:30px;border:0"> </center></p>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

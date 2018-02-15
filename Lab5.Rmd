@@ -10,6 +10,7 @@ output: html_document
 
 ```{r cache=FALSE, results=FALSE, warning=FALSE, comment=FALSE}
 library(tidyverse) 
+library(vcd) # for mosaic plots 
 ```
 
 ## 1. Prepositions in Slavic languages
@@ -55,7 +56,8 @@ Provide your R code in the block below.
 This is an example of the pivot table for the Russian data set:
 ```{r}
 russian %>% 
-  count(prep, case) %>% 
+  group_by(prep, case) %>% 
+  summarize(n = n()) %>%
   mutate(prop = prop.table(n)) %>% 
   as.data.frame()
 ```
@@ -90,9 +92,25 @@ We will check if the expected values are always >= 5 using `chisq.test(x)$expect
 ```
 
 ### 1.6 <?> Calculate effect size using Cramer's V
+Formula: V = sqrt(X-squared / [n_obs * (min(ncols, nrows) – 1)])
 ```{r 1_6}
 
 ```
+
+
+```{r}
+mosaic(russian.tab, shade = TRUE, varnames = FALSE)
+chisq.test(russian.tab)$residuals
+chisq.test(russian.tab)$stdres # Pearson residuals devided by their 
+assoc(russian.tab, shade = TRUE, varnames = FALSE)
+```
+
+Try these plots with your own data.
+
+```{r}
+
+```
+
 
 ### 1.7 <?> Provide the results of the chisq statistics for the Polish data set
 ```{r 1_7}
@@ -104,18 +122,18 @@ We will check if the expected values are always >= 5 using `chisq.test(x)$expect
 
 ```
 
-## 2. Fisher Exact test
+## 2. <?> Fisher Exact test
 ```
 The Fisher exact test should be preferred always when the total number of observations in all cells is smaller than 20. If the total number of observations is from 20 to 40, the Fisher exact test should be preferred if at least one expected frequency is smaller than 5. If the total number of observations is above 40, the Fisher exact test should be preferred if at least one of expected frequencies is smaller than 1" (Sheskin 2011: 646, as cited by Levshina 2015: 214).
 ```
 
-### 2.1 Apply Fisher exact test to the Polish data
+### 2.1 <?> Apply Fisher exact test to the Polish data
 Use `fisher.test(x)` to calculate p-value of the two-tailed Fisher Exact test.  
 ```{r 2_1}
 
 ```
 
-### 2.2 Write down your conclusion, could we reject the H<sub>0</sub> hypothesis?
+### 2.2 <?> Write down your conclusion, could we reject the H<sub>0</sub> hypothesis?
 ```
 
 ```
@@ -140,7 +158,7 @@ Evaluate whether the obtained results are statistically different from the WALS 
 
 [Dryer 2013]: http://wals.info/feature/85A#2/14.9/152.9
 
-### 3.1 Use the matrix() function to create a matrix for the statistical test. 
+### 3.1 <?> Use the matrix() function to create a matrix for the statistical test. 
 e.g. `(matrix(c(5485, 8318, 15913, 8259), nrow = 2))`
 
 ```{r 3_1}
@@ -149,13 +167,13 @@ e.g. `(matrix(c(5485, 8318, 15913, 8259), nrow = 2))`
 
 Don't forget that WALS data have the "Inpositions" value. 
 
-### 3.2 Which variables have expected values smaller then 5?
+### 3.2 <?> Which variables have expected values smaller then 5?
 Write your answer using the following variables (in alphabetic order): <i>inpositions, no_adpositions, no_dominant_order, postpositions, prepositions</i>.  
 ```
 
 ```
 
-### 3.3 Perform Fisher Exact test.  
+### 3.3 <?> Perform Fisher Exact test.  
 ```{r 3_3}
 
 ```
@@ -166,3 +184,17 @@ Write your answer using the following variables (in alphabetic order): <i>inposi
 ```
 
 
+## 4. Binomial test
+In a psycholinguistic experiments, the responses to the sequence recall task showed the following results:
+Subject A:
+Native speakers' speech: 27/28 correct
+Non-native speakers' speech: 23/28 correct
+[U of Maryland data](http://ling.umd.edu/~colin/courses/psycho_2013/lab1b_binomial.html)
+
+Is the difference in scores observed here reflects a difference in the perceptual abilities of the Subject A in the native and non-native language, or whether it simply occurred by chance?
+
+### <?> 4.1 Calculate the probability of getting exactly 23 correct answers in non-native contrast.
+Use `binom.test` function like this: `binom.test(x=1, n=20, p=5/10, conf.level=0.95` taken 27/28 as a default probability.
+```{r}
+binom.test(x=23, n=28, p=27/28, conf.level=0.95)
+```
