@@ -1,0 +1,168 @@
+---
+title: Lab 5
+subtitle: "Linguistic data: quantitative analysis and visualisation"
+author: "George Moroz, Olga Lyashevskaya, Ilya Schurov"
+date: '25 Jan 2018'
+output: html_document
+---
+
+## 0. Libraries in use
+
+```{r cache=FALSE, results=FALSE, warning=FALSE, comment=FALSE}
+library(tidyverse) 
+```
+
+## 1. Prepositions in Slavic languages
+There is a case alternation in Russian and Polish in marking of arguments of some verbs (cf. Russian polozhit' na stole.Loc vs. polozhit' na stol.Acc 'put (smth.) on the table'). Our student Polina Nalotova investigated the case marking after prepositions `v` 'into' and `na` 'on the surface' in Russian and Polish.  
+
+Let's study if the preposition type (`v` vs `na`) is independent or dependent of the case marking in each language.
+
+### 1.0 Formulate your hypothesis: 
+```
+Hypothesis on data distribution:
+```
+
+and H<sub>0</sub> hypothesis: 
+```
+H0 hypothesis:
+```
+
+Let's look at Polina's data sets:  
+* Russian data: http://goo.gl/KljqjU  
+* Polish data: http://goo.gl/xNozm2  
+
+Use `read.csv` to download data.
+```{r read data set}
+# z <- read.table("a.csv", sep = "...") # text and a separator (delimiter) type, eg. sep="\t", sep=";" 
+# y <- read.csv("b.txt") # delimiter ","
+# x <- read.csv2("c.csv") # delimiter ";"
+# w <- read.delim("d.txt") # delimiter "\t"
+# v <- readLines("e.txt") # reads text 'as is'
+russian <- read.csv("http://goo.gl/KljqjU", sep=",") # read using URL for the file
+```
+
+Inspect the summary of your data sets. 
+You can use `count(var1, var2)` to make a cross-tabulation; `mutate(prop = prop.table(n))` to add a new variable (`prop`) in your table.
+
+### 1.1 <?> What is the proportion of cases in which "na" is used with "loc" in Polish data set?
+Provide your R code in the block below.
+
+```{r 1_1}
+# Write your code here.
+```
+
+#### R code tips
+This is an example of the pivot table for the Russian data set:
+```{r}
+russian %>% 
+  count(prep, case) %>% 
+  mutate(prop = prop.table(n)) %>% 
+  as.data.frame()
+```
+
+And here is another way to make a cross-tabulation:
+```{r}
+russian %>% xtabs(~ ., data = .)
+```
+    
+### 1.2 <?> Provide the results of the chisq statistics for the Russian data set.
+Use `chisq.test(x)` where x is your contingency table. 
+
+```{r 1_2}
+# Write your code here.
+```
+e. g. X-squared = 3233.3, df = 1, p-value < 2.2-15
+
+### 1.3 <?> Calculate expected values of your contingency table  
+We will check if the expected values are always >= 5 using `chisq.test(x)$expected`.
+```{r 1_3}
+
+```
+
+### 1.4 <?> Calculate effect size using odds ratio
+```{r 1_4}
+
+```
+
+### 1.5 <?> Plot the fourfold diagrams
+```{r 1_5}
+
+```
+
+### 1.6 <?> Calculate effect size using Cramer's V
+```{r 1_6}
+
+```
+
+### 1.7 <?> Provide the results of the chisq statistics for the Polish data set
+```{r 1_7}
+
+```
+
+### 1.8 <?> What's wrong with the chisq test?
+```
+
+```
+
+## 2. Fisher Exact test
+```
+The Fisher exact test should be preferred always when the total number of observations in all cells is smaller than 20. If the total number of observations is from 20 to 40, the Fisher exact test should be preferred if at least one expected frequency is smaller than 5. If the total number of observations is above 40, the Fisher exact test should be preferred if at least one of expected frequencies is smaller than 1" (Sheskin 2011: 646, as cited by Levshina 2015: 214).
+```
+
+### 2.1 Apply Fisher exact test to the Polish data
+Use `fisher.test(x)` to calculate p-value of the two-tailed Fisher Exact test.  
+```{r 2_1}
+
+```
+
+### 2.2 Write down your conclusion, could we reject the H<sub>0</sub> hypothesis?
+```
+
+```
+
+## 3. SAILS: What kind of adposition type is most dominant?
+
+Olga Krasnoukhova investigated the order of adposition and noun phrase in the South American Indigenous Languages (look here for more infrormation on this topic http://wals.info/chapter/85). Ignoring not known values she obtained, here is her results:
+
+1. No adpositions			11
+2. Prepositions			5
+3. Postpositions			59
+4. No dominant order		2
+[Krasnoukhova 2014]: http://sails.clld.org/parameters/NP610#5/1.746/289.56
+
+Evaluate whether the obtained results are statistically different from the WALS results:
+
+1. No adpositions			30
+2. Prepositions			511
+3. Postpositions			576
+4. Inpositions			8
+5. No dominant order		58
+
+[Dryer 2013]: http://wals.info/feature/85A#2/14.9/152.9
+
+### 3.1 Use the matrix() function to create a matrix for the statistical test. 
+e.g. `(matrix(c(5485, 8318, 15913, 8259), nrow = 2))`
+
+```{r 3_1}
+
+```
+
+Don't forget that WALS data have the "Inpositions" value. 
+
+### 3.2 Which variables have expected values smaller then 5?
+Write your answer using the following variables (in alphabetic order): <i>inpositions, no_adpositions, no_dominant_order, postpositions, prepositions</i>.  
+```
+
+```
+
+### 3.3 Perform Fisher Exact test.  
+```{r 3_3}
+
+```
+
+### 3.4. <?> Write down your conclusions whether Krasnoukhova's results are statistically different from the WALS results. 
+```
+
+```
+
+
