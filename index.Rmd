@@ -38,16 +38,14 @@ title: "Linguistic data: quantitative analysis and visualisation"
     * Files from class: [Lab 4]()  
 * Textbook: Levshina Ch.5  
 
-* [HW-2](). Due: 24.02.2018
-
 * Final Exam Projects: Research topic and hypothesis. Please fill in the form, sheet [Projects](https://docs.google.com/spreadsheets/d/1HdjLzF3jUXddq2N7pUpGn7P1tMJ4ut9mskucVjiNlwQ). Due: 15.02.2018.
 
-* (15.02.2018) [Lab 5]()  
-    * [Lab 5 Assignment]()
+### 5. Classical statistical tests: categorial data. Binomial test. Chi-squared test. Fisher exact test. Effect size.
+* (15.02.2018) [Lab 5](https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/Lab5.Rmd)  
 
-* [HW-5](). Due: 03.03.2018
+* [HW-2](). Due: 03.03.2018
 
-### 6. Exact Fisher test. Correlations																									
+### 6. Correlations																									
 * (24.02.2018) lecture  
 * (24.02.2018) [Lab 6](), [Assignment]()  
 * Textbook: Levshina Ch.6 
