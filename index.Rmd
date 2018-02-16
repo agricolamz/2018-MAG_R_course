@@ -41,11 +41,11 @@ title: "Linguistic data: quantitative analysis and visualisation"
 * Final Exam Projects: Research topic and hypothesis. Please fill in the form, sheet [Projects](https://docs.google.com/spreadsheets/d/1HdjLzF3jUXddq2N7pUpGn7P1tMJ4ut9mskucVjiNlwQ). Due: 15.02.2018.
 
 ### 5. Classical statistical tests: categorial data. Binomial test. Chi-squared test. Fisher exact test. Effect size.
-* (15.02.2018) [Lab 5](https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/Lab5.Rmd)  
+* (15.02.2018) [Lab 5](https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/Lab5.Rmd)  [Lab 5 code]().
 
 * [HW-2](). Due: 03.03.2018
 
-### 6. Correlations																									
+### 6. Correlations. Bi-variate regression. ANOVA.																									
 * (24.02.2018) lecture  
 * (24.02.2018) [Lab 6](), [Assignment]()  
 * Textbook: Levshina Ch.6 

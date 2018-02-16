@@ -241,7 +241,7 @@ FALSE &lt;U+221A&gt; readr   1.1.1     &lt;U+221A&gt; forcats 0.2.0</code></pre>
 <pre><code>FALSE -- Conflicts ------------------------------------- tidyverse_conflicts() --
 FALSE x dplyr::filter() masks stats::filter()
 FALSE x dplyr::lag()    masks stats::lag()</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(vcd) <span class="co"># for mosaic plots </span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(vcd) <span class="co"># for mosaic plots</span></code></pre></div>
 <pre><code>FALSE Loading required package: grid</code></pre>
 </div>
 <div id="prepositions-in-slavic-languages" class="section level2">
@@ -250,9 +250,9 @@ FALSE x dplyr::lag()    masks stats::lag()</code></pre>
 <p>Let’s study if the preposition type (<code>v</code> vs <code>na</code>) is independent or dependent of the case marking in each language.</p>
 <div id="formulate-your-hypothesis" class="section level3">
 <h3>1.0 Formulate your hypothesis:</h3>
-<pre><code>Hypothesis on data distribution:</code></pre>
+<pre><code>Hypothesis on data distribution: The distribution of the preposition type and the distribution of the case marking in Russian are assosiated (not independent).</code></pre>
 <p>and H<sub>0</sub> hypothesis:</p>
-<pre><code>H0 hypothesis:</code></pre>
+<pre><code>H0 hypothesis: The distribution of the preposition type and the distribution of the case marking in Russian are independent.</code></pre>
 <p>Let’s look at Polina’s data sets:<br />
 * Russian data: <a href="http://goo.gl/KljqjU" class="uri">http://goo.gl/KljqjU</a><br />
 * Polish data: <a href="http://goo.gl/xNozm2" class="uri">http://goo.gl/xNozm2</a></p>
@@ -262,34 +262,54 @@ FALSE x dplyr::lag()    masks stats::lag()</code></pre>
 <span class="co"># x &lt;- read.csv2(&quot;c.csv&quot;) # delimiter &quot;;&quot;</span>
 <span class="co"># w &lt;- read.delim(&quot;d.txt&quot;) # delimiter &quot;\t&quot;</span>
 <span class="co"># v &lt;- readLines(&quot;e.txt&quot;) # reads text &#39;as is&#39;</span>
-russian &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://goo.gl/KljqjU&quot;</span>, <span class="dt">sep=</span><span class="st">&quot;,&quot;</span>) <span class="co"># read using URL for the file</span></code></pre></div>
+russian &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://goo.gl/KljqjU&quot;</span>, <span class="dt">sep=</span><span class="st">&quot;,&quot;</span>) <span class="co"># read using URL for the file</span>
+polish &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://goo.gl/xNozm2&quot;</span>)</code></pre></div>
 <p>Inspect the summary of your data sets. You can use <code>count(var1, var2)</code> to make a cross-tabulation; <code>mutate(prop = prop.table(n))</code> to add a new variable (<code>prop</code>) in your table.</p>
 </div>
 <div id="what-is-the-proportion-of-cases-in-which-na-is-used-with-loc-in-polish-data-set" class="section level3">
 <h3>1.1 &lt;?&gt; What is the proportion of cases in which “na” is used with “loc” in Polish data set?</h3>
 <p>Provide your R code in the block below.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Write your code here.</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">polish %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">count</span>(prep, case) %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">prop =</span> <span class="kw">prop.table</span>(n)) %&gt;%<span class="st"> </span>
+<span class="st">      </span><span class="kw">as.data.frame</span>()</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["prep"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["case"],"name":[2],"type":["fctr"],"align":["left"]},{"label":["n"],"name":[3],"type":["int"],"align":["right"]},{"label":["prop"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"na","2":"acc","3":"11","4":"0.10476190"},{"1":"na","2":"loc","3":"78","4":"0.74285714"},{"1":"w","2":"acc","3":"1","4":"0.00952381"},{"1":"w","2":"loc","3":"15","4":"0.14285714"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 <div id="r-code-tips" class="section level4">
 <h4>R code tips</h4>
 <p>This is an example of the pivot table for the Russian data set:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">russian %&gt;%<span class="st"> </span>
 <span class="st">  </span><span class="kw">group_by</span>(prep, case) %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">n =</span> <span class="kw">n</span>()) %&gt;%
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">prop =</span> <span class="kw">prop.table</span>(n)) %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">as.data.frame</span>()</code></pre></div>
+<span class="st">    </span><span class="kw">summarize</span>(<span class="dt">n =</span> <span class="kw">n</span>()) %&gt;%
+<span class="st">      </span><span class="kw">mutate</span>(<span class="dt">prop =</span> <span class="kw">prop.table</span>(n)) %&gt;%<span class="st"> </span>
+<span class="st">        </span><span class="kw">as.data.frame</span>()</code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["prep"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["case"],"name":[2],"type":["fctr"],"align":["left"]},{"label":["n"],"name":[3],"type":["int"],"align":["right"]},{"label":["prop"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"na","2":"acc","3":"156","4":"0.6190476"},{"1":"na","2":"loc","3":"96","4":"0.3809524"},{"1":"w","2":"acc","3":"119","4":"0.5560748"},{"1":"w","2":"loc","3":"95","4":"0.4439252"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p>And here is another way to make a cross-tabulation:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">russian %&gt;%<span class="st"> </span><span class="kw">xtabs</span>(~<span class="st"> </span>., <span class="dt">data =</span> .) -&gt;<span class="st"> </span>russian.tab</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">russian  %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">xtabs</span>(~<span class="st"> </span>., <span class="dt">data =</span> .) -&gt;<span class="st"> </span>russian.tab
+russian.tab</code></pre></div>
+<pre><code>##     case
+## prep acc loc
+##   na 156  96
+##   w  119  95</code></pre>
 </div>
 </div>
 <div id="provide-the-results-of-the-chisq-statistics-for-the-russian-data-set." class="section level3">
 <h3>1.2 &lt;?&gt; Provide the results of the chisq statistics for the Russian data set.</h3>
 <p>Use <code>chisq.test(x)</code> where x is your contingency table.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Write your code here.</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">chisq.test</span>(russian.tab)</code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+## 
+## data:  russian.tab
+## X-squared = 1.6459, df = 1, p-value = 0.1995</code></pre>
 <ol start="5" style="list-style-type: lower-alpha">
 <li><ol start="7" style="list-style-type: lower-alpha">
 <li>X-squared = 3233.3, df = 1, p-value &lt; 2.2-15</li>
@@ -299,34 +319,65 @@ russian &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span cla
 <div id="calculate-expected-values-of-your-contingency-table" class="section level3">
 <h3>1.3 &lt;?&gt; Calculate expected values of your contingency table</h3>
 <p>We will check if the expected values are always &gt;= 5 using <code>chisq.test(x)$expected</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">chisq.test</span>(russian.tab)$expected &gt;=<span class="st"> </span><span class="dv">5</span></code></pre></div>
+<pre><code>##     case
+## prep  acc  loc
+##   na TRUE TRUE
+##   w  TRUE TRUE</code></pre>
 </div>
 <div id="calculate-effect-size-using-odds-ratio" class="section level3">
 <h3>1.4 &lt;?&gt; Calculate effect size using odds ratio</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(<span class="dv">156</span>*<span class="dv">95</span>) /<span class="st"> </span>(<span class="dv">96</span>*<span class="dv">119</span>)</code></pre></div>
+<pre><code>## [1] 1.297269</code></pre>
 </div>
 <div id="plot-the-fourfold-diagrams" class="section level3">
 <h3>1.5 &lt;?&gt; Plot the fourfold diagrams</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fourfold</span>(russian.tab)</code></pre></div>
+<p><img src="Lab5.code_files/figure-html/1_5-1.png" width="672" /></p>
 </div>
 <div id="calculate-effect-size-using-cramers-v" class="section level3">
 <h3>1.6 &lt;?&gt; Calculate effect size using Cramer’s V</h3>
 <p>Formula: V = sqrt(X-squared / [n_obs * (min(ncols, nrows) – 1)])</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sqrt</span>(<span class="fl">1.6459</span> /<span class="st"> </span>((<span class="dv">156</span> +<span class="st"> </span><span class="dv">95</span> +<span class="st"> </span><span class="dv">96</span> +<span class="st"> </span><span class="dv">119</span>) *<span class="st"> </span>(<span class="kw">min</span>(<span class="dv">2</span>,<span class="dv">2</span>)-<span class="dv">1</span>)))</code></pre></div>
+<pre><code>## [1] 0.05943042</code></pre>
+<p>How to interpret effect size?</p>
+<pre><code>df=1   (small=.10,     medium=.30,   large=.50)
+df=2   (small=.07,     medium=.21,   large=.35)
+df=3   (small=.06,     medium=.17,   large=.29)
+df=4   (small=.05,     medium=.15,   large=.25)
+df=5   (small=.05,     medium=.13,   large=.22)
+[Cohen, J., 1988: 232]</code></pre>
+<p>If effect size is large, we cannot explain chisq statistics just by the huge amount of data.</p>
+</div>
+<div id="mosaic-and-association-plots" class="section level3">
+<h3>Mosaic and association plots</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mosaic</span>(russian.tab, <span class="dt">shade =</span> <span class="ot">TRUE</span>, <span class="dt">varnames =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="Lab5_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="Lab5.code_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">chisq.test</span>(russian.tab)$residuals</code></pre></div>
 <pre><code>##     case
 ## prep        acc        loc
 ##   na  0.5975966 -0.7170638
 ##   w  -0.6484873  0.7781282</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">chisq.test</span>(russian.tab)$stdres <span class="co"># Pearson residuals devided by their </span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">chisq.test</span>(russian.tab)$stdres <span class="co"># standardized Pearson residuals (devided by standard error)</span></code></pre></div>
 <pre><code>##     case
 ## prep       acc       loc
 ##   na  1.377433 -1.377433
 ##   w  -1.377433  1.377433</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">assoc</span>(russian.tab, <span class="dt">shade =</span> <span class="ot">TRUE</span>, <span class="dt">varnames =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="Lab5_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
+<p><img src="Lab5.code_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
 <p>Try these plots with your own data.</p>
 </div>
 <div id="provide-the-results-of-the-chisq-statistics-for-the-polish-data-set" class="section level3">
 <h3>1.7 &lt;?&gt; Provide the results of the chisq statistics for the Polish data set</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">polish  %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">xtabs</span>(~<span class="st"> </span>., <span class="dt">data =</span> .) %&gt;%
+<span class="st">  </span><span class="kw">chisq.test</span>()</code></pre></div>
+<pre><code>## Warning in chisq.test(.): Chi-squared approximation may be incorrect</code></pre>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+## 
+## data:  .
+## X-squared = 0.078642, df = 1, p-value = 0.7791</code></pre>
 </div>
 <div id="whats-wrong-with-the-chisq-test" class="section level3">
 <h3>1.8 &lt;?&gt; What’s wrong with the chisq test?</h3>
@@ -339,10 +390,25 @@ russian &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span cla
 <div id="apply-fisher-exact-test-to-the-polish-data" class="section level3">
 <h3>2.1 &lt;?&gt; Apply Fisher exact test to the Polish data</h3>
 <p>Use <code>fisher.test(x)</code> to calculate p-value of the two-tailed Fisher Exact test.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">polish  %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">xtabs</span>(~<span class="st"> </span>., <span class="dt">data =</span> .) %&gt;%
+<span class="st">  </span><span class="kw">fisher.test</span>()</code></pre></div>
+<pre><code>## 
+##  Fisher&#39;s Exact Test for Count Data
+## 
+## data:  .
+## p-value = 0.6873
+## alternative hypothesis: true odds ratio is not equal to 1
+## 95 percent confidence interval:
+##   0.2664267 97.0032253
+## sample estimates:
+## odds ratio 
+##    2.10313</code></pre>
 </div>
 <div id="write-down-your-conclusion-could-we-reject-the-h0-hypothesis" class="section level3">
 <h3>2.2 &lt;?&gt; Write down your conclusion, could we reject the H<sub>0</sub> hypothesis?</h3>
-<pre><code></code></pre>
+<pre><code>The p-value stat is not in the critical region (which is less than 0.05 here). 
+There is insuffiient evidence to reject the H0 in favor of the H1. Thus, the null hypothesis could be true.</code></pre>
 </div>
 </div>
 <div id="sails-what-kind-of-adposition-type-is-most-dominant" class="section level2">
@@ -362,18 +428,43 @@ russian &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span cla
 <li>Inpositions 8</li>
 <li>No dominant order 58</li>
 </ol>
-<div id="use-the-matrix-function-to-create-a-matrix-for-the-statistical-test." class="section level3">
-<h3>3.1 &lt;?&gt; Use the matrix() function to create a matrix for the statistical test.</h3>
-<p>e.g. <code>(matrix(c(5485, 8318, 15913, 8259), nrow = 2))</code></p>
+<div id="create-a-matrix-or-a-data-frame" class="section level3">
+<h3>3.1 &lt;?&gt; Create a matrix or a data frame</h3>
+<p>e.g.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span>(<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">5485</span>, <span class="dv">8318</span>, <span class="dv">15913</span>, <span class="dv">8259</span>), <span class="dt">nrow =</span> <span class="dv">2</span>))</code></pre></div>
+<p>or</p>
+<pre><code>df &lt;- data.frame(
+  no_adpositions = c(11, 30),
+  prepositions = c(5, 511),
+  ... )</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+  <span class="dt">no_adpositions =</span> <span class="kw">c</span>(<span class="dv">11</span>, <span class="dv">30</span>),
+  <span class="dt">prepositions =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">511</span>),
+  <span class="dt">postpositions =</span> <span class="kw">c</span>(<span class="dv">59</span>, <span class="dv">576</span>),
+  <span class="dt">no_dominant_order =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">58</span>),
+  <span class="dt">inpositions =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">8</span>))
+df</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["no_adpositions"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["prepositions"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["postpositions"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["no_dominant_order"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["inpositions"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"11","2":"5","3":"59","4":"2","5":"0"},{"1":"30","2":"511","3":"576","4":"58","5":"8"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 <p>Don’t forget that WALS data have the “Inpositions” value.</p>
 </div>
 <div id="which-variables-have-expected-values-smaller-then-5" class="section level3">
 <h3>3.2 &lt;?&gt; Which variables have expected values smaller then 5?</h3>
 <p>Write your answer using the following variables (in alphabetic order): <i>inpositions, no_adpositions, no_dominant_order, postpositions, prepositions</i>.</p>
-<pre><code></code></pre>
+<pre><code>chisq.test(df)$expected &lt; 5</code></pre>
 </div>
 <div id="perform-fisher-exact-test." class="section level3">
 <h3>3.3 &lt;?&gt; Perform Fisher Exact test.</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fisher.test</span>(df)</code></pre></div>
+<pre><code>## 
+##  Fisher&#39;s Exact Test for Count Data
+## 
+## data:  df
+## p-value = 2.332e-13
+## alternative hypothesis: two.sided</code></pre>
 </div>
 <div id="write-down-your-conclusions-whether-krasnoukhovas-results-are-statistically-different-from-the-wals-results." class="section level3">
 <h3>3.4. &lt;?&gt; Write down your conclusions whether Krasnoukhova’s results are statistically different from the WALS results.</h3>

@@ -10,7 +10,7 @@ output: html_document
 
 ```{r cache=FALSE, results=FALSE, warning=FALSE, comment=FALSE}
 library(tidyverse) 
-library(vcd) # for mosaic plots 
+library(vcd) # for mosaic plots
 ```
 
 ## 1. Prepositions in Slavic languages
@@ -20,12 +20,12 @@ Let's study if the preposition type (`v` vs `na`) is independent or dependent of
 
 ### 1.0 Formulate your hypothesis: 
 ```
-Hypothesis on data distribution:
+Hypothesis on data distribution: The distribution of the preposition type and the distribution of the case marking in Russian are assosiated (not independent).
 ```
 
 and H<sub>0</sub> hypothesis: 
 ```
-H0 hypothesis:
+H0 hypothesis: The distribution of the preposition type and the distribution of the case marking in Russian are independent.
 ```
 
 Let's look at Polina's data sets:  
@@ -40,6 +40,7 @@ Use `read.csv` to download data.
 # w <- read.delim("d.txt") # delimiter "\t"
 # v <- readLines("e.txt") # reads text 'as is'
 russian <- read.csv("http://goo.gl/KljqjU", sep=",") # read using URL for the file
+polish <- read.csv("http://goo.gl/xNozm2")
 ```
 
 Inspect the summary of your data sets. 
@@ -49,7 +50,10 @@ You can use `count(var1, var2)` to make a cross-tabulation; `mutate(prop = prop.
 Provide your R code in the block below.
 
 ```{r 1_1}
-# Write your code here.
+polish %>% 
+  count(prep, case) %>% 
+    mutate(prop = prop.table(n)) %>% 
+      as.data.frame()
 ```
 
 #### R code tips
@@ -57,51 +61,64 @@ This is an example of the pivot table for the Russian data set:
 ```{r}
 russian %>% 
   group_by(prep, case) %>% 
-  summarize(n = n()) %>%
-  mutate(prop = prop.table(n)) %>% 
-  as.data.frame()
+    summarize(n = n()) %>%
+      mutate(prop = prop.table(n)) %>% 
+        as.data.frame()
 ```
 
 And here is another way to make a cross-tabulation:
 ```{r}
-russian %>% xtabs(~ ., data = .) -> russian.tab
+russian  %>% 
+  xtabs(~ ., data = .) -> russian.tab
+russian.tab
 ```
     
 ### 1.2 <?> Provide the results of the chisq statistics for the Russian data set.
 Use `chisq.test(x)` where x is your contingency table. 
 
 ```{r 1_2}
-# Write your code here.
+chisq.test(russian.tab)
 ```
 e. g. X-squared = 3233.3, df = 1, p-value < 2.2-15
 
 ### 1.3 <?> Calculate expected values of your contingency table  
 We will check if the expected values are always >= 5 using `chisq.test(x)$expected`.
 ```{r 1_3}
-
+chisq.test(russian.tab)$expected >= 5
 ```
 
 ### 1.4 <?> Calculate effect size using odds ratio
 ```{r 1_4}
-
+(156*95) / (96*119)
 ```
 
 ### 1.5 <?> Plot the fourfold diagrams
 ```{r 1_5}
-
+fourfold(russian.tab)
 ```
 
 ### 1.6 <?> Calculate effect size using Cramer's V
 Formula: V = sqrt(X-squared / [n_obs * (min(ncols, nrows) – 1)])
 ```{r 1_6}
-
+sqrt(1.6459 / ((156 + 95 + 96 + 119) * (min(2,2)-1)))
 ```
 
+How to interpret effect size?
+```
+df=1   (small=.10,     medium=.30,   large=.50)
+df=2   (small=.07,     medium=.21,   large=.35)
+df=3   (small=.06,     medium=.17,   large=.29)
+df=4   (small=.05,     medium=.15,   large=.25)
+df=5   (small=.05,     medium=.13,   large=.22)
+[Cohen, J., 1988: 232]
+```
+If effect size is large, we cannot explain chisq statistics just  by the huge amount of data.
 
+### Mosaic and association plots
 ```{r}
 mosaic(russian.tab, shade = TRUE, varnames = FALSE)
 chisq.test(russian.tab)$residuals
-chisq.test(russian.tab)$stdres # Pearson residuals devided by their 
+chisq.test(russian.tab)$stdres # standardized Pearson residuals (devided by standard error)
 assoc(russian.tab, shade = TRUE, varnames = FALSE)
 ```
 
@@ -111,10 +128,11 @@ Try these plots with your own data.
 
 ```
 
-
 ### 1.7 <?> Provide the results of the chisq statistics for the Polish data set
 ```{r 1_7}
-
+polish  %>% 
+  xtabs(~ ., data = .) %>%
+  chisq.test()
 ```
 
 ### 1.8 <?> What's wrong with the chisq test?
@@ -130,12 +148,15 @@ The Fisher exact test should be preferred always when the total number of observ
 ### 2.1 <?> Apply Fisher exact test to the Polish data
 Use `fisher.test(x)` to calculate p-value of the two-tailed Fisher Exact test.  
 ```{r 2_1}
-
+polish  %>% 
+  xtabs(~ ., data = .) %>%
+  fisher.test()
 ```
 
 ### 2.2 <?> Write down your conclusion, could we reject the H<sub>0</sub> hypothesis?
 ```
-
+The p-value stat is not in the critical region (which is less than 0.05 here). 
+There is insuffiient evidence to reject the H0 in favor of the H1. Thus, the null hypothesis could be true.
 ```
 
 ## 3. SAILS: What kind of adposition type is most dominant?
@@ -158,11 +179,28 @@ Evaluate whether the obtained results are statistically different from the WALS 
 
 [Dryer 2013]: http://wals.info/feature/85A#2/14.9/152.9
 
-### 3.1 <?> Use the matrix() function to create a matrix for the statistical test. 
-e.g. `(matrix(c(5485, 8318, 15913, 8259), nrow = 2))`
+### 3.1 <?> Create a matrix or a data frame
+e.g. 
+```{r}
+x <- (matrix(c(5485, 8318, 15913, 8259), nrow = 2))
+```
+
+or 
+```
+df <- data.frame(
+  no_adpositions = c(11, 30),
+  prepositions = c(5, 511),
+  ... )
+```
 
 ```{r 3_1}
-
+df <- data.frame(
+  no_adpositions = c(11, 30),
+  prepositions = c(5, 511),
+  postpositions = c(59, 576),
+  no_dominant_order = c(2, 58),
+  inpositions = c(0, 8))
+df
 ```
 
 Don't forget that WALS data have the "Inpositions" value. 
@@ -170,12 +208,12 @@ Don't forget that WALS data have the "Inpositions" value.
 ### 3.2 <?> Which variables have expected values smaller then 5?
 Write your answer using the following variables (in alphabetic order): <i>inpositions, no_adpositions, no_dominant_order, postpositions, prepositions</i>.  
 ```
-
+chisq.test(df)$expected < 5
 ```
 
 ### 3.3 <?> Perform Fisher Exact test.  
 ```{r 3_3}
-
+fisher.test(df)
 ```
 
 ### 3.4. <?> Write down your conclusions whether Krasnoukhova's results are statistically different from the WALS results. 
@@ -198,3 +236,4 @@ Use `binom.test` function like this: `binom.test(x=1, n=20, p=5/10, conf.level=0
 ```{r}
 binom.test(x=23, n=28, p=27/28, conf.level=0.95)
 ```
+
