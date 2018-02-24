@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="George Moroz, Olga Lyashevskaya, Ilya Schurov" />
+
+<meta name="date" content="2018-01-25" />
+
+<title>Lab 2</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/lumen.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 54px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+
+.section h2 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h3 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h4 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h5 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h6 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Lab 2</h1>
+<h3 class="subtitle"><em>Linguistic data: quantitative analysis and visualisation</em></h3>
+<h4 class="author"><em>George Moroz, Olga Lyashevskaya, Ilya Schurov</em></h4>
+<h4 class="date"><em>25 Jan 2018</em></h4>
+
+</div>
+
+
+<div id="libraries-in-use" class="section level2">
+<h2>0. Libraries in use</h2>
+<p>Today we will use the library <code>tidyverse</code> which is a collection of R packages for data manipulation, exploration and visualization that share a common design philosophy.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;tidyverse&quot;) # uncomment this code</span>
+<span class="co"># Please make sure that you use quotes.</span></code></pre></div>
+<p>That is how we install libraries for the first time. You can be asked to pick up a CRAN repository (say, in Belgium), and the library will be downloaded from this place. You can also use Tools - Install packages menu in RStudio to install packages. The library has to be installed only once.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;devtools&quot;) </span>
+<span class="co"># devtools::install_github(&quot;....&quot;)</span></code></pre></div>
+<p>You can also install the development versions from GitHub.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse) 
+<span class="co"># or library(&#39;tidyverse&#39;)</span>
+<span class="co"># or library(&quot;tidyverse&quot;)</span></code></pre></div>
+<p>Now we include the library (in the beginning of the session, script). We can also include the library any place before the first use of any functions, data, etc. included in the library.</p>
+</div>
+<div id="orientation-data-set" class="section level2">
+<h2>1. Orientation data set</h2>
+<p>This set is based on (Chi-kuk 2007). Experiment consisted of a perception and judgment test aimed at measuring the correlation between acoustic cues and perceived sexual orientation. Na??ve Cantonese speakers were asked to listen to the Cantonese speech samples collected in Experiment and judge whether the speakers were gay or heterosexual. There are 14 speakers and following parameters: [s] duration (s.duration.ms) vowel duration (vowel.duration.ms) fundamental frequencies mean (F0) (average.f0.Hz) fundamental frequencies range (f0.range.Hz) percentage of homosexual impression (perceived.as.homo) percentage of heterosexal impression (perceived.as.hetero) speakers’ orientation (orientation) speakers’ age (age) Use <a href="%22http://goo.gl/Zjr9aF%22">read.csv</a> to download data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># z &lt;- read.table(&quot;a.csv&quot;, sep = &quot;...&quot;) # text and a separator (delimiter) type, eg. sep=&quot;\t&quot;, sep=&quot;;&quot; </span>
+<span class="co"># y &lt;- read.csv(&quot;b.txt&quot;) # delimiter &quot;,&quot;</span>
+<span class="co"># x &lt;- read.csv2(&quot;c.csv&quot;) # delimiter &quot;;&quot;</span>
+<span class="co"># w &lt;- read.delim(&quot;d.txt&quot;) # delimiter &quot;\t&quot;</span>
+<span class="co"># v &lt;- readLines(&quot;e.txt&quot;) # reads text &#39;as is&#39;</span></code></pre></div>
+</div>
+<div id="calculate-mean-and-median-of-s-duration-using-mean-and-median" class="section level2">
+<h2>Calculate mean and median of [s] duration using mean() and median()</h2>
+<p>Please provide the answers below.</p>
+<div id="section" class="section level3">
+<h3>1.1</h3>
+</div>
+<div id="section-1" class="section level3">
+<h3>1.2</h3>
+</div>
+</div>
+<div id="calculate-standard-deviation-and-standard-error-of-s-duration-using-sd-and-se" class="section level2">
+<h2>Calculate standard deviation and standard error of [s] duration using sd() and se()</h2>
+<p>Please provide the answers below.</p>
+<div id="section-2" class="section level3">
+<h3>1.3</h3>
+</div>
+<div id="section-3" class="section level3">
+<h3>1.4</h3>
+</div>
+</div>
+<div id="provide-a-summary-of-your-data-set" class="section level2">
+<h2>Provide a summary of your data set</h2>
+<div id="section-4" class="section level3">
+<h3>1.5</h3>
+</div>
+</div>
+<div id="confidence-interval" class="section level2">
+<h2>Confidence interval</h2>
+<p>Confidence intervals are used to indicate how confident we are that a reported statistic falls within a certain range. Confidence intervals can be calculated for a variety of statistics, such as the mean, median, or slope of a linear regression. Here we will focus on confidences intervals for means.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">13</span>)
+CI =<span class="st"> </span><span class="fl">1.96</span><span class="op">*</span><span class="kw">sd</span>(x)<span class="op">/</span><span class="kw">sqrt</span>(<span class="kw">length</span>(x))<span class="er">)</span></code></pre></div>
+<p>And that is how we can get some statistics using pipes:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(orientation) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(s.duration.ms),
+            <span class="dt">CI =</span> <span class="fl">1.96</span><span class="op">*</span><span class="kw">sd</span>(s.duration.ms)<span class="op">/</span><span class="kw">sqrt</span>(<span class="kw">length</span>(s.duration.ms)))</code></pre></div>
+</div>
+<div id="calculate-95-confidence-interval-for-mean-vowel-duration." class="section level2">
+<h2>Calculate 95% confidence interval for mean vowel duration.</h2>
+<p>Please provide the answer below:</p>
+<div id="section-5" class="section level3">
+<h3>2.1</h3>
+</div>
+</div>
+<div id="calculate-95-confidence-interval-for-mean-vowel-duration-variable-for-heterosexual-speakers." class="section level2">
+<h2>Calculate 95% confidence interval for mean vowel duration variable for heterosexual speakers.</h2>
+<div id="section-6" class="section level3">
+<h3>2.2</h3>
+</div>
+</div>
+<div id="if-you-have-time-you-can-play-with-some-basic-descriptive-plots.-you-can-provide-your-code-below" class="section level2">
+<h2>If you have time, you can play with some basic descriptive plots. You can provide your code below:</h2>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<p> <center> &copy; О. Ляшевская, И. Щуров, Г. Мороз, code on
+<a href="https://github.com/agricolamz/2018-MAG_R_course"> GitHub<img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png"  style="width:30px;height:30px;border:0"> </center></p>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

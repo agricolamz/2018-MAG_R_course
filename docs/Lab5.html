@@ -232,17 +232,8 @@ $(document).ready(function () {
 
 <div id="libraries-in-use" class="section level2">
 <h2>0. Libraries in use</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse) </code></pre></div>
-<pre><code>FALSE -- Attaching packages ---------------------------------- tidyverse 1.2.1 --</code></pre>
-<pre><code>FALSE &lt;U+221A&gt; ggplot2 2.2.1     &lt;U+221A&gt; purrr   0.2.4
-FALSE &lt;U+221A&gt; tibble  1.4.2     &lt;U+221A&gt; dplyr   0.7.4
-FALSE &lt;U+221A&gt; tidyr   0.7.2     &lt;U+221A&gt; stringr 1.2.0
-FALSE &lt;U+221A&gt; readr   1.1.1     &lt;U+221A&gt; forcats 0.2.0</code></pre>
-<pre><code>FALSE -- Conflicts ------------------------------------- tidyverse_conflicts() --
-FALSE x dplyr::filter() masks stats::filter()
-FALSE x dplyr::lag()    masks stats::lag()</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(vcd) <span class="co"># for mosaic plots </span></code></pre></div>
-<pre><code>FALSE Loading required package: grid</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse) 
+<span class="kw">library</span>(vcd) <span class="co"># for mosaic plots </span></code></pre></div>
 </div>
 <div id="prepositions-in-slavic-languages" class="section level2">
 <h2>1. Prepositions in Slavic languages</h2>
@@ -272,10 +263,10 @@ russian &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span cla
 <div id="r-code-tips" class="section level4">
 <h4>R code tips</h4>
 <p>This is an example of the pivot table for the Russian data set:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">russian %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">group_by</span>(prep, case) %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">n =</span> <span class="kw">n</span>()) %&gt;%
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">prop =</span> <span class="kw">prop.table</span>(n)) %&gt;%<span class="st"> </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">russian <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(prep, case) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">n =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">prop =</span> <span class="kw">prop.table</span>(n)) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">as.data.frame</span>()</code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
@@ -283,7 +274,7 @@ russian &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span cla
   </script>
 </div>
 <p>And here is another way to make a cross-tabulation:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">russian %&gt;%<span class="st"> </span><span class="kw">xtabs</span>(~<span class="st"> </span>., <span class="dt">data =</span> .) -&gt;<span class="st"> </span>russian.tab</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">russian <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">xtabs</span>(<span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> .) -&gt;<span class="st"> </span>russian.tab</code></pre></div>
 </div>
 </div>
 <div id="provide-the-results-of-the-chisq-statistics-for-the-russian-data-set." class="section level3">
@@ -311,12 +302,12 @@ russian &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span cla
 <p>Formula: V = sqrt(X-squared / [n_obs * (min(ncols, nrows) – 1)])</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mosaic</span>(russian.tab, <span class="dt">shade =</span> <span class="ot">TRUE</span>, <span class="dt">varnames =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <p><img src="Lab5_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">chisq.test</span>(russian.tab)$residuals</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">chisq.test</span>(russian.tab)<span class="op">$</span>residuals</code></pre></div>
 <pre><code>##     case
 ## prep        acc        loc
 ##   na  0.5975966 -0.7170638
 ##   w  -0.6484873  0.7781282</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">chisq.test</span>(russian.tab)$stdres <span class="co"># Pearson residuals devided by their </span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">chisq.test</span>(russian.tab)<span class="op">$</span>stdres <span class="co"># Pearson residuals devided by their </span></code></pre></div>
 <pre><code>##     case
 ## prep       acc       loc
 ##   na  1.377433 -1.377433
@@ -387,7 +378,7 @@ russian &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span cla
 <div id="calculate-the-probability-of-getting-exactly-23-correct-answers-in-non-native-contrast." class="section level3">
 <h3>&lt;?&gt; 4.1 Calculate the probability of getting exactly 23 correct answers in non-native contrast.</h3>
 <p>Use <code>binom.test</code> function like this: <code>binom.test(x=1, n=20, p=5/10, conf.level=0.95</code> taken 27/28 as a default probability.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">binom.test</span>(<span class="dt">x=</span><span class="dv">23</span>, <span class="dt">n=</span><span class="dv">28</span>, <span class="dt">p=</span><span class="dv">27</span>/<span class="dv">28</span>, <span class="dt">conf.level=</span><span class="fl">0.95</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">binom.test</span>(<span class="dt">x=</span><span class="dv">23</span>, <span class="dt">n=</span><span class="dv">28</span>, <span class="dt">p=</span><span class="dv">27</span><span class="op">/</span><span class="dv">28</span>, <span class="dt">conf.level=</span><span class="fl">0.95</span>)</code></pre></div>
 <pre><code>## 
 ##  Exact binomial test
 ## 

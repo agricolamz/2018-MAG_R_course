@@ -35,83 +35,83 @@ title: "Linguistic data: quantitative analysis and visualisation"
 * (10.02.2018) [Lec 4](Lec_4_stats.html)
 * (10.02.2018) Lab 4: Descriptive statistics, Confidence intervals, T-tests. P-value.
     * [Lab 4 Assignment](https://docs.google.com/forms/d/e/1FAIpQLSdGZSuPIyO7DOcObhkdwlvUFBQPGMm1uM0tXanSY7Loie0A1A/viewform)
-    * Files from class: [Lab 4]()  
+    * Files from class: Lab 4
 * Textbook: Levshina Ch.5  
 
 * Final Exam Projects: Research topic and hypothesis. Please fill in the form, sheet [Projects](https://docs.google.com/spreadsheets/d/1HdjLzF3jUXddq2N7pUpGn7P1tMJ4ut9mskucVjiNlwQ). Due: 15.02.2018.
 
 ### 5. Classical statistical tests: categorial data. Binomial test. Chi-squared test. Fisher exact test. Effect size.
-* (15.02.2018) [Lab 5](https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/Lab5.Rmd)  [Lab 5 code]().
+* (15.02.2018) [Lab 5 code](https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/Lab5.Rmd)  [Lab 5 solution](https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/Lab_5.html).
 
-* [HW-2](). Due: 03.03.2018
+* HW-2. Due: 03.03.2018
 
 ### 6. Correlations. Bi-variate regression. ANOVA.																									
 * (24.02.2018) lecture  
-* (24.02.2018) [Lab 6](), [Assignment]()  
+* (24.02.2018) Lab 6, Assignment  
 * Textbook: Levshina Ch.6 
 
-* [HW-6](). Due: 15.03.2018  
+* HW-3. Due: 15.03.2018  
 
 ### 7. Linear regressions											
 * (03.03.2018) lecture  
-* (03.03.2018) [Lab 7](), [Assignment]()  
+* (03.03.2018) Lab 7, Assignment
 * Textbook: Levshina Ch.7 
 
-* [HW-7. Due: next class]()  
+* HW-4. Due: next class
 
 ### 8. ANOVA, dummy variables, Multiple linear regression																		
-* (15.03.2018) [Lecture 8]() 
-* (15.03.2018) [Lab 8](), [Assignment]()
+* (15.03.2018) Lecture 8
+* (15.03.2018) Lab 8, Assignment
 * Textbook: Levshina Ch.8  
 
-* [HW-8. Due: next class]()  
+* HW-8. Due: next class
 
 
 ### 9. Binary logistic regressions
 
-* (22/??.03.2018) [Lecture 9]() 
-* (22/??.03.2018) [Lab 9](), [Assignment]()
+* (22/??.03.2018) Lecture 9
+* (22/??.03.2018) Lab 9, Assignment
 
 * [HW-9. Due: next class]()  
 * Final Exam Projects: Data. Data annotation. Please put a link here, sheet [Projects](https://docs.google.com/spreadsheets/d/1HdjLzF3jUXddq2N7pUpGn7P1tMJ4ut9mskucVjiNlwQ)Due: 02.04.2018.
 
 ### 10. Linear Mixed-effects models																						
-* (05/??.04.2018) [Lecture 10]()
-* (05/??.04.2018) [Lab 10](), [Assignment]()
+* (05/??.04.2018) Lecture 10
+* (05/??.04.2018) Lab 10, Assignment
 
-* [HW-10. Due: next class]()  
+* HW-10. Due: next class
 
 ### 11. Decision trees. Decision forests											
 * (.2018) lecture
-* (.2018) [Lab 11 (CART)](), [Assignment]()
+* (.2018) Lab 11 (CART), Assignment
 
-* [HW-11. Due: next class]()  
+* HW-11. Due: next class
 
 ### 12. Clusterization
 
 * (.2018) lecture
-* (.2018) [Lab 12: Clusterization.]() [Assignment link]()
+* (.2018) Lab 12: Clusterization. Assignment link
 
-* [HW-12. Due: next class]()  
+* HW-12. Due: next class
 
 ### 13. Principal component analysis, Simple and Multiple correspondence analysis
 
-* (.2018) [Lecture 13]() 
-* (.2018) [Lab 13: PCA, MCA](), [Assignment link]()
+* (.2018) Lecture 13
+* (.2018) Lab 13: PCA, MCA, Assignment link
 * (.2018) Lecture 14
-* (.2018) [Lab 14: PCA, MCA](), [Assignment link]()
+* (.2018) Lab 14: PCA, MCA, Assignment link
 
 ### 14. Empirical Bayes
 
 * (.2018) lecture
-* (.2018) [Lab 14](), [Assignment link]()
+* (.2018) Lab 14, Assignment link
 
 ### 15. Statistics for Hackers
 
-* (.2018) [lecture]()
-* (.2018) [Lab 15](), [Assignment link]()
+* (.2018) lecture
+* (.2018) Lab 15, Assignment link
 
-### [Project presentation schedule]()
+### Project presentation schedule
 
 ### Textbooks
 

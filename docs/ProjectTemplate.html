@@ -372,41 +372,41 @@ Formulate null hypothesis.</p>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;example.csv&quot;</span>)  
 <span class="kw">summary</span>(df)</code></pre></div>
-<pre><code>##                 street                city          zip        state   
-##  1223 LAMBERTON CIR:  2   SACRAMENTO    :439   Min.   :95603   CA:985  
-##  4734 14TH AVE     :  2   ELK GROVE     :114   1st Qu.:95660           
-##  7 CRYSTALWOOD CIR :  2   LINCOLN       : 72   Median :95762           
-##  8306 CURLEW CT    :  2   ROSEVILLE     : 48   Mean   :95751           
-##  1 KENNELFORD CIR  :  1   CITRUS HEIGHTS: 35   3rd Qu.:95828           
-##  10 SEA FOAM CT    :  1   ANTELOPE      : 33   Max.   :95864           
-##  (Other)           :975   (Other)       :244                           
-##       beds           baths           sq__ft               type    
-##  Min.   :0.000   Min.   :0.000   Min.   :   0   Condo       : 54  
-##  1st Qu.:2.000   1st Qu.:1.000   1st Qu.: 952   Multi-Family: 13  
-##  Median :3.000   Median :2.000   Median :1304   Residential :917  
-##  Mean   :2.912   Mean   :1.777   Mean   :1315   Unkown      :  1  
-##  3rd Qu.:4.000   3rd Qu.:2.000   3rd Qu.:1718                     
-##  Max.   :8.000   Max.   :5.000   Max.   :5822                     
-##                                                                   
-##                         sale_date       price           latitude    
-##  Fri May 16 00:00:00 EDT 2008:264   Min.   :  1551   Min.   :38.24  
-##  Mon May 19 00:00:00 EDT 2008:268   1st Qu.:145000   1st Qu.:38.48  
-##  Thu May 15 00:00:00 EDT 2008:118   Median :213750   Median :38.63  
-##  Tue May 20 00:00:00 EDT 2008:177   Mean   :234144   Mean   :38.61  
-##  Wed May 21 00:00:00 EDT 2008:158   3rd Qu.:300000   3rd Qu.:38.70  
-##                                     Max.   :884790   Max.   :39.02  
-##                                                                     
-##    longitude     
-##  Min.   :-121.6  
-##  1st Qu.:-121.4  
-##  Median :-121.4  
-##  Mean   :-121.4  
-##  3rd Qu.:-121.3  
-##  Max.   :-120.6  
+<pre><code>##                                  street                city    
+##  1223 LAMBERTON CIR                 :  2   SACRAMENTO    :439  
+##  4734 14TH AVE                      :  2   ELK GROVE     :114  
+##  7 CRYSTALWOOD CIR                  :  2   LINCOLN       : 72  
+##  8306 CURLEW CT                     :  2   ROSEVILLE     : 48  
+##  10001 WOODCREEK OAKS BLVD Unit 1415:  1   CITRUS HEIGHTS: 35  
+##  10001 WOODCREEK OAKS BLVD Unit 815 :  1   ANTELOPE      : 33  
+##  (Other)                            :975   (Other)       :244  
+##       zip        state         beds           baths           sq__ft    
+##  Min.   :95603   CA:985   Min.   :0.000   Min.   :0.000   Min.   :   0  
+##  1st Qu.:95660            1st Qu.:2.000   1st Qu.:1.000   1st Qu.: 952  
+##  Median :95762            Median :3.000   Median :2.000   Median :1304  
+##  Mean   :95751            Mean   :2.912   Mean   :1.777   Mean   :1315  
+##  3rd Qu.:95828            3rd Qu.:4.000   3rd Qu.:2.000   3rd Qu.:1718  
+##  Max.   :95864            Max.   :8.000   Max.   :5.000   Max.   :5822  
+##                                                                         
+##            type                            sale_date       price       
+##  Condo       : 54   Fri May 16 00:00:00 EDT 2008:264   Min.   :  1551  
+##  Multi-Family: 13   Mon May 19 00:00:00 EDT 2008:268   1st Qu.:145000  
+##  Residential :917   Thu May 15 00:00:00 EDT 2008:118   Median :213750  
+##  Unkown      :  1   Tue May 20 00:00:00 EDT 2008:177   Mean   :234144  
+##                     Wed May 21 00:00:00 EDT 2008:158   3rd Qu.:300000  
+##                                                        Max.   :884790  
+##                                                                        
+##     latitude       longitude     
+##  Min.   :38.24   Min.   :-121.6  
+##  1st Qu.:38.48   1st Qu.:-121.4  
+##  Median :38.63   Median :-121.4  
+##  Mean   :38.61   Mean   :-121.4  
+##  3rd Qu.:38.70   3rd Qu.:-121.3  
+##  Max.   :39.02   Max.   :-120.6  
 ## </code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(df)</code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    985 obs. of  12 variables:
-##  $ street   : Factor w/ 981 levels &quot;1 KENNELFORD CIR&quot;,..: 352 523 261 264 620 599 630 240 51 743 ...
+##  $ street   : Factor w/ 981 levels &quot;10001 WOODCREEK OAKS BLVD Unit 1415&quot;,..: 348 525 258 263 620 598 628 240 49 741 ...
 ##  $ city     : Factor w/ 39 levels &quot;ANTELOPE&quot;,&quot;AUBURN&quot;,..: 34 34 34 34 34 34 34 34 29 31 ...
 ##  $ zip      : int  95838 95823 95815 95815 95824 95841 95842 95820 95670 95673 ...
 ##  $ state    : Factor w/ 1 level &quot;CA&quot;: 1 1 1 1 1 1 1 1 1 1 ...
@@ -429,17 +429,8 @@ Formulate null hypothesis.</p>
 </div>
 <div id="r-libraries-in-use" class="section level2">
 <h2>R libraries in use</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)</code></pre></div>
-<pre><code>## Loading tidyverse: ggplot2
-## Loading tidyverse: tibble
-## Loading tidyverse: tidyr
-## Loading tidyverse: readr
-## Loading tidyverse: purrr
-## Loading tidyverse: dplyr</code></pre>
-<pre><code>## Conflicts with tidy packages ----------------------------------------------</code></pre>
-<pre><code>## filter(): dplyr, stats
-## lag():    dplyr, stats</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># include R libraries here or later</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
+<span class="co"># include R libraries here or later</span></code></pre></div>
 </div>
 <div id="analysis-descriptive-statistics" class="section level2">
 <h2>Analysis: descriptive statistics</h2>

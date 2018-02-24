@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="George Moroz, Olga Lyashevskaya, Ilya Schurov" />
+
+<meta name="date" content="2018-01-25" />
+
+<title>Test 1</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/lumen.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 54px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+
+.section h2 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h3 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h4 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h5 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h6 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Test 1</h1>
+<h3 class="subtitle"><em>Linguistic data: quantitative analysis and visualisation</em></h3>
+<h4 class="author"><em>George Moroz, Olga Lyashevskaya, Ilya Schurov</em></h4>
+<h4 class="date"><em>25 Jan 2018</em></h4>
+
+</div>
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>Please fill out this Rmarkdown file. The answers provided should look like the following:</p>
+<p><img src="https://agricolamz.github.io/2018-MAG_R_course/img/Test1_example.png" width=100></p>
+</div>
+<div id="vectors" class="section level2">
+<h2>1. Vectors</h2>
+<p>Assign a vector of 11 elements (1, 0.3, 5, 6, 5, 3, 3.5, 4, 6, 9, 9.7) to the variable <code>test_a</code>.<br />
+Please provide your code here:</p>
+<div id="section" class="section level3">
+<h3>1.1</h3>
+<p>Add 2 to each element of the vector test_a and assign the result to the variable <code>test_b</code>. Please provide your code here:</p>
+</div>
+<div id="section-1" class="section level3">
+<h3>1.2</h3>
+<p>Calculate the difference between <code>test_a</code> and <code>test_b</code>. Please provide your code here:</p>
+</div>
+<div id="section-2" class="section level3">
+<h3>1.3</h3>
+<p>Select the 3rd element of the vector <code>test_a</code>.<br />
+Please provide your code here:</p>
+</div>
+<div id="section-3" class="section level3">
+<h3>1.4</h3>
+<p>Select the 3rd, 4th and 5th elements of the vector <code>test_a</code> and assign the result to the vector <code>test_c</code>. Please provide your code here:</p>
+</div>
+<div id="section-4" class="section level3">
+<h3>1.5</h3>
+<p>Print <code>test_c</code>. Please provide your code here:</p>
+</div>
+<div id="section-5" class="section level3">
+<h3>1.6</h3>
+</div>
+</div>
+<div id="factors" class="section level2">
+<h2>Factors</h2>
+<p>Create the vector <code>test_d</code> with the elements “apple”, “lemon”, “orange”.</p>
+<div id="section-6" class="section level3">
+<h3>2.1</h3>
+<p>Convert them as factors to the variable <code>test_e</code>.</p>
+</div>
+<div id="section-7" class="section level3">
+<h3>2.2</h3>
+<p>Please upload this Rmd file into the folder CW1 of your course repository.</p>
+</div>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<p> <center> &copy; О. Ляшевская, И. Щуров, Г. Мороз, code on
+<a href="https://github.com/agricolamz/2018-MAG_R_course"> GitHub<img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png"  style="width:30px;height:30px;border:0"> </center></p>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
