@@ -73,13 +73,3 @@ t.test.results_3 <- t.test(vowel.dur~aspiration, icelandic_3)
 t.test.results_4 <- t.test(vowel.dur~aspiration, icelandic_4)
 t.test.results_5 <- t.test(vowel.dur~aspiration, icelandic_5)
 ```
-
-## 1.11-1.15
-```{r}
-library(lsr)
-cohensD(vowel.dur~aspiration, data = icelandic_1)
-cohensD(vowel.dur~aspiration, data = icelandic_2)
-cohensD(vowel.dur~aspiration, data = icelandic_3)
-cohensD(vowel.dur~aspiration, data = icelandic_4)
-cohensD(vowel.dur~aspiration, data = icelandic_5)
-```
