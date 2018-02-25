@@ -371,6 +371,14 @@ div.tocify {
 </ul>
 <p>Install <em>tidyverse</em> package using <em>install.packages(“tidyverse”)</em>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)</code></pre></div>
+<pre><code>## ── Attaching packages ──────────────────────────────── tidyverse 1.2.1 ──</code></pre>
+<pre><code>## ✔ ggplot2 2.2.1     ✔ purrr   0.2.4
+## ✔ tibble  1.4.2     ✔ dplyr   0.7.4
+## ✔ tidyr   0.8.0     ✔ stringr 1.3.0
+## ✔ readr   1.1.1     ✔ forcats 0.3.0</code></pre>
+<pre><code>## ── Conflicts ─────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
 <div class="parallax">
 
 </div>
@@ -1047,9 +1055,9 @@ freq <span class="op">%&gt;%</span>
 <p><img src="Lec_3_tidyverse_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
 <p>How many histogram bins do we need?</p>
 <ul>
-<li>[Sturgers 1926] <em>nclass.Sturges(adyghe$F1)</em></li>
-<li>[Scott 1979] <em>nclass.scott(adyghe$F1)</em></li>
-<li>[Freedman, Diaconis 1981] <em>nclass.FD(adyghe$F1)</em></li>
+<li>[Sturgers 1926] <code>nclass.Sturges(homo$s.duration.ms)</code></li>
+<li>[Scott 1979] <code>nclass.scott(homo$s.duration.ms)</code></li>
+<li>[Freedman, Diaconis 1981] <code>nclass.FD(homo$s.duration.ms)</code></li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(s.duration.ms)) <span class="op">+</span>

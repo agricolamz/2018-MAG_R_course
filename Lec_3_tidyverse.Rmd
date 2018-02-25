@@ -584,9 +584,9 @@ homo %>%
 
 How many histogram bins do we need?
 
-* [Sturgers 1926] _nclass.Sturges(adyghe$F1)_
-* [Scott 1979] _nclass.scott(adyghe$F1)_
-* [Freedman, Diaconis 1981] _nclass.FD(adyghe$F1)_
+* [Sturgers 1926] `nclass.Sturges(homo$s.duration.ms)`
+* [Scott 1979] `nclass.scott(homo$s.duration.ms)`
+* [Freedman, Diaconis 1981] `nclass.FD(homo$s.duration.ms)`
 
 ```{r}
 homo %>%
