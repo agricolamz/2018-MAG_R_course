@@ -1,0 +1,161 @@
+---
+title: Lab 6
+subtitle: "Linguistic data: quantitative analysis and visualisation"
+author: "George Moroz, Olga Lyashevskaya, Ilya Schurov"
+date: '25 Jan 2018'
+output: html_document
+---
+
+## 0. Libraries in use
+
+```{r cache=FALSE, warning=FALSE,message=FALSE}
+library(tidyverse) 
+library(corrplot) # for correlation plots
+library(GGally) # for correlation plots
+library(Rling); library(car); library(coin); library(nparcomp) # for ANOVA
+library(nlme)
+```
+
+## 1. Correlation 
+
+### Readability measures: do they agree with each other?
+
+[Data]:(https://goo.gl/cyftFi)
+
+There are more than 100 readability measures developed to estimate the reading level and grade level of a written text and determine if the audience is able to read it.  
+As a rule, the readability formulae are calculated as the following:
+
+Y = X<sub>0</sub> + X<sub>1</sub> * (total words / total sentences) + X<sub>1</sub> (total syllables / total words) ... 
+
+where X<sub>0</sub>, X<sub>1</sub>, X<sub>2</sub> are weights.
+
+Daria Kosheleva run a series of experiments to explore the performance of some well known readability measures on 20 Polish texts. The measures FOG, PL, FP, Jasnopis and FrequencyQ are based on the word length, sentence length, word frequency, etc.
+
+```{r 1.0}
+# Download the data and build a correlation matrix using cor()
+
+
+
+```
+
+This is how you can order the pairwise comparisons ('a flatten correlation matrix').  
+
+```{r}
+# m %>% 
+#  as.table() %>% 
+#  as.data.frame() %>% 
+#  arrange(desc(Freq))
+```
+
+### 1.1 Which of the variables are the most correlated?
+
+Write your answer  in the box below in alphabetic order (e. g. FrequencyQ, Jasnopis)
+```
+
+```
+
+### 1.2 What is the value of the Spearman correlation between FOG and FP?
+
+Use the `cor` function with the `spearman` method.
+
+```{r 1.2}
+# sperman
+
+
+
+
+```
+
+### 1.3 What is the value of the Kendall correlation between FOG and FrequencyQ?
+Use the `cor` function with the `kendall` method.
+
+```{r 1.3}
+# kendall
+
+
+
+
+
+```
+
+### 1.4 Visualise the correlation matrix using correlogram
+
+```{r}
+# Use the function 'corrplot'  
+# corrplot(m, type="upper", order="hclust")
+# or use a custom R function, named rquery.cormat(), for calculating and visualizing your correlation matrix
+# source("http://www.sthda.com/upload/rquery_cormat.r")
+# require("corrplot")
+# rquery.cormat(m)
+```
+
+### Visualise your data using `ggpairs`() (from the GGally package) 
+
+```{r}
+# install.packages("GGally")
+
+
+```
+
+
+## 2. ANOVA 
+
+### Nicaraguan Sign Language
+
+Data from Levshina 2015.
+Variables:  
+* MannerPath (numerical, 0 to 1): the proportion of separate expressions of manner and path by NSL signers
+* Cohort (categorical): three generational groups to which each signer belongs: those who learnt to sign in the late 1970s ??? early 1980s (Cohort 1),  mid- to late 1980s (Cohort 2), from 1990 till present (Cohort 3).
+Hypothesis: The mean proportion of separate expressions of manner and path will be higher for the more recent Cohorts than for the earlier ones.
+
+```{r 2.0}
+data (NSL)
+View(NSL)
+```
+
+### 2.1 Make a boxplot  
+
+```{r 2.1}
+# boxplot
+
+
+```
+
+### 2.2 Use aov(), to perform the traditional one-way ANOVA
+(Completely Randomized Design)  
+
+```{r 2.2}
+
+
+```
+
+NB Assumptions: independent observations; each sample is drawn from a normally distributed population; (and/or) the sample sizes are equal; the variance is homogeneous, or homoscedastic.
+
+### 2.3 Post-hoc tests 
+
+The Tukey Honest Significant Differences (HSD) test returns the adjusted ???honest??? p-val- ues. Assumptions: homogeneous variances and independence of observations. 
+
+```{r 2.3}
+# TukeyHSD(NSL.aov)
+
+
+```
+
+A non-parametric t-test can be used thah the assumption of equal variances is violated.
+
+```{r 2.3_}
+# npar <- nparcomp(MannerPath ~ Cohort, data = NSL, type = "Tukey")
+# npar$Analysis
+```
+
+
+
+
+
+
+
+
+
+
+
+
