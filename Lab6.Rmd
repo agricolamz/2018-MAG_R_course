@@ -20,7 +20,7 @@ np_acquisition %>%
   geom_smooth(method = "lm")+
   geom_point()+
   labs(x = "number of NP per utterance (mother speech)",
-       y = "number of NP per utterance (mother speech)",
+       y = "number of NP per utterance (child speech)",
        title = "data from [Huttenlocher, Vasilyeva, Cymerman, Levine 2002]")
 ```
 

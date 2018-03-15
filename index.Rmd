@@ -41,13 +41,13 @@ title: "Linguistic data: quantitative analysis and visualisation"
 * Final Exam Projects: Research topic and hypothesis. Please fill in the form, sheet [Projects](https://docs.google.com/spreadsheets/d/1HdjLzF3jUXddq2N7pUpGn7P1tMJ4ut9mskucVjiNlwQ). Due: 15.02.2018.
 
 ### 5. Classical statistical tests: categorial data. Binomial test. Chi-squared test. Fisher exact test. Effect size. Correlations. ANOVA.
-* (15.02.2018) [Lab 5 code](https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/Lab5.Rmd)  [Lab 5 solution](file:///home/agricolamz/work/materials/2018_I_MAG_R_course/docs/Lab_5.html).
+* (15.02.2018) [Lab 5 code](https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/Lab5.Rmd)  [Lab 5 solution](https://agricolamz.github.io/2018-MAG_R_course/Lab_5.html).
 
 * HW-2. Due: 03.03.2018
 
 ### 6. Bi-variate regression.															
 * (24.02.2018) lecture  
-* (24.02.2018) Lab 6, [Assignment](https://docs.google.com/forms/d/e/1FAIpQLSctIDQQBsIGTMjkzuGiAEXVcE9N9EBPrKjkgyuUheVKHewvVQ/viewform)  
+* (24.02.2018) [Lab 6 solution](https://agricolamz.github.io/2018-MAG_R_course/Lab6.html), [Assignment](https://docs.google.com/forms/d/e/1FAIpQLSctIDQQBsIGTMjkzuGiAEXVcE9N9EBPrKjkgyuUheVKHewvVQ/viewform)  
 * Textbook: Levshina Ch.6 
 
 * HW-3. Due: 15.03.2018  
