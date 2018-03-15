@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Lab 6.</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/lumen.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 54px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+
+.section h2 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h3 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h4 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h5 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h6 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Lab 6.</h1>
+
+</div>
+
+
+<div id="data" class="section level3">
+<h3>0. Data</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
+np_acquisition &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://goo.gl/DhpmLe&quot;</span>)
+bnc_pron &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://goo.gl/vt1HCc&quot;</span>)
+readability &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://goo.gl/t6ef48&quot;</span>)</code></pre></div>
+</div>
+<div id="section" class="section level3">
+<h3>1.1</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">np_acquisition <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(mother, child))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;number of NP per utterance (mother speech)&quot;</span>,
+       <span class="dt">y =</span> <span class="st">&quot;number of NP per utterance (mother speech)&quot;</span>,
+       <span class="dt">title =</span> <span class="st">&quot;data from [Huttenlocher, Vasilyeva, Cymerman, Levine 2002]&quot;</span>)</code></pre></div>
+<p><img src="Lab6_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div id="section-1" class="section level3">
+<h3>1.2</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bnc_pron <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(P1, P2))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;proportions of the second-person pronouns&quot;</span>,
+       <span class="dt">y =</span> <span class="st">&quot;proportions of the second-person pronouns&quot;</span>,
+       <span class="dt">title =</span> <span class="st">&quot;data from British National Corpus&quot;</span>)</code></pre></div>
+<p><img src="Lab6_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="section-2" class="section level3">
+<h3>2.1</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># base R</span>
+<span class="kw">cor</span>(np_acquisition<span class="op">$</span>child, np_acquisition<span class="op">$</span>mother)</code></pre></div>
+<pre><code>## [1] 0.5761599</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># tidyverse</span>
+np_acquisition <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">cor =</span> <span class="kw">cor</span>(child, mother))</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["cor"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.5761599"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="section-3" class="section level3">
+<h3>2.2</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># base R</span>
+<span class="kw">cor</span>(bnc_pron<span class="op">$</span>P1, bnc_pron<span class="op">$</span>P2)</code></pre></div>
+<pre><code>## [1] 0.8028283</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># tidyverse</span>
+bnc_pron <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">cor =</span> <span class="kw">cor</span>(P1, P2))</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["cor"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.8028283"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="section-4" class="section level3">
+<h3>3.1, 4.1</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">acq_fit &lt;-<span class="st"> </span><span class="kw">lm</span>(child <span class="op">~</span><span class="st"> </span>mother, <span class="dt">data =</span> np_acquisition)
+<span class="kw">summary</span>(acq_fit)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = child ~ mother, data = np_acquisition)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.46058 -0.08925  0.01071  0.13333  0.22770 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   0.7038     0.2051   3.432  0.00132 ** 
+## mother        0.5452     0.1166   4.676 2.79e-05 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.1627 on 44 degrees of freedom
+## Multiple R-squared:  0.332,  Adjusted R-squared:  0.3168 
+## F-statistic: 21.86 on 1 and 44 DF,  p-value: 2.789e-05</code></pre>
+</div>
+<div id="section-5" class="section level3">
+<h3>3.2, 4.2</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bnc_fit &lt;-<span class="st"> </span><span class="kw">lm</span>(P1 <span class="op">~</span><span class="st"> </span>P2, <span class="dt">data =</span> bnc_pron)
+<span class="kw">summary</span>(bnc_fit)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = P1 ~ P2, data = bnc_pron)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.019234 -0.004895 -0.001672  0.003127  0.022450 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 0.007549   0.001307   5.778 2.15e-07 ***
+## P2          0.942857   0.085543  11.022  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.008067 on 67 degrees of freedom
+## Multiple R-squared:  0.6445, Adjusted R-squared:  0.6392 
+## F-statistic: 121.5 on 1 and 67 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div id="section-6" class="section level3">
+<h3>5.1</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">predict</span>(acq_fit, <span class="dt">newdata =</span> <span class="kw">data.frame</span>(<span class="dt">mother =</span> <span class="dv">2</span>))</code></pre></div>
+<pre><code>##        1 
+## 1.794163</code></pre>
+</div>
+<div id="section-7" class="section level3">
+<h3>5.2</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">predict</span>(bnc_fit, <span class="dt">newdata =</span> <span class="kw">data.frame</span>(<span class="dt">P2 =</span> <span class="fl">0.04</span>))</code></pre></div>
+<pre><code>##         1 
+## 0.0452634</code></pre>
+</div>
+<div id="section-8" class="section level3">
+<h3>6.1</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> acq_fit, <span class="kw">aes</span>(<span class="dt">x =</span> acq_fit<span class="op">$</span>fitted.values, <span class="dt">y =</span> acq_fit<span class="op">$</span>residuals))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">y =</span> <span class="dv">0</span>))<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;child ~ mother&quot;</span>,
+       <span class="dt">x =</span> <span class="st">&quot;fitted values&quot;</span>,
+       <span class="dt">y =</span> <span class="st">&quot;residuals&quot;</span>)</code></pre></div>
+<p><img src="Lab6_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+<div id="section-9" class="section level3">
+<h3>6.2</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> bnc_fit, <span class="kw">aes</span>(<span class="dt">x =</span> bnc_fit<span class="op">$</span>fitted.values, <span class="dt">y =</span> bnc_fit<span class="op">$</span>residuals))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">y =</span> <span class="dv">0</span>))<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;P1 ~ P2&quot;</span>,
+       <span class="dt">x =</span> <span class="st">&quot;fitted values&quot;</span>,
+       <span class="dt">y =</span> <span class="st">&quot;residuals&quot;</span>)</code></pre></div>
+<p><img src="Lab6_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<p> <center> &copy; О. Ляшевская, И. Щуров, Г. Мороз, code on
+<a href="https://github.com/agricolamz/2018-MAG_R_course"> GitHub<img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png"  style="width:30px;height:30px;border:0"> </center></p>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,100 @@
+---
+title: "Lab 6."
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+### 0. Data
+```{r, message=FALSE}
+library(tidyverse)
+np_acquisition <- read_csv("https://goo.gl/DhpmLe")
+bnc_pron <- read_csv("https://goo.gl/vt1HCc")
+readability <- read_csv("https://goo.gl/t6ef48")
+```
+
+### 1.1
+```{r}
+np_acquisition %>% 
+  ggplot(aes(mother, child))+
+  geom_smooth(method = "lm")+
+  geom_point()+
+  labs(x = "number of NP per utterance (mother speech)",
+       y = "number of NP per utterance (mother speech)",
+       title = "data from [Huttenlocher, Vasilyeva, Cymerman, Levine 2002]")
+```
+
+### 1.2
+```{r}
+bnc_pron %>% 
+  ggplot(aes(P1, P2))+
+  geom_smooth(method = "lm")+
+  geom_point()+
+  labs(x = "proportions of the second-person pronouns",
+       y = "proportions of the second-person pronouns",
+       title = "data from British National Corpus")
+```
+
+### 2.1
+```{r}
+# base R
+cor(np_acquisition$child, np_acquisition$mother)
+
+# tidyverse
+np_acquisition %>% 
+  summarise(cor = cor(child, mother))
+```
+
+
+### 2.2
+```{r}
+# base R
+cor(bnc_pron$P1, bnc_pron$P2)
+
+# tidyverse
+bnc_pron %>% 
+  summarise(cor = cor(P1, P2))
+```
+
+### 3.1, 4.1
+```{r}
+acq_fit <- lm(child ~ mother, data = np_acquisition)
+summary(acq_fit)
+```
+
+### 3.2, 4.2
+```{r}
+bnc_fit <- lm(P1 ~ P2, data = bnc_pron)
+summary(bnc_fit)
+```
+
+### 5.1
+```{r}
+predict(acq_fit, newdata = data.frame(mother = 2))
+```
+
+### 5.2
+```{r}
+predict(bnc_fit, newdata = data.frame(P2 = 0.04))
+```
+
+### 6.1
+```{r}
+ggplot(data = acq_fit, aes(x = acq_fit$fitted.values, y = acq_fit$residuals))+
+  geom_point()+
+  geom_line(aes(y = 0))+
+  labs(title = "child ~ mother",
+       x = "fitted values",
+       y = "residuals")
+```
+
+### 6.2
+```{r}
+ggplot(data = bnc_fit, aes(x = bnc_fit$fitted.values, y = bnc_fit$residuals))+
+  geom_point()+
+  geom_line(aes(y = 0))+
+  labs(title = "P1 ~ P2",
+       x = "fitted values",
+       y = "residuals")
+```
+
