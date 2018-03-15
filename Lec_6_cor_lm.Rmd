@@ -1,0 +1,64 @@
+---
+title: "6. Correlation, Linear Regression"
+author: "O. Lyashevskaya, G. Moroz, I. Schurov"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+```
+
+<style>
+.parallax {
+    /* The image used */
+    background-image: url("6_regression.png");
+    
+    /* Set a specific height */
+    min-height: 300px; 
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto;
+}
+</style>
+
+<div class="parallax"></div>
+
+### 0. Data
+
+```{r, message=FALSE}
+library(tidyverse)
+```
+
+This dataset is based on (Coretta 2017, https://goo.gl/NrfgJm). This dissertation dealt with the relation between vowel duration and aspiration in consonants. Author carried out a data collection with 5 natives speakers of Icelandic. Then he extracted the duration of vowels followed by aspirated (like in Icelandic takka ‘key’ [tʰaʰka]) versus non-aspirated consonants (like in kagga ‘barrel’ [kʰakka]).
+
+```{r, message=FALSE}
+icelandic <- read_csv()
+```
+
+
+### 1. Correlation
+
+Variance:
+$$var(X) = \frac{\sum_{i = 1}^n(x_i - \bar{x})^2}{n - 1}$$
+
+Covariance:
+$$cov(X, Y) = \frac{\sum_{i = 1}^n(x_i - \bar{x})(y_i-\bar{y})}{n - 1}$$
+
+```{r}
+cov()
+```
+
+$$cor(X, Y) = \frac{cov(X, Y)}{\sigma_X\times\sigma_Y}$$
+```{r}
+cor()
+```
+
+<div class="parallax"></div>
+
+### 2. Linear Regression
+
+<div class="parallax"></div>
