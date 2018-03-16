@@ -229,8 +229,7 @@ $(document).ready(function () {
 <h3>0. Data</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
 np_acquisition &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://goo.gl/DhpmLe&quot;</span>)
-bnc_pron &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://goo.gl/vt1HCc&quot;</span>)
-readability &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://goo.gl/t6ef48&quot;</span>)</code></pre></div>
+bnc_pron &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://goo.gl/vt1HCc&quot;</span>)</code></pre></div>
 </div>
 <div id="section" class="section level3">
 <h3>1.1</h3>
@@ -239,7 +238,7 @@ readability &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span
 <span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)<span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>()<span class="op">+</span>
 <span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;number of NP per utterance (mother speech)&quot;</span>,
-       <span class="dt">y =</span> <span class="st">&quot;number of NP per utterance (mother speech)&quot;</span>,
+       <span class="dt">y =</span> <span class="st">&quot;number of NP per utterance (child speech)&quot;</span>,
        <span class="dt">title =</span> <span class="st">&quot;data from [Huttenlocher, Vasilyeva, Cymerman, Levine 2002]&quot;</span>)</code></pre></div>
 <p><img src="Lab6_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 </div>
@@ -249,7 +248,7 @@ readability &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span
 <span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(P1, P2))<span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)<span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>()<span class="op">+</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;proportions of the second-person pronouns&quot;</span>,
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;proportions of the first-person pronouns&quot;</span>,
        <span class="dt">y =</span> <span class="st">&quot;proportions of the second-person pronouns&quot;</span>,
        <span class="dt">title =</span> <span class="st">&quot;data from British National Corpus&quot;</span>)</code></pre></div>
 <p><img src="Lab6_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>

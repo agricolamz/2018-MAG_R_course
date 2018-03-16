@@ -10,7 +10,6 @@ editor_options:
 library(tidyverse)
 np_acquisition <- read_csv("https://goo.gl/DhpmLe")
 bnc_pron <- read_csv("https://goo.gl/vt1HCc")
-readability <- read_csv("https://goo.gl/t6ef48")
 ```
 
 ### 1.1
@@ -30,7 +29,7 @@ bnc_pron %>%
   ggplot(aes(P1, P2))+
   geom_smooth(method = "lm")+
   geom_point()+
-  labs(x = "proportions of the second-person pronouns",
+  labs(x = "proportions of the first-person pronouns",
        y = "proportions of the second-person pronouns",
        title = "data from British National Corpus")
 ```
