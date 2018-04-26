@@ -13,7 +13,7 @@ library(tidyverse)
 ```
 
 ## Problem set A
-I was interested, whether the languages with ejective sounds have in average more consonants than others. So I collected data from phonological database LAPSyD: [http://goo.gl/0btfKa](http://goo.gl/0btfKa).
+I was interested whether the languages with ejective sounds have in average more consonants than others. So I collected data from phonological database LAPSyD: [http://goo.gl/0btfKa](http://goo.gl/0btfKa).
 
 ### 1.1 
 Visualise data like this:
@@ -57,14 +57,14 @@ Is the mean difference between groups is statistically signifficant?
 ```
 
 ### 1.5
-Make a linear regression that predicts the number of consonants by the variable =presence of ejectives=. Write down the formula for the regression line.
+Make a linear regression that predicts the number of consonants by the variable `presence of ejectives`su. Write down the formula for the regression line.
 ```{r}
 ```
 
 Did you get the point? What is the difference between means values and coefficients of the regression in simple model withe only one dummy-predictor?
 
 ## Problem set B
-This set is based on (Coretta 2017, https://goo.gl/NrfgJm). This dissertation deals with the relation between vowel duration and aspiration in consonants. Author carried out a data collection with 5 natives speakers of Icelandic. Then he extracted the duration of vowels followed by aspirated versus non-aspirated consonants. Check out whether the vowels before consonants of different places of articulation are signi???cantly different.
+This set is based on (Coretta 2017, https://goo.gl/NrfgJm). This dissertation deals with the relation between vowel duration and aspiration in consonants. Author carried out a data collection with 5 natives speakers of Icelandic. Then he extracted the duration of vowels followed by aspirated versus non-aspirated consonants. Check out whether the vowels before consonants of different places of articulation are significantly different.
 
 Use read.csv("https://goo.gl/7gIjvK") for downloading data.
 
@@ -96,6 +96,7 @@ Create the plot like this.
 
 I used alpha and outlier.alpha arguments equal to 0.2.
 ```{r}
+
 ```
 
 ### 2.2
@@ -103,6 +104,13 @@ Fit a regression model and provide F statistics and p-value for place argument.
 
 ```{r}
 # Write down the formula:
+library(lme4)
+fit <- lm(vowel.dur~place, data = df)
+# or you can use this one with the same output:
+# fit <- aov(vowel.dur~place, data = df)
+# In general, aov() is simpler and faster, but only works for a simpler subset of models.
+
+summary(fit)
 
 # F statistics:
 
@@ -113,6 +121,7 @@ Fit a regression model and provide F statistics and p-value for place argument.
 ### 2.3
 List the model coefficients.
 ```{r}
+fit$coefficients
 # 
 ```
 
@@ -120,6 +129,9 @@ List the model coefficients.
 Calculate mean values for vowel duration in each place of articulation group.
 
 ```{r}
+df %>% 
+  group_by(place) %>% 
+  summarise(mean(vowel.dur))
 # 
 ```
 
@@ -165,6 +177,8 @@ summary(m4)
 Fit a simple regression model where tv.hours is the only predictor of the cdi score. What is the adjusted R???
 ```{r}
 # Provide your code below:
+m1 <- lm(cdi~tv.hours, data = tv)
+summary(m1)
 
 # R^2
  
@@ -174,6 +188,8 @@ Fit a simple regression model where tv.hours is the only predictor of the cdi sc
 Fit a simple regression model where mot.education is the only predictor of the cdi score. What is the adjusted R??
 ```{r}
 # Provide your code below:
+m2 <- lm(cdi~mot.education, data = tv)
+summary(m2)
 
 # R^2
  
@@ -183,6 +199,8 @@ Fit a simple regression model where mot.education is the only predictor of the c
 Fit a multiple regression model predicting cdi from tv.hours and mot.education. What is the adjusted R???
 ```{r}
 # Provide your code below:
+m3 <- lm(cdi~tv.hours+mot.education, data = tv)
+summary(m3)
 
 # R^2
  
@@ -192,6 +210,8 @@ Fit a multiple regression model predicting cdi from tv.hours and mot.education. 
 Fit a multiple regression model predicting cdi from all predictors in a dataset. What is the adjusted R???
 ```{r}
 # Provide your code below:
+m4 <- lm(cdi~., data = tv[,-1])
+summary(m4)
 
 # R^2
  

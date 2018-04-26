@@ -1,0 +1,171 @@
+---
+title: "Lab 9. Linear mixed-effect models"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## [Assignment link](https://docs.google.com/forms/d/e/1FAIpQLSfQAI87CVsjqbkw1XbvJw_dmj8tET1s-oT9jmQGx9miRRtcMQ)
+
+```{r, message= FALSE, include=TRUE}
+library(tidyverse)
+#install.packages("lingtypology")
+library(lingtypology)
+library(lme4)
+```
+
+### 1. Consonants and vowels
+```{r, warning=FALSE, include=TRUE}
+lapsyd <- read.csv("https://goo.gl/eD4S5n")
+map.feature(lapsyd$name, features = lapsyd$area, 
+              label = lapsyd$name,
+              label.hide = TRUE)
+```
+
+```{r}
+fit1 <- lm(count_vowel~count_consonant, data = lapsyd)
+summary(fit1)
+
+lapsyd$model1 <- predict(fit1)
+
+lapsyd %>% 
+  ggplot(aes(count_consonant, count_vowel))+
+  geom_point()+
+  geom_line(aes(count_consonant, model1), color = "blue")+
+  labs(x = "number of consonants",
+       y = "number of vowels",
+       caption = "data from LAPSyD")
+
+fit2 <- lmer(count_vowel ~ count_consonant + (1|area), data = lapsyd)
+summary(fit2)
+
+lapsyd$model2 <- predict(fit2)
+
+lapsyd %>% 
+  ggplot(aes(count_consonant, count_vowel))+
+  geom_point()+
+  geom_line(aes(count_consonant, model2, color = area))+
+  labs(x = "number of consonants",
+       y = "number of vowels",
+       caption = "data from LAPSyD")
+
+fit3 <- lmer(count_vowel ~ count_consonant + (1+count_consonant|area), data = lapsyd)
+summary(fit3)
+
+lapsyd$model3 <- predict(fit3)
+
+lapsyd %>% 
+  ggplot(aes(count_consonant, count_vowel))+
+  geom_point()+
+  geom_line(aes(count_consonant, model3, color = area))+
+  labs(x = "number of consonants",
+       y = "number of vowels",
+       caption = "data from LAPSyD")
+
+fit4 <- lmer(count_vowel ~ count_consonant + (0+count_consonant|area), data = lapsyd)
+summary(fit4)
+
+lapsyd$model4 <- predict(fit4)
+
+lapsyd %>% 
+  ggplot(aes(count_consonant, count_vowel))+
+  geom_point()+
+  geom_line(aes(count_consonant, model4, color = area))+
+  labs(x = "number of consonants",
+       y = "number of vowels",
+       caption = "data from LAPSyD")
+
+fit5 <- lmer(count_vowel ~ count_consonant + (1|area) + (0+count_consonant|area), data = lapsyd)
+summary(fit5)
+
+lapsyd$model5 <- predict(fit5)
+
+lapsyd %>% 
+  ggplot(aes(count_consonant, count_vowel))+
+  geom_point()+
+  geom_line(aes(count_consonant, model5, color = area))+
+  labs(x = "number of consonants",
+       y = "number of vowels",
+       caption = "data from LAPSyD")
+```
+
+```{r}
+anova(fit5, fit4, fit3, fit2, fit1)
+```
+
+## 2. Icelandic vowels
+This set is based on (Coretta 2017, https://goo.gl/NrfgJm). This dissertation deals with the relation between vowel duration and aspiration in consonants. Author carried out a data collection with 5 natives speakers of Icelandic. Then he extracted the duration of vowels followed by aspirated versus non-aspirated consonants. Check out whether the vowels before consonants of different places of articulation are significantly different.
+
+Use read.csv("https://goo.gl/7gIjvK") for downloading data.
+
+### 2.1
+Calculate mean values for vowel duration in your data grouped by `place` (of articulation) and `speaker`.
+
+```{r}
+df <- read.csv("https://goo.gl/7gIjvK")
+
+df %>% 
+  group_by(place, speaker) %>% 
+  summarise(mean(vowel.dur))
+# 
+```
+Let's do some visualization
+
+```{r}
+df %>% 
+  ggplot(aes(place, vowel.dur)) + 
+    geom_point(alpha = 0.2) + 
+    facet_wrap(~ speaker) + 
+    xlab("place of articulation") + 
+    ylab("vowel duration")
+```
+
+### 2.2 Calculate mean values for vowel duration in your data grouped by `word`.
+```{r}
+df <- read.csv("https://goo.gl/7gIjvK")
+
+df %>% 
+  group_by(word) %>% 
+  summarise(mean(vowel.dur))
+# 
+```
+
+### 2.3 Fit mixed-effect linear regression model 
+taking into account `speaker` as a random effect. Plot 
+
+```{r}
+
+fit <- lmer(vowel.dur ~ place + (1|speaker), data = df)
+summary(fit)
+plot(fit)
+qqnorm(resid(fit))
+qqline(resid(fit))
+```
+
+### 2.3 Fit mixed-effect linear regression model 
+taking into account `speaker` and `word` as random effects. Note that random factors can be nested.
+
+
+If our groups are nested (as it happens with speakers and words), the following model should be wrong:
+
+```{r}
+fit2.WRONG <- lmer(vowel.dur ~ place + (1|speaker) + (1|word), data = df)  # treats the two random effects as if they are crossed
+```
+
+To avoid future confusion let us create a new variable that is explicitly nested. Let???s call it sample:
+
+```{r}
+df <- within(df, sample <- factor(speaker:word))
+head(summary(df$sample))
+```
+
+Now let's fit the nested mixed-effect model properly:
+```{r}
+fit2 <- lmer(vowel.dur ~ place + (1|speaker) + (1|sample), data = df)  # treats the two random effects as if they are nested
+summary(fit2)
+plot(fit2)
+qqnorm(resid(fit2))
+qqline(resid(fit2))
+
+```
