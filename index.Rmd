@@ -47,34 +47,32 @@ title: "Linguistic data: quantitative analysis and visualisation"
 
 ### 6. Bi-variate regression.															
 * (24.02.2018) lecture  
-* (24.02.2018) [Lab 6 solution](https://agricolamz.github.io/2018-MAG_R_course/Lab6.html), [Assignment](https://docs.google.com/forms/d/e/1FAIpQLSctIDQQBsIGTMjkzuGiAEXVcE9N9EBPrKjkgyuUheVKHewvVQ/viewform)  
+* (24.02.2018) Lab 6: [Assignment](https://docs.google.com/forms/d/e/1FAIpQLSctIDQQBsIGTMjkzuGiAEXVcE9N9EBPrKjkgyuUheVKHewvVQ/viewform), [Code](https://agricolamz.github.io/2018-MAG_R_course/Lab6.html)  
 * Textbook: Levshina Ch.6 
 
 ### 7. Linear regressions											
 * (03.03.2018) lecture  
-* (03.03.2018) Lab 7, Assignment
+* (03.03.2018) Lab 7: [Assignment](), [Code]()
 * Textbook: Levshina Ch.7 
 
 ### 8. Multivariate linear regressions, dummy variables, ANOVA														
 * (12.04.2018) Lecture 8
-* (12.04.2018) Lab 8, [Assignment](https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/Lab8_assignment.Rmd)
+* (12.04.2018) Lab 8: [Assignment](https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/Lab8_assignment.Rmd), [Code](https://agricolamz.github.io/2018-MAG_R_course/Lab6.html)
 * Textbook: Levshina Ch.8  
 
-* HW-3. Due: next class
+### 9. Linear mixed-effects models. 						
+* (26.04.2018) Lecture 9
+* (26.04.2018) Lab 9: [Assignment](https://docs.google.com/forms/d/e/1FAIpQLSfQAI87CVsjqbkw1XbvJw_dmj8tET1s-oT9jmQGx9miRRtcMQ/viewform?usp=sf_link), [Code]()
 
-### 9. Binary logistic regressions
+* HW-3. Due: May 10
 
-* (??.04.2018) Lecture 9
-* (??.04.2018) Lab 9, Assignment
+### 10. Binary logistic regressions
+
+* (10.05.2018) Lecture 10
+* (10.05.2018) Lab 10: Assignment
 
 * [HW-9. Due: next class]()  
-* Final Exam Projects: Data. Data annotation. Please put a link here, sheet [Projects](https://docs.google.com/spreadsheets/d/1HdjLzF3jUXddq2N7pUpGn7P1tMJ4ut9mskucVjiNlwQ)Due: 02.04.2018.
-
-### 10. Linear Mixed-effects models																						
-* (05/??.04.2018) Lecture 10
-* (05/??.04.2018) Lab 10, Assignment
-
-* HW-10. Due: next class
+* Final Exam Projects: Data. Data annotation. Please put a link here, sheet [Projects](https://docs.google.com/spreadsheets/d/1HdjLzF3jUXddq2N7pUpGn7P1tMJ4ut9mskucVjiNlwQ) Due: 12.05.2018.
 
 ### 11. Decision trees. Decision forests											
 * (.2018) lecture
