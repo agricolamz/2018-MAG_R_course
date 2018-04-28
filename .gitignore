@@ -3,5 +3,6 @@
 .RData
 .Ruserdata
 FE_R_course.Rproj
+.DS_Store
 /HW
 /docs/HW
