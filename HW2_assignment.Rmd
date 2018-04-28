@@ -1,16 +1,8 @@
 ---
-title: "HW 3: From correlation to linear mixed-effect models. Assignment sheet"
-knit: (function(inputFile, encoding) { 
-      out_dir <- './../docs';
-      rmarkdown::render(inputFile,
-                        encoding=encoding, 
-                        output_file=file.path(dirname(inputFile), out_dir, 'HW3.html')) })
-editor_options: 
-  chunk_output_type: console
+title: "HW 2: From correlation to linear mixed-effect models. Assignment sheet"
 ---
 
 ```{r setup, include=FALSE}
-#knitr::opts_chunk$set(echo = FALSE, eval = FALSE)
 library(tidyverse)
 library(lme4)
 library(vcd)
@@ -27,18 +19,18 @@ In this part, we will ask you to analyse correlation between f1, f2, and duratio
 The dataset is available [https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/data/duryagin_ReductionRussian.txt](here).
 
 ### 1.0 Read the data from file to the variable `shva`.
-```{r 1.0, eval = TRUE, include=FALSE}
+```{r 1.0}
 
 ```
 
 ### 1.1 Scatterplot _f1_ and _f2_ 
 using ggplot(). Design it to look like the <a href="https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/img/duryagin1.png">following</a>.
-```{r 1.1, eval = TRUE}
+```{r 1.1}
 
 ```
 
 ### 1.2 Plot the boxplots of _f1_ and _f2_ for each vowel using `ggplot()`. Design it to look like the <a href="https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/img/duryagin2.png">following</a>.
-```{r 1.2, eval = TRUE}
+```{r 1.2}
 # f1 boxplot
 
 # f2 boxplot
@@ -47,11 +39,6 @@ using ggplot(). Design it to look like the <a href="https://raw.githubuserconten
 ### 1.3 Which _f1_ can be considered outliers in _a_ vowel?
 We assume outliers to be those observations that lie outside 1.5 * IQR, where IQR, the 'Inter Quartile Range', is the difference between the 1st and the 3rd quartile (= 25% and 75% percentile).
 ```{r 1.3}
-#shva %>% 
-#  group_by(vowel) %>% 
-#  summarise(quantile(f1, 0.75), quantile(f1, 0.25), IQR(f1))
-
-# provide your code below:
 
 
 ```
@@ -81,7 +68,7 @@ Source (http://elexicon.wustl.edu/WordStart.asp)
 Data from Natalya Levshina's `RLing` package available (here)[https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/data/ELP.csv]
 
 ### 2.0 Read the data from file to the variable `elp`.
-```{r 2.0, include=FALSE, eval=TRUE}
+```{r 2.0}
 
 ```
 
@@ -91,7 +78,7 @@ Data from Natalya Levshina's `RLing` package available (here)[https://raw.github
 ```
 
 ### 2.2 Group your data by parts of speech and make a scatterplot of SUBTLWF and Mean_RT.
-```{r 2.2, eval= TRUE}
+```{r 2.2}
 
 ```
 
