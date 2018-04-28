@@ -62,7 +62,7 @@ title: "Linguistic data: quantitative analysis and visualisation"
 * (26.04.2018) Lecture 9
 * (26.04.2018) Lab 9: [Assignment](https://docs.google.com/forms/d/e/1FAIpQLSfQAI87CVsjqbkw1XbvJw_dmj8tET1s-oT9jmQGx9miRRtcMQ/viewform?usp=sf_link), [Code](https://agricolamz.github.io/2018-MAG_R_course/Lab_9)
 
-* [HW-2](https://agricolamz.github.io/2018-MAG_R_course/HW2). Due: 17.05.2018
+* [HW-2](https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/HW2_assignment.Rmd). Due: 17.05.2018
 
 ### 10. Binary logistic regressions
 
