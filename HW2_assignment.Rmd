@@ -24,12 +24,12 @@ The dataset is available [https://raw.githubusercontent.com/agricolamz/2018-MAG_
 ```
 
 ### 1.1 Scatterplot _f1_ and _f2_ 
-using ggplot(). Design it to look like the <a href="https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/img/duryagin1.png">following</a>.
+using ggplot(). Design it to look like the [following](https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/img/duryagin1.png).
 ```{r 1.1}
 
 ```
 
-### 1.2 Plot the boxplots of _f1_ and _f2_ for each vowel using `ggplot()`. Design it to look like the <a href="https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/img/duryagin2.png">following</a>.
+### 1.2 Plot the boxplots of _f1_ and _f2_ for each vowel using `ggplot()`. Design it to look like [this](https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/img/duryagin2.png) and [this](https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/img/duryagin3.png).
 ```{r 1.2}
 # f1 boxplot
 

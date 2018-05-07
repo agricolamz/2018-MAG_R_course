@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>HW 2: From correlation to linear mixed-effect models. Assignment sheet</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/lumen.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 54px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+
+.section h2 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h3 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h4 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h5 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h6 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">HW 2: From correlation to linear mixed-effect models. Assignment sheet</h1>
+
+</div>
+
+
+<div id="vowel-reduction-in-russian" class="section level2">
+<h2>1. Vowel reduction in Russian</h2>
+<p>Pavel Duryagin ran an experiment on perception of vowel reduction in Russian language. The dataset <code>shva</code> includes the following variables:<br />
+<em>time1</em> - reaction time 1<br />
+<em>duration</em> - duration of the vowel in the stimuly (in milliseconds, ms)<br />
+<em>time2</em> - reaction time 2<br />
+<em>f1</em>, <em>f2</em>, <em>f3</em> - the 1st, 2nd and 3rd formant of the vowel measured in Hz (for a short introduction into formants, see <a href="https://home.cc.umanitoba.ca/~krussll/phonetics/acoustic/formants.html">here</a>)<br />
+<em>vowel</em> - vowel classified according the 3-fold classification (<em>A</em> - <em>a</em> under stress, <em>a</em> - <em>a/o</em> as in the first syllable before the stressed one, <em>y</em> (stands for shva) - <em>a/o</em> as in the second etc. syllable before the stressed one or after the stressed syllable, cf. <em>g</em>[<em>y</em>]<em>g</em>[<em>a</em>]<em>t</em>[<em>A</em>]<em>l</em>[<em>y</em>] <em>gogotala</em> `guffawed’).<br />
+In this part, we will ask you to analyse correlation between f1, f2, and duration. The dataset is available <a href="here">https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/data/duryagin_ReductionRussian.txt</a>.</p>
+<div id="read-the-data-from-file-to-the-variable-shva." class="section level3">
+<h3>1.0 Read the data from file to the variable <code>shva</code>.</h3>
+</div>
+<div id="scatterplot-f1-and-f2" class="section level3">
+<h3>1.1 Scatterplot <em>f1</em> and <em>f2</em></h3>
+<p>using ggplot(). Design it to look like the <a href="https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/img/duryagin1.png">following</a>.</p>
+</div>
+<div id="plot-the-boxplots-of-f1-and-f2-for-each-vowel-using-ggplot.-design-it-to-look-like-this-and-this." class="section level3">
+<h3>1.2 Plot the boxplots of <em>f1</em> and <em>f2</em> for each vowel using <code>ggplot()</code>. Design it to look like <a href="https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/img/duryagin2.png">this</a> and <a href="https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/img/duryagin3.png">this</a>.</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># f1 boxplot</span>
+
+<span class="co"># f2 boxplot</span></code></pre></div>
+</div>
+<div id="which-f1-can-be-considered-outliers-in-a-vowel" class="section level3">
+<h3>1.3 Which <em>f1</em> can be considered outliers in <em>a</em> vowel?</h3>
+<p>We assume outliers to be those observations that lie outside 1.5 * IQR, where IQR, the ‘Inter Quartile Range’, is the difference between the 1st and the 3rd quartile (= 25% and 75% percentile).</p>
+</div>
+<div id="calculate-pearsons-correlation-of-f1-and-f2-all-data" class="section level3">
+<h3>1.4 Calculate Pearson’s correlation of f1 and f2 (all data)</h3>
+</div>
+<div id="calculate-pearsons-correlation-of-f1-and-f2-for-each-vowel" class="section level3">
+<h3>1.5 Calculate Pearson’s correlation of f1 and f2 for each vowel</h3>
+</div>
+</div>
+<div id="english-lexicon-project-data" class="section level2">
+<h2>2. English Lexicon Project data</h2>
+<p>880 nouns, adjectives and verbs from the English Lexicon Project data (Balota et al. 2007).</p>
+<ul>
+<li>Format – A data frame with 880 observations on the following 5 variables.</li>
+<li>Word – a factor with lexical stimuli.</li>
+<li>Length – a numeric vector with word lengths.</li>
+<li>SUBTLWF – a numeric vector with frequencies in film subtitles.</li>
+<li>POS – a factor with levels JJ (adjective) NN (noun) VB (verb)</li>
+<li>Mean_RT – a numeric vector with mean reaction times in a lexical decision task Source (<a href="http://elexicon.wustl.edu/WordStart.asp" class="uri">http://elexicon.wustl.edu/WordStart.asp</a>)</li>
+</ul>
+<p>Data from Natalya Levshina’s <code>RLing</code> package available (here)[<a href="https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/data/ELP.csv" class="uri">https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/data/ELP.csv</a>]</p>
+<div id="read-the-data-from-file-to-the-variable-elp." class="section level3">
+<h3>2.0 Read the data from file to the variable <code>elp</code>.</h3>
+</div>
+<div id="which-two-variables-have-the-highest-pearsons-correlaton-value" class="section level3">
+<h3>2.1 Which two variables have the highest Pearson’s correlaton value?</h3>
+</div>
+<div id="group-your-data-by-parts-of-speech-and-make-a-scatterplot-of-subtlwf-and-mean_rt." class="section level3">
+<h3>2.2 Group your data by parts of speech and make a scatterplot of SUBTLWF and Mean_RT.</h3>
+<p>We’ve used <code>scale_color_continuous(low = &quot;lightblue&quot;, high = &quot;red&quot;)</code> as a parameter of ggplot().</p>
+</div>
+<div id="use-the-linear-regression-model-to-predict-mean_rt-by-logsubtlwf-and-pos." class="section level3">
+<h3>2.3 Use the linear regression model to predict Mean_RT by log(SUBTLWF) and POS.</h3>
+<div id="provide-the-result-regression-formula" class="section level4">
+<h4>2.3.1 Provide the result regression formula</h4>
+</div>
+<div id="provide-the-adjusted-r2" class="section level4">
+<h4>2.3.2 Provide the adjusted R<span class="math inline">\(^2\)</span></h4>
+</div>
+<div id="add-the-regression-line-in-the-scatterplot." class="section level4">
+<h4>2.3.3 Add the regression line in the scatterplot.</h4>
+</div>
+</div>
+<div id="use-the-mixed-efects-model-to-predict-f2-by-f1-using-pos-intercept-as-a-random-effect" class="section level3">
+<h3>2.4 Use the mixed-efects model to predict f2 by f1 using POS intercept as a random effect</h3>
+<div id="provide-the-fixed-effects-formula" class="section level4">
+<h4>2.4.1 Provide the fixed effects formula</h4>
+</div>
+<div id="provide-the-variance-for-intercept-argument-for-pos-random-effects" class="section level4">
+<h4>2.4.2 Provide the variance for intercept argument for POS random effects</h4>
+</div>
+<div id="add-the-regression-line-to-the-scatterplot" class="section level4">
+<h4>2.4.3 Add the regression line to the scatterplot</h4>
+</div>
+</div>
+</div>
+<div id="dutch-causative-constructions" class="section level2">
+<h2>3. Dutch causative constructions</h2>
+<p>This is a data set with examples of two Dutch periphrastic causatives extracted from newspaper corpora.</p>
+<p>The data frame includes 100 observations on the following 7 variables:</p>
+<ul>
+<li>Cx – a factor with levels doen_V and laten_V</li>
+<li>CrSem – a factor that contains the semantic class of the Causer with levels Anim (animate) and Inanim (inanimate).</li>
+<li>CeSem – a factor that describes the semantic class of the Causee with levels Anim (animate) and Inanim (inanimate).</li>
+<li>CdEv – a factor that describes the semantic domain of the caused event expressed by the Effected Predicate. The levels are Ment (mental), Phys (physical) and Soc (social).</li>
+<li>Neg – a factor with levels No (absence of negation) and Yes (presence of negation).</li>
+<li>Coref – a factor with levels No (no coreferentiality) and Yes (coreferentiality).</li>
+<li>Poss – a factor with levels No (no overt expression of possession) Yes (overt expression of possession)</li>
+</ul>
+<p>Data from Natalya Levshina’s <code>RLing</code> package available (here)[<a href="https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/data/dutch_causatives.csv" class="uri">https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/data/dutch_causatives.csv</a>]</p>
+<div id="read-the-data-from-file-to-the-variable-d_caus." class="section level3">
+<h3>3.0 Read the data from file to the variable <code>d_caus</code>.</h3>
+</div>
+<div id="we-are-going-to-test-whether-the-association-between-aux-and-other-categorical-variables-aux-crsem-aux-cesem-etc-is-statistically-significant.-the-assiciation-with-which-variable-should-be-analysed-using-fishers-exact-test-and-not-using-pearsons-chi-squared-test-is-this-association-statistically-significant" class="section level3">
+<h3>3.1 We are going to test whether the association between <code>Aux</code> and other categorical variables (<code>Aux</code> ~ <code>CrSem</code>, <code>Aux</code> ~ <code>CeSem</code>, etc) is statistically significant. The assiciation with which variable should be analysed using Fisher’s Exact Test and not using Pearson’s Chi-squared Test? Is this association statistically significant?</h3>
+</div>
+<div id="test-the-hypothesis-that-aux-and-eptrans-are-not-independent-with-the-help-of-pearsons-chi-squared-test." class="section level3">
+<h3>3.2. Test the hypothesis that <code>Aux</code> and <code>EPTrans</code> are not independent with the help of Pearson’s Chi-squared Test.</h3>
+</div>
+<div id="provide-expected-values-for-pearsons-chi-squared-test-of-aux-and-eptrans-variables." class="section level3">
+<h3>3.3 Provide expected values for Pearson’s Chi-squared Test of <code>Aux</code> and <code>EPTrans</code> variables.</h3>
+</div>
+<div id="calculate-the-odds-ratio." class="section level3">
+<h3>3.4. Calculate the odds ratio.</h3>
+</div>
+<div id="calculate-effect-size-for-this-test-using-cramers-v-phi." class="section level3">
+<h3>3.5 Calculate effect size for this test using Cramer’s V (phi).</h3>
+</div>
+<div id="report-the-results-of-independence-test-using-the-following-template" class="section level3">
+<h3>3.6. Report the results of independence test using the following template:</h3>
+<pre><code>We have / have not found a significant association between variables ... and ... (p &lt; 0.001).  The odds of ... were ... times higher / lower in (group ....) than in (group ....). Effect size is large / medium / small (Cramer&#39;s V = ....).</code></pre>
+</div>
+<div id="visualize-the-distribution-using-mosaic-plot." class="section level3">
+<h3>3.7 Visualize the distribution using mosaic plot.</h3>
+<p>Use <code>mosaic()</code> function from <code>vcd</code> library.</p>
+<p>Below is an example of how to use mosaic() with three variables.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># mosaic(~ Aux + CrSem + Country, data=d_caus, shade=TRUE, legend=TRUE)</span></code></pre></div>
+</div>
+<div id="why-is-it-not-recommended-to-run-multiple-chisq-tests-of-independence-on-different-variables-within-your-dataset-whithout-adjusting-for-the-multiplicity-i.e.just-testing-all-the-pairs-of-variables-one-by-one" class="section level3">
+<h3>3.8 Why is it not recommended to run multiple Chisq tests of independence on different variables within your dataset whithout adjusting for the multiplicity? (i.e. just testing all the pairs of variables one by one)</h3>
+<pre><code></code></pre>
+</div>
+<div id="provide-a-short-text-300-words-describing-the-hypothesis-on-this-study-and-the-results-of-your-analysis." class="section level3">
+<h3>3.9 Provide a short text (300 words) describing the hypothesis on this study and the results of your analysis.</h3>
+</div>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<p> <center> &copy; О. Ляшевская, И. Щуров, Г. Мороз, code on
+<a href="https://github.com/agricolamz/2018-MAG_R_course"> GitHub<img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png"  style="width:30px;height:30px;border:0"> </center></p>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
