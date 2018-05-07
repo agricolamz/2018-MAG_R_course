@@ -23,32 +23,33 @@ The dataset is available [https://raw.githubusercontent.com/agricolamz/2018-MAG_
 
 ```
 
-### 1.1 Scatterplot _f1_ and _f2_ 
-using ggplot(). Design it to look like the [following](https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/img/duryagin1.png).
+### 1.1 Scatterplot `f1` and `f2` using `ggplot()`. 
+Design it to look like the [following](https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/img/duryagin1.png).
 ```{r 1.1}
 
 ```
 
-### 1.2 Plot the boxplots of _f1_ and _f2_ for each vowel using `ggplot()`. Design it to look like [this](https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/img/duryagin2.png) and [this](https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/img/duryagin3.png).
+### 1.2 Plot the boxplots of `f1` and `f2` for each vowel using `ggplot()`.
+Design it to look like [this](https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/img/duryagin2.png) and [this](https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/img/duryagin3.png).
 ```{r 1.2}
 # f1 boxplot
 
 # f2 boxplot
 ```
 
-### 1.3 Which _f1_ can be considered outliers in _a_ vowel?
+### 1.3 Which `f1` can be considered outliers in _a_ vowel?
 We assume outliers to be those observations that lie outside 1.5 * IQR, where IQR, the 'Inter Quartile Range', is the difference between the 1st and the 3rd quartile (= 25% and 75% percentile).
 ```{r 1.3}
 
 
 ```
 
-### 1.4 Calculate Pearson's correlation of f1 and f2 (all data)
+### 1.4 Calculate Pearson's correlation of `f1` and `f2` (all data)
 ```{r 1.4}
 
 ```
 
-### 1.5 Calculate Pearson's correlation of f1 and f2 for each vowel
+### 1.5 Calculate Pearson's correlation of `f1` and `f2` for each vowel
 ```{r 1.5}
 
 ```
@@ -57,12 +58,12 @@ We assume outliers to be those observations that lie outside 1.5 * IQR, where IQ
 ## 2. English Lexicon Project data
 880 nouns, adjectives and verbs from the English Lexicon Project data (Balota et al. 2007).
 
-* Format -- A data frame with 880 observations on the following 5 variables.
-* Word -- a factor with lexical stimuli.
-* Length -- a numeric vector with word lengths.
-* SUBTLWF -- a numeric vector with frequencies in film subtitles.
-* POS -- a factor with levels JJ (adjective) NN (noun) VB (verb)
-* Mean_RT -- a numeric vector with mean reaction times in a lexical decision task
+* `Format` -- A data frame with 880 observations on the following 5 variables.
+* `Word` -- a factor with lexical stimuli.
+* `Length` -- a numeric vector with word lengths.
+* `SUBTLWF` -- a numeric vector with frequencies in film subtitles.
+* `POS` -- a factor with levels JJ (adjective) NN (noun) VB (verb)
+* `Mean_RT` -- a numeric vector with mean reaction times in a lexical decision task
 Source (http://elexicon.wustl.edu/WordStart.asp)
 
 Data from Natalya Levshina's `RLing` package available (here)[https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/data/ELP.csv]
@@ -82,9 +83,9 @@ Data from Natalya Levshina's `RLing` package available (here)[https://raw.github
 
 ```
 
-We've used `scale_color_continuous(low = "lightblue", high = "red")` as a parameter of ggplot().
+We've used `scale_color_continuous(low = "lightblue", high = "red")` as a parameter of `ggplot()`.
 
-### 2.3 Use the linear regression model to predict Mean_RT by log(SUBTLWF) and POS.
+### 2.3 Use the linear regression model to predict `Mean_RT` by `log(SUBTLWF)` and `POS`.
 #### 2.3.1 Provide the result regression formula
 ```{r 2.3.1}
 
@@ -100,13 +101,14 @@ We've used `scale_color_continuous(low = "lightblue", high = "red")` as a parame
 
 ```
 
-### 2.4 Use the mixed-efects model to predict f2 by f1 using POS intercept as a random effect
+### 2.4 Use the mixed-efects model to predict `Mean_RT` by `log(SUBTLWF)` using POS intercept as a random effect
+
 #### 2.4.1 Provide the fixed effects formula
 ```{r 2.4.1}
 
 ```
 
-#### 2.4.2 Provide the variance for intercept argument for POS random effects
+#### 2.4.2 Provide the variance for intercept argument for `POS` random effects
 ```{r 2.4.2}
 
 ```
