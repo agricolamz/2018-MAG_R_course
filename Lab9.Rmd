@@ -1,5 +1,5 @@
 ---
-title: "Home Work 3. From correlation to linear mixed-effect models"
+title: "Lab 8. Linear mixed-effects models"
 ---
 
 ```{r setup, include=FALSE}
@@ -8,7 +8,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## 1. Vowel reduction in Russian
 
-Pavel Duryagin ran an experiment on perception of vowel reduction 
+Pavel Duryagin ran an experiment on perception of vowel reduction in Russian.
 
 
 ## [Assignment link](https://docs.google.com/forms/d/e/1FAIpQLSfQAI87CVsjqbkw1XbvJw_dmj8tET1s-oT9jmQGx9miRRtcMQ)
