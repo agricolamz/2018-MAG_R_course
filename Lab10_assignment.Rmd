@@ -1,0 +1,197 @@
+---
+title: "Lab 10. Binary logistic regression"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Libraries
+```{r, message= FALSE, include=TRUE}
+library(tidyverse)
+library(stats)
+```
+
+## 1 Numeric example
+It is interesting, whether languages with ejective sounds have in average more consonants. So I collected data from phonological database LAPSyD: http://goo.gl/0btfKa.
+
+### 1.1 Data summary
+```{r}
+ej_cons <- read.csv("http://goo.gl/0btfKa")
+ej_cons %>% 
+  ggplot(aes(ejectives, n.cons.lapsyd, color = ejectives))+
+  geom_jitter(width = 0.2)+
+  labs(title = "Number of consonants ~ presence of ejectives",
+       x = "presence of ejectives",
+       y = "number of consonants")+
+  theme_bw()
+```
+
+### 1.2 Model without predictors
+```{r}
+fit1 <- glm(ejectives~1, data = ej_cons, family = "binomial")
+summary(fit1)
+```
+
+How we get this estimate value?
+```{r}
+table(ej_cons$ejectives)
+log(10/17)
+```
+
+What does this model say? This model says that if we have no predictors and take some language it has $\frac{0.5306283}{(1+e^{-0.5306283})} = 0.3340993$ probability to have ejectives.
+
+### 1.3 Model with numeric predictor
+```{r}
+fit2 <- glm(ejectives~n.cons.lapsyd, data = ej_cons, family = "binomial")
+summary(fit2)
+```
+What does this model say? This model says:
+
+$$\log(odds(ej)) = \beta_o + \beta_1 \times n.cons.lapsyd = 
+-9.9204 + 0.3797 \times n.cons.lapsyd$$
+
+Lets visualize our model:
+```{r}
+ej_cons %>% 
+  mutate(`P(ejective)` = as.numeric(ejectives) - 1) %>% 
+  ggplot(aes(x = n.cons.lapsyd, y = `P(ejective)`))+
+  geom_smooth(method = "glm", method.args = list(family = "binomial"), se = FALSE) +
+  geom_point()+
+  theme_bw()
+```
+
+So probability for a language that have 30 consonants will be
+$$\log(odds(ej)) = -9.9204 + 0.3797 \times 30 = 1.4706$$
+
+$$P(ej) = \frac{1.47061}{1+1.4706}=0.8131486$$
+
+### 1.4 predict()
+```{r}
+new.df <- data.frame(n.cons.lapsyd = c(30, 55, 34, 10))
+predict(fit2, new.df) # odds
+predict(fit2, new.df, type = "response") # probabilities
+predict(fit2, new.df, type = "response", se.fit = TRUE) # probabilities and confidense interval
+```
+
+So we actually can create a plot with confidense intervals.
+```{r}
+ej_cons_ci <- cbind.data.frame(ej_cons, predict(fit2, ej_cons, type = "response", se.fit = TRUE)[1:2])
+ej_cons_ci
+```
+
+```{r}
+ej_cons_ci %>%
+  mutate(`P(ejective)` = as.numeric(ejectives) - 1) %>% 
+  ggplot(aes(x = n.cons.lapsyd, y = `P(ejective)`))+
+  geom_smooth(method = "glm", method.args = list(family = "binomial"), se = FALSE)+
+  geom_point() +
+  geom_pointrange(aes(x = n.cons.lapsyd, ymin = fit - se.fit, ymax = fit + se.fit))+
+  labs(title = "P(ej) ~ number of consonants",
+       x = "number of consonants",
+       caption = "data from LAPSyD database")+
+  theme_bw()
+```
+
+
+## 2. Choice betweeen two constructions in Russian
+
+The Russian verb _gruzit'_ `load' is special for three reasons. First, this verb has two syntactic constructions it can appear in, second, it has three perfective counterparts with the prefixes _NA-_, _PO-_, and _ZA-_ that do not add to its lexical meaning (and thus can be cosidered Natural Perfectives), and third all three Natural Perfectives can also use both constructions. 
+
+The two constructions that _gruzit'_ 'load' can appear in are called the ''THEME-object'' construction and the ''GOAL-object'' construction, and this phenomenon is known in many languages as Locative Alternation. The names of the constructions come from the direct object that is marked with the accusative case. Let's say that we have some boxes that we want to transport and a cart that we can use for this purpose. The boxes are the theme (the item that is put somewhere) and the cart is the goal (the place where the item is put). In the THEME-object construction the theme is the direct object, as in _gruzit' jaschiki.ACC na telegu_ 'load the boxes onto the cart'. The goal appears in a prepositional phrase in the theme-object construction, usually with the preposition _na_ `onto' or _v_ `into'. In the GOAL-object construction the goal is the direct object, as in _gruzit' telegu.ACC jaschikami_ 'load the cart with boxes'. The theme in the GOAL-object construction often appears in the instrumental case as in our example: _jaschikami_ `with boxes'. _gruzit'_ `load' uses not just one, but three prefixes to form Natural Perfectives: _NA-_, _ZA-_, and _PO-_. Collectively we call these four verbs (the simplex and the three Natural Perfectives) ''the 'load' verbs''. All three Natural Perfectives can appear in both the THEME-object and the GOAL-object constructions. Janda et al. 2013, chapter 4 explores whether the choice of prefix makes a difference in the distribution of the THEME-object and GOAL-object constructions. Along with the prefixes, they test whether the passive construction (ie. construction with passive participle) and omission of the prepositional phrase (ie. reduced construction) could motivate the choice between the THEME-object and GOAL-object constructions.  
+
+The dataset: There are 1920 lines of data, each corresponding to one of the examples extracted from the Russian National Corpus. 
+The dataset includes four variables:   
+* CONSTRUCTION: This is our dependent variable, and it has two values, `theme`, and `goal`.   
+* VERB: This is an independent variable, and it has four values, `\_zero` (for the unprefixed verb _gruzit'_ 'load'), `na`, `za`, and `po` (for the three prefixed variants).   
+* REDUCED: This is an independent variable, and it has two values, yes and no. This refers to whether the construction was reduced (`yes`) or full (`no`).   
+* PARTICIPLE: This is an independent variable, and it has two values, yes and no. This refers to whether the construction was passive (`yes`) or active (`no`).
+
+Source: [Trolling repository](https://hdl.handle.net/10037.1/10022)
+
+### 2.1 Data summary
+```{r 2.1}
+loaddata = read.csv('https://agricolamz.github.io/2018-MAG_R_course/data/loaddata.csv')
+# Put the summary below:
+```
+
+### 2.2 Formulate your hypothesis, what motivates the choice between two constructions?
+```{2.2}
+
+
+```
+
+### 2.3 Fit the simplest logistic regression model using `VERB` as the only factor.
+```{r 2.3}
+# use glm() in the following way: fit <- glm(Dependent_variable ~ Factor_variable(s), family = binomial, data = ....)
+
+
+```
+
+### 2.4 Formulate the results of your analysis as text:
+```{2.4}
+
+
+```
+
+### 2.5 Add more factors to your model, one by one.
+Note that we do not consider possible interactions here yet.
+```{r 2.5}
+
+
+
+
+```
+
+### 2.6 Which model fits your data the best according to AIC?
+Note that this model should include only significant factors.
+
+AIC (Akaike Information Criterion) is a goodness-of-fit measure to compare the models with different number of predictors. It penalizes a model for having too many predictors.  The smaller AIC, the better.
+```{2.6}
+Name of the model:
+AIC: 
+```
+
+### 2.7 Fit the model with all factors and all possible interactions.
+Hint: Dependent_variable ~ Factor1 \* Factor2 \* Factor3  (the same as: Factor1 + Factor2 + Factor3 + Factor1:Factor2 + ... + Factor1:Factor2:Factor3)
+
+```{r 2.7}
+
+
+```
+
+### 2.8 Remove all insignificant interactions and report the minimal optimal model here:
+```{r 1.8}
+
+
+```
+
+### 2.9 Check the 95% confidence intevals of the estimated coefficients.
+```{r 2.9}
+print("These are the confidence interval values:")
+
+
+```
+If a 95% con dence interval contains zero, this indicates that the corresponding effect is not significant.
+You can also use `exp(confint(...))` to obtain simple odds ratios. The confidence interval of a significant effect based on simple odds ratios should not include 1.
+
+### 2.10 Report the odds of success for each predictor variable.
+```{r 2.10}
+print("These are the odds of success for each predictor variable:")
+
+
+```
+
+### 2.11 Additional code: stepwise selection of variables
+See examples from Levshina 2015:
+m0.glm <- glm(Aux ~ 1, data = doenLaten, family = binomial)
+m.fw <- step(m0.glm, direction = "forward", scope = ~ Causation + EPTrans + Country)
+
+m.glm <- glm(Aux ~ Causation + EPTrans + Country, data = doenLaten, family = binomial)
+m.bw <- step(m.glm, direction = "backward")
+
+```{r 2.11}
+
+
+
+```
