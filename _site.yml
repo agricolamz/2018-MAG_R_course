@@ -1,17 +1,18 @@
-name: ""
-navbar: 
-  left: 
-    - href: index.html
-      text: Home
-  title: ""
+name: ''
+navbar:
+  left:
+  - href: index.html
+    text: Home
+  title: ''
 output_dir: docs
 output:
   html_document:
-    lib_dir: site_libs
-    self_contained: no
     theme: lumen
     highlight: tango
-    smooth_scroll: false
+    smooth_scroll: no
     df_print: paged
     include:
       after_body: footer.html
+    lib_dir: site_libs
+    self_contained: no
+
