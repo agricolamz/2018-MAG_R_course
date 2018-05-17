@@ -74,7 +74,7 @@ title: "Linguistic data: quantitative analysis and visualisation"
 
 ### 11. Decision trees. Decision forests											
 * (.2018) lecture
-* (.2018) Lab 11 (CART), Assignment
+* (.2018) Lab 11 (CART), [Assignment](https://goo.gl/forms/reyDIJ4NWbvR5Gbq1)
 
 * HW-5. Due: next class
 
