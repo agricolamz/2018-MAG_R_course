@@ -66,7 +66,7 @@ title: "Linguistic data: quantitative analysis and visualisation"
 
 ### 10. Binary logistic regressions
 
-* (10.05.2018) Lecture 10
+* (10.05.2018) [Lecture 10](https://agricolamz.github.io/2018-MAG_R_course/docs/Lec10_Logistic_regression.html)
 * (10.05.2018) Lab 10: [Assignment](https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/Lab10_assignment.Rmd)
 
 * Final Exam Projects: Data. Data annotation. Please put a link here, sheet [Projects](https://docs.google.com/spreadsheets/d/1HdjLzF3jUXddq2N7pUpGn7P1tMJ4ut9mskucVjiNlwQ) Due: 20.05.2018

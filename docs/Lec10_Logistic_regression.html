@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Logistic regression</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/lumen.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 54px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+
+.section h2 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h3 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h4 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h5 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h6 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Logistic regression</h1>
+<h4 class="date"><em>10.05.2018</em></h4>
+
+</div>
+
+
+<div id="background-statistics" class="section level3">
+<h3>1. Background statistics</h3>
+<p>Variable types</p>
+<ul>
+<li>numeric</li>
+<li>categorical</li>
+</ul>
+<p>What do we know:</p>
+<ul>
+<li>Confidence intervals (numeric variable)</li>
+<li>Fisher test (categorical by categorical)</li>
+<li>Simple linear regression (numeric by one numeric variable)</li>
+<li>Linear regression with dummy variables (numeric by any variable)</li>
+</ul>
+<p>Today:</p>
+<ul>
+<li>Multiple linear regression (numeric by several numeric variables)</li>
+<li>Multiple linear regression with dummy variables (numeric by any variable)</li>
+<li>Logistic (logit) regression (binary dependent variable by any number of variables of any type)</li>
+</ul>
+</div>
+<div id="how-does-it-work" class="section level3">
+<h3>2.1 How does it work</h3>
+<p>Logistic or logit regression was developed in [Cox 1958]. It is a regression model wich predicts binary dependent variable using any number of variables of any type.</p>
+<p>What do we need?</p>
+<p><span class="math display">\[\underbrace{y_i}_{[-\infty, +\infty]}=\underbrace{\beta_0+\beta_1\cdot x_1+\beta_2\cdot x_2 + \dots +\beta_z\cdot x_z +\epsilon_i}_{[-\infty, +\infty]}\]</span></p>
+<p>But in our case <span class="math inline">\(y\)</span> is a binary variable.</p>
+<ul>
+<li>Probability?</li>
+</ul>
+<p><span class="math display">\[P(y) = \frac{\mbox{# successes}}{\mbox{# failures} + \mbox{# successes}}; P(y) \in [0, 1]\]</span></p>
+<ul>
+<li>Odds?</li>
+</ul>
+<p><span class="math display">\[odds(y) = \frac{P(y)}{1-P(y)} = \frac{\mbox{P(successes)}}{\mbox{P(failures)}} = \frac{\mbox{# successes}}{\mbox{# failures}}; odds(y) \in [0, +\infty]\]</span></p>
+<ul>
+<li>Natural logarithm of odds</li>
+</ul>
+<p><span class="math display">\[\log(odds(y)) \in [-\infty, +\infty]\]</span></p>
+</div>
+<div id="reminder-about-logarithms" class="section level3">
+<h3>2.2 Reminder about logarithms</h3>
+<p><img src="Lec10_Logistic_regression_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<ul>
+<li>if log(odds) are greater then 0, it means that we have more successes then failures;</li>
+<li>if log(odds) is equal to 0, it means that we have the same number of successes and failures;</li>
+<li>if log(odds) are less then 0, it means that we have less successes then failures;</li>
+</ul>
+</div>
+<div id="probability-and-logodds" class="section level3">
+<h3>2.3 Probability and log(odds)</h3>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["s"],"name":[1],"type":["int"],"align":["right"]},{"label":["f"],"name":[2],"type":["int"],"align":["right"]},{"label":["P(s)"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["odds(s)"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["log(odds(s))"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"0","2":"10","3":"0.0","4":"0.0000000","5":"-Inf"},{"1":"1","2":"9","3":"0.1","4":"0.1111111","5":"-2.1972246"},{"1":"2","2":"8","3":"0.2","4":"0.2500000","5":"-1.3862944"},{"1":"3","2":"7","3":"0.3","4":"0.4285714","5":"-0.8472979"},{"1":"4","2":"6","3":"0.4","4":"0.6666667","5":"-0.4054651"},{"1":"5","2":"5","3":"0.5","4":"1.0000000","5":"0.0000000"},{"1":"6","2":"4","3":"0.6","4":"1.5000000","5":"0.4054651"},{"1":"7","2":"3","3":"0.7","4":"2.3333333","5":"0.8472979"},{"1":"8","2":"2","3":"0.8","4":"4.0000000","5":"1.3862944"},{"1":"9","2":"1","3":"0.9","4":"9.0000000","5":"2.1972246"},{"1":"10","2":"0","3":"1.0","4":"Inf","5":"Inf"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p><span class="math display">\[\log(odds(s)) = \log\left(\frac{\#s}{\#f}\right)\]</span> <span class="math display">\[P(s) = \frac{\exp(\log(odds(s)))}{1+\exp(\log(odds(s)))}\]</span></p>
+<p>Results of the logistic regression can be easily converted to probabilities.</p>
+</div>
+<div id="sigmoid" class="section level3">
+<h3>2.4 Sigmoid</h3>
+<p><img src="Lec10_Logistic_regression_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>Formula for this sigmoid is the following:</p>
+<p><span class="math display">\[y = \frac{1}{1+e^{-x}}\]</span></p>
+<p>Feeting our logistic regression we should be able to reverse our sigmoid:</p>
+<p><img src="Lec10_Logistic_regression_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Formula for this sigmoid is the following:</p>
+<p><span class="math display">\[y = \frac{1}{1+e^{-(-x)}} = \frac{1}{1+e^{x}}\]</span></p>
+<p>Feeting our logistic regression we should be able to move center of our sigmoid to the left/right side:</p>
+<p><img src="Lec10_Logistic_regression_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Formula for this sigmoid is the following:</p>
+<p><span class="math display">\[y = \frac{1}{1+e^{-(x-2)}}\]</span></p>
+<p>Feeting our logistic regression we should be able to squeeze/stretch center of our sigmoid:</p>
+<p><img src="Lec10_Logistic_regression_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><span class="math display">\[y = \frac{1}{1+e^{-4x}}\]</span></p>
+<p>So the more general formula will be: <span class="math display">\[y = \frac{1}{1+e^{-k(x-z)}}\]</span></p>
+<p>where</p>
+<ul>
+<li>depending on <span class="math inline">\(x\)</span> values sigmoid can be reversed</li>
+<li><span class="math inline">\(k\)</span> is squeeze/stretch coefficient</li>
+<li><span class="math inline">\(z\)</span> is coefficient that indicates movement of the sigmoid center to the left or right side</li>
+</ul>
+</div>
+<div id="numeric-example" class="section level3">
+<h3>3. Numeric example</h3>
+<p>It is interesting to know whether the languages with ejective sounds have in average more consonants. So we collected data from phonological database LAPSyD: <a href="http://goo.gl/0btfKa" class="uri">http://goo.gl/0btfKa</a>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ej_cons &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://goo.gl/0btfKa&quot;</span>)
+ej_cons <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(ejectives, n.cons.lapsyd, <span class="dt">color =</span> ejectives))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_jitter</span>(<span class="dt">width =</span> <span class="fl">0.2</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Number of consonants ~ presence of ejectives&quot;</span>,
+       <span class="dt">x =</span> <span class="st">&quot;presence of ejectives&quot;</span>,
+       <span class="dt">y =</span> <span class="st">&quot;number of consonants&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_bw</span>()</code></pre></div>
+<p><img src="Lec10_Logistic_regression_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<ul>
+<li>Model without predictors</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit1 &lt;-<span class="st"> </span><span class="kw">glm</span>(ejectives<span class="op">~</span><span class="dv">1</span>, <span class="dt">data =</span> ej_cons, <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+<span class="kw">summary</span>(fit1)</code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = ejectives ~ 1, family = &quot;binomial&quot;, data = ej_cons)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -0.9619  -0.9619  -0.9619   1.4094   1.4094  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)
+## (Intercept)  -0.5306     0.3985  -1.331    0.183
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 35.594  on 26  degrees of freedom
+## Residual deviance: 35.594  on 26  degrees of freedom
+## AIC: 37.594
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<p>How we get this estimate value?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(ej_cons<span class="op">$</span>ejectives)</code></pre></div>
+<pre><code>## 
+##  no yes 
+##  17  10</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">log</span>(<span class="dv">10</span><span class="op">/</span><span class="dv">17</span>)</code></pre></div>
+<pre><code>## [1] -0.5306283</code></pre>
+<p>What does this model say? This model says that if we have no predictors and take some language it has <span class="math inline">\(\frac{0.5306283}{(1+e^{-0.5306283})} = 0.3340993\)</span> probability to have ejectives.</p>
+<ul>
+<li>Model with numeric predictor</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit2 &lt;-<span class="st"> </span><span class="kw">glm</span>(ejectives<span class="op">~</span>n.cons.lapsyd, <span class="dt">data =</span> ej_cons, <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+<span class="kw">summary</span>(fit2)</code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = ejectives ~ n.cons.lapsyd, family = &quot;binomial&quot;, 
+##     data = ej_cons)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.8317  -0.4742  -0.2481   0.1914   2.1997  
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(&gt;|z|)   
+## (Intercept)    -9.9204     3.7699  -2.631   0.0085 **
+## n.cons.lapsyd   0.3797     0.1495   2.540   0.0111 * 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 35.594  on 26  degrees of freedom
+## Residual deviance: 16.202  on 25  degrees of freedom
+## AIC: 20.202
+## 
+## Number of Fisher Scoring iterations: 6</code></pre>
+<p>What does this model say? This model says:</p>
+<p><span class="math display">\[\log(odds(ej)) = \beta_o + \beta_1 \times n.cons.lapsyd = 
+-9.9204 + 0.3797 \times n.cons.lapsyd\]</span></p>
+<p>Lets visualize our model:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ej_cons <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="st">`</span><span class="dt">P(ejective)</span><span class="st">`</span> =<span class="st"> </span><span class="kw">as.numeric</span>(ejectives) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> n.cons.lapsyd, <span class="dt">y =</span> <span class="st">`</span><span class="dt">P(ejective)</span><span class="st">`</span>))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>, <span class="dt">method.args =</span> <span class="kw">list</span>(<span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>), <span class="dt">se =</span> <span class="ot">FALSE</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_bw</span>()</code></pre></div>
+<p><img src="Lec10_Logistic_regression_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>So probability for a language that have 30 consonants will be <span class="math display">\[\log(odds(ej)) = -9.9204 + 0.3797 \times 30 = 1.4706\]</span> Thus, the output YES (the langiage has ejectives) has approximately 1.47 times more chances to occure if the language has 30 consonants than the output NO.</p>
+<p><span class="math display">\[P(ej) = \frac{1.47061}{1+1.4706}=0.8131486\]</span></p>
+</div>
+<div id="predict-evaluating-the-models-performance" class="section level3">
+<h3>4. predict(): Evaluating the model’s performance</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">new.df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">n.cons.lapsyd =</span> <span class="kw">c</span>(<span class="dv">30</span>, <span class="dv">55</span>, <span class="dv">34</span>, <span class="dv">10</span>))
+<span class="kw">predict</span>(fit2, new.df) <span class="co"># odds</span></code></pre></div>
+<pre><code>##         1         2         3         4 
+##  1.470850 10.963579  2.989686 -6.123334</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">predict</span>(fit2, new.df, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>) <span class="co"># probabilities</span></code></pre></div>
+<pre><code>##           1           2           3           4 
+## 0.813186486 0.999982679 0.952106011 0.002186347</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">predict</span>(fit2, new.df, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>, <span class="dt">se.fit =</span> <span class="ot">TRUE</span>) <span class="co"># probabilities and confidense interval</span></code></pre></div>
+<pre><code>## $fit
+##           1           2           3           4 
+## 0.813186486 0.999982679 0.952106011 0.002186347 
+## 
+## $se.fit
+##            1            2            3            4 
+## 1.512886e-01 7.882842e-05 6.869366e-02 5.038557e-03 
+## 
+## $residual.scale
+## [1] 1</code></pre>
+<p>So we actually can create a plot with confidense intervals.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ej_cons_ci &lt;-<span class="st"> </span><span class="kw">cbind.data.frame</span>(ej_cons, <span class="kw">predict</span>(fit2, ej_cons, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>, <span class="dt">se.fit =</span> <span class="ot">TRUE</span>)[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>])
+ej_cons_ci</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["name"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["n.cons.lapsyd"],"name":[2],"type":["int"],"align":["right"]},{"label":["ejectives"],"name":[3],"type":["fctr"],"align":["left"]},{"label":["fit"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["se.fit"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"Turkish","2":"24","3":"no","4":"0.308443627","5":"1.376976e-01","_rn_":"1"},{"1":"Korean","2":"21","3":"no","4":"0.124931874","5":"9.358363e-02","_rn_":"2"},{"1":"Tiwi","2":"21","3":"no","4":"0.124931874","5":"9.358363e-02","_rn_":"3"},{"1":"Kpelle","2":"22","3":"no","4":"0.172669632","5":"1.090491e-01","_rn_":"4"},{"1":"Tulu","2":"21","3":"no","4":"0.124931874","5":"9.358363e-02","_rn_":"5"},{"1":"Mapudungun","2":"20","3":"no","4":"0.088972775","5":"7.806484e-02","_rn_":"6"},{"1":"Kiowa","2":"19","3":"no","4":"0.062623081","5":"6.341445e-02","_rn_":"7"},{"1":"Guarani","2":"18","3":"no","4":"0.043702625","5":"5.034610e-02","_rn_":"8"},{"1":"Japanese","2":"15","3":"no","4":"0.014417525","5":"2.278884e-02","_rn_":"9"},{"1":"Batak","2":"17","3":"no","4":"0.030313786","5":"3.921885e-02","_rn_":"10"},{"1":"Yoruba","2":"18","3":"no","4":"0.043702625","5":"5.034610e-02","_rn_":"11"},{"1":"Finnish","2":"17","3":"no","4":"0.030313786","5":"3.921885e-02","_rn_":"12"},{"1":"Kayardild","2":"17","3":"no","4":"0.030313786","5":"3.921885e-02","_rn_":"13"},{"1":"Hawaiian","2":"8","3":"no","4":"0.001024268","5":"2.658820e-03","_rn_":"14"},{"1":"Maori","2":"10","3":"no","4":"0.002186347","5":"5.038557e-03","_rn_":"15"},{"1":"Hungarian","2":"26","3":"no","4":"0.488005505","5":"1.637595e-01","_rn_":"16"},{"1":"Kannada","2":"30","3":"no","4":"0.813186486","5":"1.512886e-01","_rn_":"17"},{"1":"Georgean","2":"28","3":"yes","4":"0.670717326","5":"1.740778e-01","_rn_":"18"},{"1":"Ingush","2":"34","3":"yes","4":"0.952106011","5":"6.869366e-02","_rn_":"19"},{"1":"Abkhaz","2":"58","3":"yes","4":"0.999994456","5":"2.769836e-05","_rn_":"20"},{"1":"Amharic","2":"32","3":"yes","4":"0.902934848","5":"1.088031e-01","_rn_":"21"},{"1":"Sandawe","2":"47","3":"yes","4":"0.999638868","5":"1.216840e-03","_rn_":"22"},{"1":"Tlingit","2":"42","3":"yes","4":"0.997593950","5":"6.337117e-03","_rn_":"23"},{"1":"Lakota","2":"30","3":"yes","4":"0.813186486","5":"1.512886e-01","_rn_":"24"},{"1":"Yucatec","2":"20","3":"yes","4":"0.088972775","5":"7.806484e-02","_rn_":"25"},{"1":"Aymara","2":"27","3":"yes","4":"0.582178309","5":"1.725265e-01","_rn_":"26"},{"1":"Pomo","2":"26","3":"yes","4":"0.488005505","5":"1.637595e-01","_rn_":"27"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ej_cons_ci <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="st">`</span><span class="dt">P(ejective)</span><span class="st">`</span> =<span class="st"> </span><span class="kw">as.numeric</span>(ejectives) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> n.cons.lapsyd, <span class="dt">y =</span> <span class="st">`</span><span class="dt">P(ejective)</span><span class="st">`</span>))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>, <span class="dt">method.args =</span> <span class="kw">list</span>(<span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>), <span class="dt">se =</span> <span class="ot">FALSE</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_pointrange</span>(<span class="kw">aes</span>(<span class="dt">x =</span> n.cons.lapsyd, <span class="dt">ymin =</span> fit <span class="op">-</span><span class="st"> </span>se.fit, <span class="dt">ymax =</span> fit <span class="op">+</span><span class="st"> </span>se.fit))<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;P(ej) ~ number of consonants&quot;</span>,
+       <span class="dt">x =</span> <span class="st">&quot;number of consonants&quot;</span>,
+       <span class="dt">caption =</span> <span class="st">&quot;data from LAPSyD database&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_bw</span>()</code></pre></div>
+<p><img src="Lec10_Logistic_regression_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+</div>
+<div id="more-variables-in-the-model" class="section level3">
+<h3>5. More variables in the model</h3>
+<p><span class="math display">\[\underbrace{\log(odds(y))}_{[-\infty, +\infty]}=\underbrace{\beta_0+\beta_1\cdot x_1+\beta_2\cdot x_2 + \dots +\beta_z\cdot x_z +\epsilon}_{[-\infty, +\infty]}\]</span></p>
+<p>The significance of each variable (predictor) is not the same in models with different number of variables. In other words, it depends on the combination of predictors in a specific model.</p>
+</div>
+<div id="model-selection" class="section level3">
+<h3>6. Model selection</h3>
+<p><strong>AIC</strong> (Akaike Information Criterion) is a goodness-of-fit measure to compare the models with different number of predictors. It penalizes a model for having too many predictors. The smaller AIC, the better.<br />
+While comparing models, we are looking for the <strong>minimal optimal model</strong>:<br />
+* optimal, as it helps to predict the output in the best way<br />
+* minimal optimal, as it uses the minimal number of predictors</p>
+<p>Other measures to evaluate the model includes:<br />
+* accuracy<br />
+* concordance index C (the area under the ROC-curve)<br />
+* Nagelkerke <span class="math inline">\(pseudo-R^{2}\)</span></p>
+</div>
+<div id="interaction-of-the-variables" class="section level3">
+<h3>7. Interaction of the variables</h3>
+<p>Interaction happens when the effect of one predictor on the outcome depends on the value of another predictor. Interaction of two predictors can be <strong>positive</strong> (their joint role increases the effect) or <strong>negative</strong> (their joint role decreases the effect).<br />
+Example: animacy and semantic class; animacy and the choice of syntactic construction; effect of verb transitivity in different language varieties.<br />
+<img src="https://stats.idre.ucla.edu/wp-content/uploads/2016/02/prob_dif.png" width=600></p>
+</div>
+<div id="conclusion-generalized-linear-models-glm" class="section level3">
+<h3>8. Conclusion: Generalized linear models (GLM)</h3>
+<p>GLM is a broad class of models that include linear regression, logistic regression, log linear regression, Poisson regression, ANOVA, ANCOVA, etc. In order to call a particular method to be GLM, that method should have the following three components:</p>
+<ul>
+<li><p><strong>Random Component</strong>: It refers a response variable (y), which need to satisfy some assumptions. Examples: Linear regression of y (dependent variable) follows normal distribution. Logistic regression response variable follows binomial distribution.</p></li>
+<li><p><strong>Systematic Component</strong>: It is nothing but explanatory variables in the model. Systematic components helps to explain the random component.</p></li>
+<li><p><strong>Link Function</strong>: It is link between systematic and random component. Link function tells how the expected value of response variable relates to explanatory variable. Link function of linear regression is E[y] and link function of logistic regression is logit(??).</p></li>
+</ul>
+</div>
+<div id="what-was-important-today" class="section level3">
+<h3>What was important today?</h3>
+<ul>
+<li>classifiers: binary, multi-class (multinomial)<br />
+</li>
+<li>odds<br />
+</li>
+<li>sigmoid<br />
+</li>
+<li>significance of the variables (predictors)<br />
+</li>
+<li>interactions</li>
+</ul>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<p> <center> &copy; О. Ляшевская, И. Щуров, Г. Мороз, code on
+<a href="https://github.com/agricolamz/2018-MAG_R_course"> GitHub<img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png"  style="width:30px;height:30px;border:0"> </center></p>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
