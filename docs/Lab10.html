@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Lab 10. Binary logistic regression</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/lumen.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 54px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+
+.section h2 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h3 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h4 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h5 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h6 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Lab 10. Binary logistic regression</h1>
+
+</div>
+
+
+<div id="libraries" class="section level3">
+<h3>Libraries</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
+<span class="kw">library</span>(stats) <span class="co"># glm() function for logit regression models</span>
+<span class="kw">library</span>(caret) <span class="co"># library to calculate confusion matrix and agreement</span>
+<span class="kw">library</span>(pROC) <span class="co"># library to draw ROC curves</span></code></pre></div>
+</div>
+<div id="logit-model-with-one-numeric-predictor" class="section level2">
+<h2>1 Logit model with one numeric predictor</h2>
+<p>It is interesting to know whether the languages with ejective sounds have in average more consonants. So we collected data from phonological database LAPSyD: <a href="http://goo.gl/0btfKa" class="uri">http://goo.gl/0btfKa</a>.</p>
+<div id="data-summary" class="section level3">
+<h3>1.1 Data summary</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ej_cons &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://agricolamz.github.io/2018-MAG_R_course/data/correlation_regressions_ejectives.csv&quot;</span>)
+ej_cons <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(ejectives, n.cons.lapsyd, <span class="dt">color =</span> ejectives))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_jitter</span>(<span class="dt">width =</span> <span class="fl">0.2</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Number of consonants ~ presence of ejectives&quot;</span>,
+       <span class="dt">x =</span> <span class="st">&quot;presence of ejectives&quot;</span>,
+       <span class="dt">y =</span> <span class="st">&quot;number of consonants&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_bw</span>()</code></pre></div>
+<p><img src="Lab10_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div id="model-without-predictors" class="section level3">
+<h3>1.2 Model without predictors</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit1 &lt;-<span class="st"> </span><span class="kw">glm</span>(ejectives<span class="op">~</span><span class="dv">1</span>, <span class="dt">data =</span> ej_cons, <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+<span class="kw">summary</span>(fit1)</code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = ejectives ~ 1, family = &quot;binomial&quot;, data = ej_cons)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -0.9619  -0.9619  -0.9619   1.4094   1.4094  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)
+## (Intercept)  -0.5306     0.3985  -1.331    0.183
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 35.594  on 26  degrees of freedom
+## Residual deviance: 35.594  on 26  degrees of freedom
+## AIC: 37.594
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<p>How we get this estimate value?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(ej_cons<span class="op">$</span>ejectives)</code></pre></div>
+<pre><code>## 
+##  no yes 
+##  17  10</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">log</span>(<span class="dv">10</span><span class="op">/</span><span class="dv">17</span>)</code></pre></div>
+<pre><code>## [1] -0.5306283</code></pre>
+<p>What does this model say? This model says that if we have no predictors and take some language it has <span class="math inline">\(\frac{0.5306283}{(1+e^{-0.5306283})} = 0.3340993\)</span> probability to have ejectives.</p>
+</div>
+<div id="model-with-numeric-predictor" class="section level3">
+<h3>1.3 Model with numeric predictor</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit2 &lt;-<span class="st"> </span><span class="kw">glm</span>(ejectives<span class="op">~</span>n.cons.lapsyd, <span class="dt">data =</span> ej_cons, <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+<span class="kw">summary</span>(fit2)</code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = ejectives ~ n.cons.lapsyd, family = &quot;binomial&quot;, 
+##     data = ej_cons)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.8317  -0.4742  -0.2481   0.1914   2.1997  
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(&gt;|z|)   
+## (Intercept)    -9.9204     3.7699  -2.631   0.0085 **
+## n.cons.lapsyd   0.3797     0.1495   2.540   0.0111 * 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 35.594  on 26  degrees of freedom
+## Residual deviance: 16.202  on 25  degrees of freedom
+## AIC: 20.202
+## 
+## Number of Fisher Scoring iterations: 6</code></pre>
+<p>What does this model say? This model says:</p>
+<p><span class="math display">\[\log(odds(ej)) = \beta_o + \beta_1 \times n.cons.lapsyd = 
+-9.9204 + 0.3797 \times n.cons.lapsyd\]</span></p>
+<p>Lets visualize our model:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ej_cons <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="st">`</span><span class="dt">P(ejective)</span><span class="st">`</span> =<span class="st"> </span><span class="kw">as.numeric</span>(ejectives) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> n.cons.lapsyd, <span class="dt">y =</span> <span class="st">`</span><span class="dt">P(ejective)</span><span class="st">`</span>))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>, <span class="dt">method.args =</span> <span class="kw">list</span>(<span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>), <span class="dt">se =</span> <span class="ot">FALSE</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_bw</span>()</code></pre></div>
+<p><img src="Lab10_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>So probability for a language that have 30 consonants will be <span class="math display">\[\log(odds(ej)) = -9.9204 + 0.3797 \times 30 = 1.4706\]</span></p>
+<p><span class="math display">\[P(ej) = \frac{1.47061}{1+1.4706}=0.8131486\]</span></p>
+</div>
+<div id="predict" class="section level3">
+<h3>1.4 predict()</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">new.df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">n.cons.lapsyd =</span> <span class="kw">c</span>(<span class="dv">30</span>, <span class="dv">55</span>, <span class="dv">34</span>, <span class="dv">10</span>))
+<span class="kw">predict</span>(fit2, new.df) <span class="co"># odds</span></code></pre></div>
+<pre><code>##         1         2         3         4 
+##  1.470850 10.963579  2.989686 -6.123334</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">predict</span>(fit2, new.df, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>) <span class="co"># probabilities</span></code></pre></div>
+<pre><code>##           1           2           3           4 
+## 0.813186486 0.999982679 0.952106011 0.002186347</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">predict</span>(fit2, new.df, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>, <span class="dt">se.fit =</span> <span class="ot">TRUE</span>) <span class="co"># probabilities and confidense interval</span></code></pre></div>
+<pre><code>## $fit
+##           1           2           3           4 
+## 0.813186486 0.999982679 0.952106011 0.002186347 
+## 
+## $se.fit
+##            1            2            3            4 
+## 1.512886e-01 7.882842e-05 6.869366e-02 5.038557e-03 
+## 
+## $residual.scale
+## [1] 1</code></pre>
+<p>So we actually can create a plot with confidense intervals.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ej_cons_ci &lt;-<span class="st"> </span><span class="kw">cbind.data.frame</span>(ej_cons, <span class="kw">predict</span>(fit2, ej_cons, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>, <span class="dt">se.fit =</span> <span class="ot">TRUE</span>)[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>])
+ej_cons_ci</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["name"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["n.cons.lapsyd"],"name":[2],"type":["int"],"align":["right"]},{"label":["ejectives"],"name":[3],"type":["fctr"],"align":["left"]},{"label":["fit"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["se.fit"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"Turkish","2":"24","3":"no","4":"0.308443627","5":"1.376976e-01","_rn_":"1"},{"1":"Korean","2":"21","3":"no","4":"0.124931874","5":"9.358363e-02","_rn_":"2"},{"1":"Tiwi","2":"21","3":"no","4":"0.124931874","5":"9.358363e-02","_rn_":"3"},{"1":"Kpelle","2":"22","3":"no","4":"0.172669632","5":"1.090491e-01","_rn_":"4"},{"1":"Tulu","2":"21","3":"no","4":"0.124931874","5":"9.358363e-02","_rn_":"5"},{"1":"Mapudungun","2":"20","3":"no","4":"0.088972775","5":"7.806484e-02","_rn_":"6"},{"1":"Kiowa","2":"19","3":"no","4":"0.062623081","5":"6.341445e-02","_rn_":"7"},{"1":"Guarani","2":"18","3":"no","4":"0.043702625","5":"5.034610e-02","_rn_":"8"},{"1":"Japanese","2":"15","3":"no","4":"0.014417525","5":"2.278884e-02","_rn_":"9"},{"1":"Batak","2":"17","3":"no","4":"0.030313786","5":"3.921885e-02","_rn_":"10"},{"1":"Yoruba","2":"18","3":"no","4":"0.043702625","5":"5.034610e-02","_rn_":"11"},{"1":"Finnish","2":"17","3":"no","4":"0.030313786","5":"3.921885e-02","_rn_":"12"},{"1":"Kayardild","2":"17","3":"no","4":"0.030313786","5":"3.921885e-02","_rn_":"13"},{"1":"Hawaiian","2":"8","3":"no","4":"0.001024268","5":"2.658820e-03","_rn_":"14"},{"1":"Maori","2":"10","3":"no","4":"0.002186347","5":"5.038557e-03","_rn_":"15"},{"1":"Hungarian","2":"26","3":"no","4":"0.488005505","5":"1.637595e-01","_rn_":"16"},{"1":"Kannada","2":"30","3":"no","4":"0.813186486","5":"1.512886e-01","_rn_":"17"},{"1":"Georgean","2":"28","3":"yes","4":"0.670717326","5":"1.740778e-01","_rn_":"18"},{"1":"Ingush","2":"34","3":"yes","4":"0.952106011","5":"6.869366e-02","_rn_":"19"},{"1":"Abkhaz","2":"58","3":"yes","4":"0.999994456","5":"2.769836e-05","_rn_":"20"},{"1":"Amharic","2":"32","3":"yes","4":"0.902934848","5":"1.088031e-01","_rn_":"21"},{"1":"Sandawe","2":"47","3":"yes","4":"0.999638868","5":"1.216840e-03","_rn_":"22"},{"1":"Tlingit","2":"42","3":"yes","4":"0.997593950","5":"6.337117e-03","_rn_":"23"},{"1":"Lakota","2":"30","3":"yes","4":"0.813186486","5":"1.512886e-01","_rn_":"24"},{"1":"Yucatec","2":"20","3":"yes","4":"0.088972775","5":"7.806484e-02","_rn_":"25"},{"1":"Aymara","2":"27","3":"yes","4":"0.582178309","5":"1.725265e-01","_rn_":"26"},{"1":"Pomo","2":"26","3":"yes","4":"0.488005505","5":"1.637595e-01","_rn_":"27"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ej_cons_ci <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="st">`</span><span class="dt">P(ejective)</span><span class="st">`</span> =<span class="st"> </span><span class="kw">as.numeric</span>(ejectives) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> n.cons.lapsyd, <span class="dt">y =</span> <span class="st">`</span><span class="dt">P(ejective)</span><span class="st">`</span>))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>, <span class="dt">method.args =</span> <span class="kw">list</span>(<span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>), <span class="dt">se =</span> <span class="ot">FALSE</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_pointrange</span>(<span class="kw">aes</span>(<span class="dt">x =</span> n.cons.lapsyd, <span class="dt">ymin =</span> fit <span class="op">-</span><span class="st"> </span>se.fit, <span class="dt">ymax =</span> fit <span class="op">+</span><span class="st"> </span>se.fit))<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;P(ej) ~ number of consonants&quot;</span>,
+       <span class="dt">x =</span> <span class="st">&quot;number of consonants&quot;</span>,
+       <span class="dt">caption =</span> <span class="st">&quot;data from LAPSyD database&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_bw</span>()</code></pre></div>
+<p><img src="Lab10_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+</div>
+<div id="choice-betweeen-two-constructions-in-russian" class="section level2">
+<h2>2. Choice betweeen two constructions in Russian</h2>
+<p>The Russian verb <em>gruzit’</em> `load’ is special for three reasons. First, this verb has two syntactic constructions it can appear in, second, it has three perfective counterparts with the prefixes <em>NA-</em>, <em>PO-</em>, and <em>ZA-</em> that do not add to its lexical meaning (and thus can be cosidered Natural Perfectives), and third all three Natural Perfectives can also use both constructions.</p>
+<p>The two constructions that <em>gruzit’</em> ‘load’ can appear in are called the ‘’THEME-object’‘construction and the’‘GOAL-object’‘construction, and this phenomenon is known in many languages as Locative Alternation. The names of the constructions come from the direct object that is marked with the accusative case. Let’s say that we have some boxes that we want to transport and a cart that we can use for this purpose. The boxes are the theme (the item that is put somewhere) and the cart is the goal (the place where the item is put). In the THEME-object construction the theme is the direct object, as in <em>gruzit’ jaschiki.ACC na telegu</em> ’load the boxes onto the cart’. The goal appears in a prepositional phrase in the theme-object construction, usually with the preposition <em>na</em> <code>onto' or _v_</code>into’. In the GOAL-object construction the goal is the direct object, as in <em>gruzit’ telegu.ACC jaschikami</em> ‘load the cart with boxes’. The theme in the GOAL-object construction often appears in the instrumental case as in our example: <em>jaschikami</em> <code>with boxes'. _gruzit'_</code>load’ uses not just one, but three prefixes to form Natural Perfectives: <em>NA-</em>, <em>ZA-</em>, and <em>PO-</em>. Collectively we call these four verbs (the simplex and the three Natural Perfectives) ‘’the ’load’ verbs’’. All three Natural Perfectives can appear in both the THEME-object and the GOAL-object constructions. Janda et al. 2013, chapter 4 explores whether the choice of prefix makes a difference in the distribution of the THEME-object and GOAL-object constructions. Along with the prefixes, they test whether the passive construction (ie. construction with passive participle) and omission of the prepositional phrase (ie. reduced construction) could motivate the choice between the THEME-object and GOAL-object constructions.</p>
+<p>The dataset: There are 1920 lines of data, each corresponding to one of the examples extracted from the Russian National Corpus. The dataset includes four variables:<br />
+* CONSTRUCTION: This is our dependent variable, and it has two values, <code>theme</code>, and <code>goal</code>.<br />
+* VERB: This is an independent variable, and it has four values, <code>\_zero</code> (for the unprefixed verb <em>gruzit’</em> ‘load’), <code>na</code>, <code>za</code>, and <code>po</code> (for the three prefixed variants).<br />
+* REDUCED: This is an independent variable, and it has two values, yes and no. This refers to whether the construction was reduced (<code>yes</code>) or full (<code>no</code>).<br />
+* PARTICIPLE: This is an independent variable, and it has two values, yes and no. This refers to whether the construction was passive (<code>yes</code>) or active (<code>no</code>).</p>
+<p>Source: <a href="https://hdl.handle.net/10037.1/10022">Trolling repository</a></p>
+<div id="data-summary-1" class="section level3">
+<h3>2.1 Data summary</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">loaddata =<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;https://agricolamz.github.io/2018-MAG_R_course/data/loaddata.csv&#39;</span>)
+<span class="kw">summary</span>(loaddata)</code></pre></div>
+<pre><code>##  CONSTRUCTION    VERB     REDUCED    PARTICIPLE
+##  goal : 871   _zero:393   no :1353   no : 895  
+##  theme:1049   na   :368   yes: 567   yes:1025  
+##               po   :703                        
+##               za   :456</code></pre>
+</div>
+<div id="formulate-your-hypothesis-what-motivates-the-choice-between-two-constructions" class="section level3">
+<h3>2.2 Formulate your hypothesis, what motivates the choice between two constructions?</h3>
+<div class="sourceCode"><pre class="sourceCode 2"><code class="sourceCode mandoc"></code></pre></div>
+</div>
+<div id="fit-the-simplest-logistic-regression-model-using-verb-as-the-only-factor." class="section level3">
+<h3>2.3 Fit the simplest logistic regression model using <code>VERB</code> as the only factor.</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># use glm() in the following way: fit &lt;- glm(Dependent_variable ~ Factor_variable(s), family = binomial, data = ....)</span>
+load.glm &lt;-<span class="st"> </span><span class="kw">glm</span>(CONSTRUCTION <span class="op">~</span><span class="st"> </span>VERB, <span class="dt">family=</span>binomial, <span class="dt">data=</span>loaddata)
+<span class="kw">print</span>(<span class="kw">summary</span>(load.glm))</code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = CONSTRUCTION ~ VERB, family = binomial, data = loaddata)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -3.3036  -0.7235   0.0925   0.0925   2.1692  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)   0.1274     0.1011   1.260    0.208    
+## VERBna       -2.3802     0.2044 -11.643   &lt;2e-16 ***
+## VERBpo        5.3251     0.5873   9.066   &lt;2e-16 ***
+## VERBza       -1.3342     0.1503  -8.877   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 2645.2  on 1919  degrees of freedom
+## Residual deviance: 1305.3  on 1916  degrees of freedom
+## AIC: 1313.3
+## 
+## Number of Fisher Scoring iterations: 8</code></pre>
+</div>
+<div id="formulate-the-results-of-your-analysis-as-text" class="section level3">
+<h3>2.4 Formulate the results of your analysis as text:</h3>
+<div class="sourceCode"><pre class="sourceCode 2"><code class="sourceCode mandoc"></code></pre></div>
+</div>
+<div id="add-more-factors-to-your-model-one-by-one." class="section level3">
+<h3>2.5 Add more factors to your model, one by one.</h3>
+<p>Note that we do not consider possible interactions here yet.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">load.glm1 &lt;-<span class="st"> </span><span class="kw">glm</span>(CONSTRUCTION <span class="op">~</span><span class="st"> </span>VERB <span class="op">+</span><span class="st"> </span>REDUCED, <span class="dt">family=</span>binomial, <span class="dt">data=</span>loaddata)
+<span class="kw">print</span>(<span class="kw">summary</span>(load.glm1))</code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = CONSTRUCTION ~ VERB + REDUCED, family = binomial, 
+##     data = loaddata)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -3.16027  -0.63733   0.08946   0.08946   2.31723  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)   0.3086     0.1132   2.727 0.006399 ** 
+## VERBna       -2.3906     0.2054 -11.636  &lt; 2e-16 ***
+## VERBpo        5.2104     0.5881   8.859  &lt; 2e-16 ***
+## VERBza       -1.2673     0.1519  -8.343  &lt; 2e-16 ***
+## REDUCEDyes   -0.5321     0.1445  -3.682 0.000231 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 2645.2  on 1919  degrees of freedom
+## Residual deviance: 1291.5  on 1915  degrees of freedom
+## AIC: 1301.5
+## 
+## Number of Fisher Scoring iterations: 8</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">load.glm2 &lt;-<span class="st"> </span><span class="kw">glm</span>(CONSTRUCTION <span class="op">~</span><span class="st"> </span>VERB <span class="op">+</span><span class="st"> </span>REDUCED <span class="op">+</span><span class="st"> </span>PARTICIPLE, <span class="dt">family=</span>binomial, <span class="dt">data=</span>loaddata)
+<span class="kw">print</span>(<span class="kw">summary</span>(load.glm2))</code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = CONSTRUCTION ~ VERB + REDUCED + PARTICIPLE, family = binomial, 
+##     data = loaddata)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -3.9999  -0.2447   0.0173   0.1116   3.0746  
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)     1.2315     0.1513   8.137 4.07e-16 ***
+## VERBna         -2.2183     0.2331  -9.515  &lt; 2e-16 ***
+## VERBpo          7.5756     0.6447  11.751  &lt; 2e-16 ***
+## VERBza         -0.9941     0.1842  -5.398 6.75e-08 ***
+## REDUCEDyes     -0.8078     0.1728  -4.676 2.93e-06 ***
+## PARTICIPLEyes  -3.7309     0.2900 -12.867  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 2645.16  on 1919  degrees of freedom
+## Residual deviance:  928.19  on 1914  degrees of freedom
+## AIC: 940.19
+## 
+## Number of Fisher Scoring iterations: 8</code></pre>
+</div>
+<div id="which-model-fits-your-data-the-best-according-to-aic" class="section level3">
+<h3>2.6 Which model fits your data the best according to AIC?</h3>
+<p>Note that this model should include only significant factors.</p>
+<p>AIC (Akaike Information Criterion) is a goodness-of-fit measure to compare the models with different number of predictors. It penalizes a model for having too many predictors. The smaller AIC, the better.</p>
+<div class="sourceCode"><pre class="sourceCode 2"><code class="sourceCode mandoc">Name of the model:
+AIC: </code></pre></div>
+</div>
+<div id="fit-the-model-with-all-factors-and-all-possible-interactions." class="section level3">
+<h3>2.7 Fit the model with all factors and all possible interactions.</h3>
+<p>Hint: Dependent_variable ~ Factor1 * Factor2 * Factor3 (the same as: Factor1 + Factor2 + Factor3 + Factor1:Factor2 + … + Factor1:Factor2:Factor3)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">load.glm3 &lt;-<span class="st"> </span><span class="kw">glm</span>(CONSTRUCTION <span class="op">~</span><span class="st"> </span>VERB <span class="op">*</span><span class="st"> </span>REDUCED <span class="op">*</span><span class="st"> </span>PARTICIPLE, <span class="dt">family=</span>binomial, <span class="dt">data=</span>loaddata)
+<span class="kw">print</span>(<span class="kw">summary</span>(load.glm3))</code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = CONSTRUCTION ~ VERB * REDUCED * PARTICIPLE, family = binomial, 
+##     data = loaddata)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -2.77494  -0.26308   0.00008   0.00008   3.13218  
+## 
+## Coefficients:
+##                                  Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)                        1.4542     0.1963   7.407 1.29e-13 ***
+## VERBna                            -2.4069     0.2998  -8.029 9.85e-16 ***
+## VERBpo                            18.1118   747.4556   0.024 0.980668    
+## VERBza                            -1.4225     0.2651  -5.365 8.10e-08 ***
+## REDUCEDyes                        -1.0202     0.2727  -3.741 0.000183 ***
+## PARTICIPLEyes                     -5.9541     1.0245  -5.812 6.19e-09 ***
+## VERBna:REDUCEDyes                  0.1576     0.5402   0.292 0.770515    
+## VERBpo:REDUCEDyes                -14.7172   747.4563  -0.020 0.984291    
+## VERBza:REDUCEDyes                  0.4384     0.3984   1.101 0.271097    
+## VERBna:PARTICIPLEyes               2.0089     1.4520   1.383 0.166519    
+## VERBpo:PARTICIPLEyes               5.9541   910.7860   0.007 0.994784    
+## VERBza:PARTICIPLEyes               3.1602     1.1219   2.817 0.004849 ** 
+## REDUCEDyes:PARTICIPLEyes         -14.0461  2688.5035  -0.005 0.995831    
+## VERBna:REDUCEDyes:PARTICIPLEyes    0.2405  2927.9354   0.000 0.999934    
+## VERBpo:REDUCEDyes:PARTICIPLEyes   12.5200  2838.5882   0.004 0.996481    
+## VERBza:REDUCEDyes:PARTICIPLEyes   14.0436  2688.5036   0.005 0.995832    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 2645.16  on 1919  degrees of freedom
+## Residual deviance:  893.46  on 1904  degrees of freedom
+## AIC: 925.46
+## 
+## Number of Fisher Scoring iterations: 18</code></pre>
+</div>
+<div id="remove-all-insignificant-interactions-and-report-the-minimal-optimal-model-here" class="section level3">
+<h3>2.8 Remove all insignificant interactions and report the minimal optimal model here:</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">load.glm4 &lt;-<span class="st"> </span><span class="kw">glm</span>(CONSTRUCTION <span class="op">~</span><span class="st"> </span>VERB <span class="op">+</span><span class="st"> </span>REDUCED <span class="op">+</span><span class="st"> </span>PARTICIPLE <span class="op">+</span><span class="st"> </span>VERB<span class="op">:</span>PARTICIPLE, <span class="dt">family=</span>binomial, <span class="dt">data=</span>loaddata)
+<span class="kw">print</span>(<span class="kw">summary</span>(load.glm4))</code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = CONSTRUCTION ~ VERB + REDUCED + PARTICIPLE + VERB:PARTICIPLE, 
+##     family = binomial, data = loaddata)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -3.1261  -0.2414   0.0790   0.0914   3.2058  
+## 
+## Coefficients:
+##                      Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)            1.3872     0.1616   8.584  &lt; 2e-16 ***
+## VERBna                -2.3336     0.2446  -9.539  &lt; 2e-16 ***
+## VERBpo                 4.3806     1.0118   4.330 1.49e-05 ***
+## VERBza                -1.2416     0.1981  -6.267 3.68e-10 ***
+## REDUCEDyes            -0.8891     0.1748  -5.085 3.67e-07 ***
+## PARTICIPLEyes         -5.9579     1.0169  -5.859 4.66e-09 ***
+## VERBna:PARTICIPLEyes   1.7717     1.4415   1.229 0.219043    
+## VERBpo:PARTICIPLEyes   5.6670     1.5926   3.558 0.000373 ***
+## VERBza:PARTICIPLEyes   3.1804     1.0729   2.964 0.003034 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 2645.16  on 1919  degrees of freedom
+## Residual deviance:  906.69  on 1911  degrees of freedom
+## AIC: 924.69
+## 
+## Number of Fisher Scoring iterations: 8</code></pre>
+</div>
+<div id="check-the-95-confidence-intevals-of-the-estimated-coefficients." class="section level3">
+<h3>2.9 Check the 95% confidence intevals of the estimated coefficients.</h3>
+<p>Use confint(model_name) to calculate them.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="st">&quot;These are the confidence interval values:&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;These are the confidence interval values:&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">confint</span>(load.glm4)</code></pre></div>
+<pre><code>## Waiting for profiling to be done...</code></pre>
+<pre><code>##                          2.5 %     97.5 %
+## (Intercept)           1.077659  1.7120139
+## VERBna               -2.825357 -1.8647411
+## VERBpo                2.859036  7.2560372
+## VERBza               -1.634089 -0.8567527
+## REDUCEDyes           -1.235253 -0.5492324
+## PARTICIPLEyes        -8.838291 -4.4202915
+## VERBna:PARTICIPLEyes -1.494244  5.0379696
+## VERBpo:PARTICIPLEyes  2.219574  9.1864343
+## VERBza:PARTICIPLEyes  1.461953  6.1140973</code></pre>
+<p>If a 95% confidence interval contains zero, this indicates that the corresponding effect is not significant. You can also use <code>exp(confint(...))</code> to obtain simple odds ratios. The confidence interval of a significant effect based on simple odds ratios should not include 1.</p>
+</div>
+<div id="report-the-odds-of-success-for-each-predictor-variable." class="section level3">
+<h3>2.10 Report the odds of success for each predictor variable.</h3>
+<p>Use exp(model_name$coefficients)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="st">&quot;These are the odds of success for each predictor variable:&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;These are the odds of success for each predictor variable:&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">exp</span>(load.glm<span class="op">$</span>coefficients))</code></pre></div>
+<pre><code>##  (Intercept)       VERBna       VERBpo       VERBza 
+##   1.13586957   0.09253272 205.42264752   0.26336237</code></pre>
+</div>
+<div id="additional-code-stepwise-selection-of-variables" class="section level3">
+<h3>2.11 Additional code: stepwise selection of variables</h3>
+<p>See examples from Levshina 2015: m0.glm &lt;- glm(Aux ~ 1, data = doenLaten, family = binomial) m.fw &lt;- step(m0.glm, direction = “forward”, scope = ~ Causation + EPTrans + Country)</p>
+<p>m.glm &lt;- glm(Aux ~ Causation + EPTrans + Country, data = doenLaten, family = binomial) m.bw &lt;- step(m.glm, direction = “backward”)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">load.glm0 &lt;-<span class="st"> </span><span class="kw">glm</span>(CONSTRUCTION <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">family=</span>binomial, <span class="dt">data=</span>loaddata)
+load.glm.fw &lt;-<span class="st"> </span><span class="kw">step</span>(load.glm0, <span class="dt">direction =</span> <span class="st">&quot;forward&quot;</span>, <span class="dt">scope =</span> <span class="op">~</span><span class="st"> </span>VERB <span class="op">+</span><span class="st"> </span>REDUCED <span class="op">+</span><span class="st"> </span>PARTICIPLE)</code></pre></div>
+<pre><code>## Start:  AIC=2647.16
+## CONSTRUCTION ~ 1
+## 
+##              Df Deviance    AIC
+## + VERB        3   1305.3 1313.3
+## + REDUCED     1   2470.5 2474.5
+## + PARTICIPLE  1   2559.9 2563.9
+## &lt;none&gt;            2645.2 2647.2
+## 
+## Step:  AIC=1313.31
+## CONSTRUCTION ~ VERB
+## 
+##              Df Deviance     AIC
+## + PARTICIPLE  1   950.73  960.73
+## + REDUCED     1  1291.51 1301.51
+## &lt;none&gt;           1305.31 1313.31
+## 
+## Step:  AIC=960.73
+## CONSTRUCTION ~ VERB + PARTICIPLE
+## 
+##           Df Deviance    AIC
+## + REDUCED  1   928.19 940.19
+## &lt;none&gt;         950.73 960.73
+## 
+## Step:  AIC=940.19
+## CONSTRUCTION ~ VERB + PARTICIPLE + REDUCED</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">load.glm.bw &lt;-<span class="st"> </span><span class="kw">step</span>(load.glm2, <span class="dt">direction =</span> <span class="st">&quot;backward&quot;</span>)</code></pre></div>
+<pre><code>## Start:  AIC=940.19
+## CONSTRUCTION ~ VERB + REDUCED + PARTICIPLE
+## 
+##              Df Deviance     AIC
+## &lt;none&gt;            928.19  940.19
+## - REDUCED     1   950.73  960.73
+## - PARTICIPLE  1  1291.51 1301.51
+## - VERB        3  2353.91 2359.91</code></pre>
+</div>
+<div id="additional-code-variables-importance" class="section level3">
+<h3>2.12 Additional code: variables’ importance</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(caret)
+<span class="kw">varImp</span>(load.glm4)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Overall"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"9.538879","_rn_":"VERBna"},{"1":"4.329559","_rn_":"VERBpo"},{"1":"6.267175","_rn_":"VERBza"},{"1":"5.085227","_rn_":"REDUCEDyes"},{"1":"5.858903","_rn_":"PARTICIPLEyes"},{"1":"1.229077","_rn_":"VERBna:PARTICIPLEyes"},{"1":"3.558238","_rn_":"VERBpo:PARTICIPLEyes"},{"1":"2.964285","_rn_":"VERBza:PARTICIPLEyes"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="model-accuracy" class="section level3">
+<h3>2.13 Model accuracy</h3>
+<div id="dividing-data-into-training-and-test-sets" class="section level4">
+<h4>Dividing data into training and test sets</h4>
+<p>The rule of thumb is to use 10% or 20% or 25% data points as a test set (usually not less than 20 data points). The model will be trained on the remaining data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">42</span>)
+load.test.index &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(loaddata), <span class="dt">size=</span><span class="kw">floor</span>(<span class="kw">nrow</span>(loaddata)<span class="op">/</span><span class="dv">10</span>)) <span class="co"># select 10% random points, this will create a vector</span>
+<span class="kw">paste0</span>(<span class="st">&quot;The test set size: &quot;</span>, <span class="kw">floor</span>(<span class="kw">nrow</span>(loaddata)<span class="op">/</span><span class="dv">10</span>), <span class="st">&quot;. The training set size: &quot;</span>, <span class="kw">nrow</span>(loaddata)<span class="op">-</span><span class="kw">floor</span>(<span class="kw">nrow</span>(loaddata)<span class="op">/</span><span class="dv">10</span>), <span class="st">&quot;.&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;The test set size: 192. The training set size: 1728.&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">load.test &lt;-<span class="st"> </span>loaddata[load.test.index,]
+load.train &lt;-<span class="st"> </span>loaddata[<span class="op">-</span>load.test.index,]
+load.train <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>VERB, <span class="dt">y=</span>PARTICIPLE, <span class="dt">col=</span>CONSTRUCTION)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_jitter</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Constructions in the train set&quot;</span>)</code></pre></div>
+<p><img src="Lab10_files/figure-html/2.13.1-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">load.test <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>VERB, <span class="dt">y=</span>PARTICIPLE, <span class="dt">col=</span>CONSTRUCTION)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_jitter</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Constructions in the test set&quot;</span>)</code></pre></div>
+<p><img src="Lab10_files/figure-html/2.13.1-2.png" width="672" /></p>
+<ul>
+<li>Training the model on the train set, making prediction on the test set</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">load.glm5 &lt;-<span class="st"> </span><span class="kw">glm</span>(CONSTRUCTION <span class="op">~</span><span class="st"> </span>VERB <span class="op">+</span><span class="st"> </span>REDUCED <span class="op">+</span><span class="st"> </span>PARTICIPLE <span class="op">+</span><span class="st"> </span>VERB<span class="op">:</span>PARTICIPLE, <span class="dt">family=</span><span class="st">&quot;binomial&quot;</span>, <span class="dt">data=</span>load.train)
+<span class="co">#print(summary(load.glm5))</span>
+load.glm5.link.scores &lt;-<span class="st"> </span><span class="kw">predict</span>(load.glm5, <span class="dt">newdata=</span>load.test, <span class="dt">type=</span><span class="st">&quot;link&quot;</span>)
+load.glm5.response.scores &lt;-<span class="st"> </span><span class="kw">predict</span>(load.glm5, <span class="dt">newdata=</span>load.test, <span class="dt">type=</span><span class="st">&quot;response&quot;</span>)
+load.glm5.scores &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">link=</span>load.glm5.link.scores, 
+                         <span class="dt">response=</span>load.glm5.response.scores,
+                         <span class="dt">construction_obs=</span>load.test<span class="op">$</span>CONSTRUCTION,
+                         <span class="dt">stringsAsFactors=</span><span class="ot">FALSE</span>)</code></pre></div>
+</div>
+<div id="confusion-matrix-and-accuracy" class="section level4">
+<h4>Confusion matrix and accuracy</h4>
+<p>Confusion matrix counts the cases of correctly predicted classes as well as the cases of misclassification (false positives and false negatives) . <strong>Accuracy</strong> are the counts on the backslash diagonal divided by the total counts.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">load.test <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">count</span>(CONSTRUCTION, VERB, REDUCED, PARTICIPLE) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>n, <span class="op">-</span>CONSTRUCTION) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">unique</span>() -&gt;
+<span class="st">  </span>load.test.pdata
+
+load.test.pdata <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">predict</span>(load.glm5, <span class="dt">newdata =</span> ., <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>) -&gt;<span class="st"> </span>
+<span class="st">  </span>load.test.pdata<span class="op">$</span>PREDICTION
+
+load.test.pdata <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">arrange</span>(PREDICTION)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["VERB"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["REDUCED"],"name":[2],"type":["fctr"],"align":["left"]},{"label":["PARTICIPLE"],"name":[3],"type":["fctr"],"align":["left"]},{"label":["PREDICTION"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"na","2":"yes","3":"yes","4":"0.002647227"},{"1":"_zero","2":"yes","3":"yes","4":"0.005096082"},{"1":"na","2":"no","3":"yes","4":"0.006369308"},{"1":"_zero","2":"no","3":"yes","4":"0.012219143"},{"1":"za","2":"yes","3":"yes","4":"0.032054668"},{"1":"za","2":"no","3":"yes","4":"0.074054382"},{"1":"na","2":"yes","3":"no","4":"0.146810793"},{"1":"na","2":"no","3":"no","4":"0.293567576"},{"1":"za","2":"yes","3":"no","4":"0.332297636"},{"1":"za","2":"no","3":"no","4":"0.545847245"},{"1":"_zero","2":"yes","3":"no","4":"0.634214135"},{"1":"_zero","2":"no","3":"no","4":"0.807221395"},{"1":"po","2":"yes","3":"yes","4":"0.988957760"},{"1":"po","2":"yes","3":"no","4":"0.991536376"},{"1":"po","2":"no","3":"yes","4":"0.995397950"},{"1":"po","2":"no","3":"no","4":"0.996477990"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">load.test.pdata <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(PREDICTION))</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["VERB"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["REDUCED"],"name":[2],"type":["fctr"],"align":["left"]},{"label":["PARTICIPLE"],"name":[3],"type":["fctr"],"align":["left"]},{"label":["PREDICTION"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"po","2":"no","3":"no","4":"0.996477990"},{"1":"po","2":"no","3":"yes","4":"0.995397950"},{"1":"po","2":"yes","3":"no","4":"0.991536376"},{"1":"po","2":"yes","3":"yes","4":"0.988957760"},{"1":"_zero","2":"no","3":"no","4":"0.807221395"},{"1":"_zero","2":"yes","3":"no","4":"0.634214135"},{"1":"za","2":"no","3":"no","4":"0.545847245"},{"1":"za","2":"yes","3":"no","4":"0.332297636"},{"1":"na","2":"no","3":"no","4":"0.293567576"},{"1":"na","2":"yes","3":"no","4":"0.146810793"},{"1":"za","2":"no","3":"yes","4":"0.074054382"},{"1":"za","2":"yes","3":"yes","4":"0.032054668"},{"1":"_zero","2":"no","3":"yes","4":"0.012219143"},{"1":"na","2":"no","3":"yes","4":"0.006369308"},{"1":"_zero","2":"yes","3":"yes","4":"0.005096082"},{"1":"na","2":"yes","3":"yes","4":"0.002647227"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">v &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, <span class="kw">nrow</span>(load.glm5.scores))
+v &lt;-<span class="st"> </span><span class="kw">ifelse</span>(load.glm5.scores<span class="op">$</span>response <span class="op">&gt;=</span><span class="st"> </span>.<span class="dv">5</span>, <span class="st">&quot;theme&quot;</span>, <span class="st">&quot;goal&quot;</span>)
+load.glm5.scores<span class="op">$</span>construction_pred &lt;-<span class="st"> </span><span class="kw">as.factor</span>(v)
+
+<span class="kw">confusionMatrix</span>(<span class="dt">data =</span> load.glm5.scores<span class="op">$</span>construction_pred, <span class="dt">reference =</span> load.glm5.scores<span class="op">$</span>construction_obs)</code></pre></div>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction goal theme
+##      goal    86     3
+##      theme   13    90
+##                                           
+##                Accuracy : 0.9167          
+##                  95% CI : (0.8682, 0.9516)
+##     No Information Rate : 0.5156          
+##     P-Value [Acc &gt; NIR] : &lt; 2e-16         
+##                                           
+##                   Kappa : 0.8337          
+##  Mcnemar&#39;s Test P-Value : 0.02445         
+##                                           
+##             Sensitivity : 0.8687          
+##             Specificity : 0.9677          
+##          Pos Pred Value : 0.9663          
+##          Neg Pred Value : 0.8738          
+##              Prevalence : 0.5156          
+##          Detection Rate : 0.4479          
+##    Detection Prevalence : 0.4635          
+##       Balanced Accuracy : 0.9182          
+##                                           
+##        &#39;Positive&#39; Class : goal            
+## </code></pre>
+</div>
+<div id="inspect-false-positives-and-false-negatives" class="section level4">
+<h4>Inspect false positives and false negatives</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data.frame</span>(load.test, <span class="dt">response =</span> load.glm5.scores<span class="op">$</span>response, <span class="dt">predicted =</span> load.glm5.scores<span class="op">$</span>construction_pred)[load.glm5.scores<span class="op">$</span>construction_pred <span class="op">!=</span><span class="st"> </span>load.glm5.scores<span class="op">$</span>construction_obs,] <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">arrange</span>(predicted, response)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["CONSTRUCTION"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["VERB"],"name":[2],"type":["fctr"],"align":["left"]},{"label":["REDUCED"],"name":[3],"type":["fctr"],"align":["left"]},{"label":["PARTICIPLE"],"name":[4],"type":["fctr"],"align":["left"]},{"label":["response"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["predicted"],"name":[6],"type":["fctr"],"align":["left"]}],"data":[{"1":"theme","2":"na","3":"no","4":"no","5":"0.2935676","6":"goal"},{"1":"theme","2":"na","3":"no","4":"no","5":"0.2935676","6":"goal"},{"1":"theme","2":"za","3":"yes","4":"no","5":"0.3322976","6":"goal"},{"1":"goal","2":"za","3":"no","4":"no","5":"0.5458472","6":"theme"},{"1":"goal","2":"za","3":"no","4":"no","5":"0.5458472","6":"theme"},{"1":"goal","2":"za","3":"no","4":"no","5":"0.5458472","6":"theme"},{"1":"goal","2":"za","3":"no","4":"no","5":"0.5458472","6":"theme"},{"1":"goal","2":"_zero","3":"yes","4":"no","5":"0.6342141","6":"theme"},{"1":"goal","2":"_zero","3":"yes","4":"no","5":"0.6342141","6":"theme"},{"1":"goal","2":"_zero","3":"yes","4":"no","5":"0.6342141","6":"theme"},{"1":"goal","2":"_zero","3":"no","4":"no","5":"0.8072214","6":"theme"},{"1":"goal","2":"_zero","3":"no","4":"no","5":"0.8072214","6":"theme"},{"1":"goal","2":"_zero","3":"no","4":"no","5":"0.8072214","6":"theme"},{"1":"goal","2":"_zero","3":"no","4":"no","5":"0.8072214","6":"theme"},{"1":"goal","2":"_zero","3":"no","4":"no","5":"0.8072214","6":"theme"},{"1":"goal","2":"_zero","3":"no","4":"no","5":"0.8072214","6":"theme"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">load.glm5.scores <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>link, <span class="dt">y=</span>response, <span class="dt">col=</span>construction_obs)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_rug</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_jitter</span>(<span class="dt">width=</span>.<span class="dv">7</span>, <span class="dt">height=</span>.<span class="dv">02</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept=</span><span class="fl">0.5</span>, <span class="dt">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">annotate</span>(<span class="dt">geom=</span><span class="st">&quot;text&quot;</span>, <span class="dt">x=</span><span class="dv">2</span>, <span class="dt">y=</span><span class="fl">0.47</span>, <span class="dt">label=</span><span class="st">&quot;threshold at response prob = 0.5&quot;</span>, <span class="dt">color=</span><span class="st">&quot;darkblue&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Observed and predicted values in test data&quot;</span>)</code></pre></div>
+<p><img src="Lab10_files/figure-html/2.13.4-1.png" width="672" /></p>
+</div>
+</div>
+<div id="auc-area-under-the-roc-curve" class="section level3">
+<h3>2.14 AUC (area under the ROC curve)</h3>
+<p>The ROC* curve shows the trade off between the rate at which you can correctly predict something (True Positive rate) with the rate of incorrectly predicting something (False Positive rate). The curve starts in the bottom left corner and uses an ordered vector of prediction scores (e.g. <code>load.glm5.scores$response</code> above, ordered) to take the next step. Each time the curve “sees” the positive value (e.g. <code>&quot;goal&quot;</code>) in the observed output it moves up (northward), and each time it sees the negative value (e.g. “theme”) it takes a step right (eastward). Ideally, if we only have true positives and true negatives predicted by the model, the curve will move up till the top left corner and then move right till the top right corner.</p>
+<p>The area under the ROC curve (AUC) ranges from 0.50 to 1.00, where 0.50 is considered a random prediction, 0.70 is a borderline case, and 0.80 and above indicates that the model does a good job in discriminating between the two output values. The closer the ROC gets to the optimal point of perfect prediction in the top left corner the closer the AUC gets to 1.<br />
+*ROC stands for Receiver Operating Characteristics. Read more: <a href="https://www.r-bloggers.com/illustrated-guide-to-roc-and-auc/" class="uri">https://www.r-bloggers.com/illustrated-guide-to-roc-and-auc/</a>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">load.glm5.roc &lt;-<span class="st"> </span><span class="kw">roc</span>(load.test<span class="op">$</span>CONSTRUCTION, load.glm5.response.scores, <span class="dt">direction=</span><span class="st">&quot;&lt;&quot;</span>)
+<span class="kw">plot</span>(load.glm5.roc, <span class="dt">col=</span><span class="st">&quot;green&quot;</span>, <span class="dt">lwd=</span><span class="dv">3</span>, <span class="dt">main=</span><span class="st">&quot;AUC&quot;</span>)
+
+simple_roc &lt;-<span class="st"> </span><span class="cf">function</span>(labels, scores){
+  labels &lt;-<span class="st"> </span>labels[<span class="kw">order</span>(scores, <span class="dt">decreasing=</span><span class="ot">TRUE</span>)]
+  <span class="kw">data.frame</span>(<span class="dt">TPR=</span><span class="kw">cumsum</span>(labels)<span class="op">/</span><span class="kw">sum</span>(labels), <span class="dt">FPR=</span><span class="kw">cumsum</span>(<span class="op">!</span>labels)<span class="op">/</span><span class="kw">sum</span>(<span class="op">!</span>labels), labels)
+} <span class="co">#TPR - True Positive Ratio, FPR - False Positive Ratio</span>
+load.glm5.simple.roc &lt;-<span class="st"> </span><span class="kw">simple_roc</span>(load.test<span class="op">$</span>CONSTRUCTION<span class="op">==</span><span class="st">&quot;theme&quot;</span>, load.glm5.link.scores)
+<span class="kw">with</span>(load.glm5.simple.roc, <span class="kw">points</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>FPR, TPR, <span class="dt">col=</span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>labels))</code></pre></div>
+<p><img src="Lab10_files/figure-html/2.14-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">auc</span>(load.glm5.roc)</code></pre></div>
+<pre><code>## Area under the curve: 0.9802</code></pre>
+</div>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<p> <center> &copy; О. Ляшевская, И. Щуров, Г. Мороз, code on
+<a href="https://github.com/agricolamz/2018-MAG_R_course"> GitHub<img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png"  style="width:30px;height:30px;border:0"> </center></p>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
