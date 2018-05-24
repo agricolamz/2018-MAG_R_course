@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## About Adyghe 
 Adyghe, also known as West Circassian, is one of the two official languages of the Republic of Adygea in the Russian Federation. It is spoken by various tribes of the Adyghe people, each with its own dialect. Outside Circassia Adyghe is spoken by Circassians in Iraq, by Circassians in Israel, and by Circassians in Syria. 
 
-There are around 128,000 speakers of Adyghe in Russia, almost all of them native speakers. In total, some 300,000 speak it worldwide. The largest Adyghe-speaking community is in Turkey, spoken by the post RussianЦCircassian War (circa 1763Ц1864) diaspora; in addition to that, the Adyghe language is spoken by the Cherkesogai in Krasnodar Krai. 
+There are around 128,000 speakers of Adyghe in Russia, almost all of them native speakers. In total, some 300,000 speak it worldwide. The largest Adyghe-speaking community is in Turkey, spoken by the post Russian?Circassian War (circa 1763?1864) diaspora; in addition to that, the Adyghe language is spoken by the Cherkesogai in Krasnodar Krai. 
 Adyghe belongs to the family of Northwest Caucasian languages. Kabardian (also known as East Circassian) is a very close relative, treated by some as a dialect of Adyghe or of an overarching Circassian language. Ubykh, Abkhaz and Abaza are somewhat more distantly related to Adyghe.mnb 
 The language was standardised after the October Revolution in 1917. Since 1936, the Cyrillic script has been used to write Adyghe. Before that, an Arabic-based alphabet was used together with the Latin. 
 
@@ -34,27 +34,27 @@ Lines of this hierarchy are not mutually exclusive so we have combined them into
 - creating a list of words from the questionnaires 
 - dividing the list into classe: Pronouns (pron), Proper Nouns (propern), Kinship Terminology (kin), Common Nouns (commonn); 
 - assign each word with attribute of animacy: Human (hum), Non Human (nhum), Inanimated (inanim) and number: Singular (sg), Plural (pl); 
-- information about ability to add APL suffix -тхэ- was added ( yes, no) 
+- information about ability to add APL suffix -???- was added ( yes, no) 
 
 ## The Associative Plural 
-Associative plural constructions consist of a noun **X** (typically of human reference, usually a person's name or a kin term) and some other material, most often an affix, a clitic, or a word. The meaning of the construction is **СX and other people associated with XТ**. Associative plural constructions are identified by two semantic properties: referential heterogeneity and reference to groups. The first property, referential heterogeneity, distinguishes associative plurals from additive plurals which happen (the most common type in most languages). The second semantic feature of the associative plural is reference to groups: it refers to a close-knit group of individuals rather than to sets without any internal cohesion. This characteristic ties associative plurals to collective plurals such as Russian 'listva' - Сa mass of leavesТ; the difference is that collective plurals are referentially homogeneous. [Michael Daniel, Edith Moravcsik. 2013] 
+Associative plural constructions consist of a noun **X** (typically of human reference, usually a person's name or a kin term) and some other material, most often an affix, a clitic, or a word. The meaning of the construction is **?X and other people associated with X?**. Associative plural constructions are identified by two semantic properties: referential heterogeneity and reference to groups. The first property, referential heterogeneity, distinguishes associative plurals from additive plurals which happen (the most common type in most languages). The second semantic feature of the associative plural is reference to groups: it refers to a close-knit group of individuals rather than to sets without any internal cohesion. This characteristic ties associative plurals to collective plurals such as Russian 'listva' - ?a mass of leaves?; the difference is that collective plurals are referentially homogeneous. [Michael Daniel, Edith Moravcsik. 2013] 
 
 Here is the definition of Associative Plural: 
 
-**СX and XТs associate(s)Т, where all members are individuals, X is the focal
+**?X and X?s associate(s)?, where all members are individuals, X is the focal
 referent, and the associate(s) form a group centering around X** 
 
-In Adyghe The Associative Plural concept is realized by suffix -тхэ- (-txe-) 
+In Adyghe The Associative Plural concept is realized by suffix -???- (-txe-) 
 The associative plural form of the name N (1) is opposed to additive plural form (2). Second one consists of several objects, each of which is a referent of N: 
 
 > (1) 
-> шыпхъутхэр<br /> 
+> ??????????<br /> 
 > sister-APL<br /> 
-> Сsister and her associatesТ<br /> 
+> ?sister and her associates?<br /> 
 > (2) 
-> шыпхъухэр<br /> 
+> ?????????<br /> 
 > sister-PL<br /> 
-> СsistersТ<br /> 
+> ?sisters?<br /> 
 
 ## Hypothesis 
 We assume that in Adyghe the possibility of attaching suffix -txe- is higher when the focal referent is singular and animated. 
@@ -153,9 +153,9 @@ ura
 As we see from the model results, our hypothesis was partially correct: the probability to attach the associative plural suffix -txe- in Adyghe depends on the Animacy of the focal referent, but there is no sifnificant correlation with the Number. 
 
 ## Sources 
-- ƒаниэль, ћ.ј. “ипологи€ ассоциативной множественности. ћ., 2000.<br /> 
-- јспекты полисинтетизма: очерки по грамматике адыгейского €зыка. ћ., 2009. 
+- ???????, ?.?. ????????? ????????????? ???????????????. ?., 2000.<br /> 
+- ??????? ??????????????: ?????? ?? ?????????? ??????????? ?????. ?., 2009. 
 - Silverstein, Michael. 1976. Hierarchy of Features and Ergativity. In Dixon, R. M. W. (ed.), Grammatical Categories in Australian Languages, 112-171. Canberra: Australian National University.<br /> 
-- RStudio. Version 1.0.136 Ц © 2009-2016 RStudio, Inc.<br /> 
+- RStudio. Version 1.0.136 ? ? 2009-2016 RStudio, Inc.<br /> 
 - tidyverse-package {tidyverse}<br /> 
 - Data: https://vk.com/doc383823376_447062479<br />
