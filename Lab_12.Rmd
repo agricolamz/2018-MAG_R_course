@@ -19,9 +19,11 @@ library(tidyverse)
 df <- read.csv("https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/data/baltic.csv")
 d <- dist(t(df[,3:6]))
 set.seed(42)
-kmeans(d, 3)
+k <- kmeans(d, 3)
 hc <- hclust(d)
+diana <- cluster::diana(d)
 plot(hc)
+plot(diana)
 ```
 
 ### 2.
@@ -44,6 +46,10 @@ df %>%
 
 hc <- hclust(d)
 plot(hc)
+
+diana <- cluster::diana(d)
+plot(diana)
+
 
 p <- pvclust::pvclust(t(df[,-c(1, 9, 10)]),
                       method.dist="cor",
@@ -68,12 +74,9 @@ plot(as.phylo(hc),
      type = "fan",
      cex = 0.6,
      no.margin = TRUE,
-     tip.color = c("red",
-                   "blue",
-                   "green",
-                   "black",
-                   "yellow",
-                   "pink", 
-                   "navy")[df$cognate_set])
+     tip.color = c("red", 
+                   "navy")[as.factor(df$archi)])
 ```
 
+* blue are the Bezhta unique words
+* red are the Archi unique words
