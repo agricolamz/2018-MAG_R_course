@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Lab 12. Claster analysis</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/lumen.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 54px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+
+.section h2 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h3 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h4 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h5 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h6 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Lab 12. Claster analysis</h1>
+
+</div>
+
+
+<div id="assignment-link" class="section level3">
+<h3><a href="https://goo.gl/uFsyfd">Assignment link</a></h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)</code></pre></div>
+</div>
+<div id="section" class="section level3">
+<h3>1.</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/data/baltic.csv&quot;</span>)
+d &lt;-<span class="st"> </span><span class="kw">dist</span>(<span class="kw">t</span>(df[,<span class="dv">3</span><span class="op">:</span><span class="dv">6</span>]))
+<span class="kw">set.seed</span>(<span class="dv">42</span>)
+<span class="kw">kmeans</span>(d, <span class="dv">3</span>)</code></pre></div>
+<pre><code>## K-means clustering with 3 clusters of sizes 1, 2, 1
+## 
+## Cluster means:
+##   Old.Prussian   Latvian Lithuanian   outlier
+## 1     6.403124 10.295630  11.000000  0.000000
+## 2    10.318490  4.974937   4.974937 10.647815
+## 3     0.000000 10.148892  10.488088  6.403124
+## 
+## Clustering vector:
+## Old.Prussian      Latvian   Lithuanian      outlier 
+##            3            2            2            1 
+## 
+## Within cluster sum of squares by cluster:
+## [1]  0.0000 99.3056  0.0000
+##  (between_SS / total_SS =  67.7 %)
+## 
+## Available components:
+## 
+## [1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot;    
+## [5] &quot;tot.withinss&quot; &quot;betweenss&quot;    &quot;size&quot;         &quot;iter&quot;        
+## [9] &quot;ifault&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">hc &lt;-<span class="st"> </span><span class="kw">hclust</span>(d)
+<span class="kw">plot</span>(hc)</code></pre></div>
+<p><img src="Lab_12_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div id="section-1" class="section level3">
+<h3>2.</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://goo.gl/Zjr9aF&quot;</span>)
+<span class="kw">row.names</span>(df) &lt;-<span class="st"> </span>df<span class="op">$</span>speaker
+d &lt;-<span class="st"> </span><span class="kw">dist</span>((df[,<span class="op">-</span><span class="kw">c</span>(<span class="dv">6</span><span class="op">:</span><span class="dv">9</span>, <span class="dv">1</span>)]))
+<span class="kw">min</span>(d)</code></pre></div>
+<pre><code>## [1] 15.79903</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">42</span>)
+km &lt;-<span class="st"> </span><span class="kw">kmeans</span>(d, <span class="dv">2</span>)
+<span class="kw">cbind.data.frame</span>(<span class="dt">cluster =</span> km<span class="op">$</span>cluster, <span class="dt">orientation =</span> df<span class="op">$</span>orientation) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">count</span>(cluster, orientation)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["cluster"],"name":[1],"type":["int"],"align":["right"]},{"label":["orientation"],"name":[2],"type":["fctr"],"align":["left"]},{"label":["n"],"name":[3],"type":["int"],"align":["right"]}],"data":[{"1":"1","2":"hetero","3":"3"},{"1":"1","2":"homo","3":"4"},{"1":"2","2":"hetero","3":"4"},{"1":"2","2":"homo","3":"3"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(df[,<span class="op">-</span><span class="kw">c</span>(<span class="dv">6</span><span class="op">:</span><span class="dv">9</span>, <span class="dv">1</span>)], <span class="dt">col =</span> km<span class="op">$</span>cluster, <span class="dt">pch =</span> <span class="kw">c</span>(<span class="dv">16</span>, <span class="dv">1</span>)[df<span class="op">$</span>orientation])</code></pre></div>
+<p><img src="Lab_12_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">cluster =</span> km<span class="op">$</span>cluster) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(cluster) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(perceived.as.homo.percent),
+            <span class="dt">sd =</span> <span class="kw">sd</span>(perceived.as.homo.percent))</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["cluster"],"name":[1],"type":["int"],"align":["right"]},{"label":["mean"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sd"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"0.6114286","3":"0.2484236"},{"1":"2","2":"0.4685714","3":"0.2440921"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">hc &lt;-<span class="st"> </span><span class="kw">hclust</span>(d)
+<span class="kw">plot</span>(hc)</code></pre></div>
+<p><img src="Lab_12_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span>pvclust<span class="op">::</span><span class="kw">pvclust</span>(<span class="kw">t</span>(df[,<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">9</span>, <span class="dv">10</span>)]),
+                      <span class="dt">method.dist=</span><span class="st">&quot;cor&quot;</span>,
+                      <span class="dt">method.hclust=</span><span class="st">&quot;average&quot;</span>, 
+                      <span class="dt">nboot=</span><span class="dv">100</span>)</code></pre></div>
+<pre><code>## Bootstrap (r = 0.43)... Done.</code></pre>
+<pre><code>## Warning: inappropriate distance matrices are omitted in computation: r =
+## 0.428571428571429</code></pre>
+<pre><code>## Bootstrap (r = 0.57)... Done.
+## Bootstrap (r = 0.57)... Done.
+## Bootstrap (r = 0.71)... Done.
+## Bootstrap (r = 0.86)... Done.
+## Bootstrap (r = 1.0)... Done.
+## Bootstrap (r = 1.0)... Done.
+## Bootstrap (r = 1.14)... Done.
+## Bootstrap (r = 1.29)... Done.
+## Bootstrap (r = 1.29)... Done.</code></pre>
+<pre><code>## Warning in a$p[] &lt;- c(1, bp[r == 1]): number of items to replace is not a
+## multiple of replacement length</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(p)</code></pre></div>
+<p><img src="Lab_12_files/figure-html/unnamed-chunk-3-3.png" width="672" /></p>
+</div>
+<div id="section-2" class="section level2">
+<h2>3</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ape)
+df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://goo.gl/4sJqv1&quot;</span>)
+data &lt;-<span class="st"> </span>df[,<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]
+<span class="kw">row.names</span>(data) &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">294</span>, df<span class="op">$</span>english)
+
+data <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">dist</span>() <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">hclust</span>() -&gt;
+<span class="st">  </span>hc
+
+<span class="kw">plot</span>(<span class="kw">as.phylo</span>(hc), 
+     <span class="dt">type =</span> <span class="st">&quot;fan&quot;</span>,
+     <span class="dt">cex =</span> <span class="fl">0.6</span>,
+     <span class="dt">no.margin =</span> <span class="ot">TRUE</span>,
+     <span class="dt">tip.color =</span> <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>,
+                   <span class="st">&quot;blue&quot;</span>,
+                   <span class="st">&quot;green&quot;</span>,
+                   <span class="st">&quot;black&quot;</span>,
+                   <span class="st">&quot;yellow&quot;</span>,
+                   <span class="st">&quot;pink&quot;</span>, 
+                   <span class="st">&quot;navy&quot;</span>)[df<span class="op">$</span>cognate_set])</code></pre></div>
+<p><img src="Lab_12_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<p> <center> &copy; О. Ляшевская, И. Щуров, Г. Мороз, code on
+<a href="https://github.com/agricolamz/2018-MAG_R_course"> GitHub<img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png"  style="width:30px;height:30px;border:0"> </center></p>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

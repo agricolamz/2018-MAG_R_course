@@ -1,7 +1,9 @@
 ---
 title: "Lab 12. Claster analysis"
+editor_options: 
+  chunk_output_type: console
 ---
-
+  
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = FALSE)
 ```
@@ -14,7 +16,7 @@ library(tidyverse)
 
 ### 1.
 ```{r}
-df <- read.csv("http://goo.gl/nLkHLq")
+df <- read.csv("https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/data/baltic.csv")
 d <- dist(t(df[,3:6]))
 set.seed(42)
 kmeans(d, 3)
@@ -42,13 +44,36 @@ df %>%
 
 hc <- hclust(d)
 plot(hc)
+
+p <- pvclust::pvclust(t(df[,-c(1, 9, 10)]),
+                      method.dist="cor",
+                      method.hclust="average", 
+                      nboot=100)
+plot(p)
 ```
 
-### 3.
-
+## 3
 ```{r}
-library(stringdist)
-stringdist("Antidisestablishmentarianism", "computer", method = "lv")
-stringdist("Antidisestablishmentarianism", "computer", method = "jaccard")
+library(ape)
+df <- read.csv("https://goo.gl/4sJqv1")
+data <- df[,-c(1:3)]
+row.names(data) <- paste(1:294, df$english)
+
+data %>% 
+  dist() %>% 
+  hclust() ->
+  hc
+
+plot(as.phylo(hc), 
+     type = "fan",
+     cex = 0.6,
+     no.margin = TRUE,
+     tip.color = c("red",
+                   "blue",
+                   "green",
+                   "black",
+                   "yellow",
+                   "pink", 
+                   "navy")[df$cognate_set])
 ```
 
