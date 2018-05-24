@@ -75,6 +75,8 @@ title: "Linguistic data: quantitative analysis and visualisation"
 * (17.2018) lecture
 * (17.2018) Lab 11 (CART), [Assignment](https://goo.gl/forms/reyDIJ4NWbvR5Gbq1) [Code](https://agricolamz.github.io/2018-MAG_R_course/Lab11)
 
+* [HW-2](https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/HW3_assignment.Rmd). [Html-version](https://agricolamz.github.io/2018-MAG_R_course/HW3) Due: 4.06.2018
+
 ### 12. Clusterization
 
 * (.2018) lecture
