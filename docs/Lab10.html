@@ -713,7 +713,7 @@ load.test.pdata <span class="op">%&gt;%</span><span class="st"> </span>
 v &lt;-<span class="st"> </span><span class="kw">ifelse</span>(load.glm5.scores<span class="op">$</span>response <span class="op">&gt;=</span><span class="st"> </span>.<span class="dv">5</span>, <span class="st">&quot;theme&quot;</span>, <span class="st">&quot;goal&quot;</span>)
 load.glm5.scores<span class="op">$</span>construction_pred &lt;-<span class="st"> </span><span class="kw">as.factor</span>(v)
 
-<span class="kw">confusionMatrix</span>(<span class="dt">data =</span> load.glm5.scores<span class="op">$</span>construction_pred, <span class="dt">reference =</span> load.glm5.scores<span class="op">$</span>construction_obs)</code></pre></div>
+<span class="kw">confusionMatrix</span>(<span class="dt">data =</span> load.glm5.scores<span class="op">$</span>construction_pred, <span class="dt">reference =</span> load.glm5.scores<span class="op">$</span>construction_obs, <span class="dt">positive=</span><span class="st">&quot;theme&quot;</span>)</code></pre></div>
 <pre><code>## Confusion Matrix and Statistics
 ## 
 ##           Reference
@@ -729,16 +729,16 @@ load.glm5.scores<span class="op">$</span>construction_pred &lt;-<span class="st"
 ##                   Kappa : 0.8337          
 ##  Mcnemar&#39;s Test P-Value : 0.02445         
 ##                                           
-##             Sensitivity : 0.8687          
-##             Specificity : 0.9677          
-##          Pos Pred Value : 0.9663          
-##          Neg Pred Value : 0.8738          
-##              Prevalence : 0.5156          
-##          Detection Rate : 0.4479          
-##    Detection Prevalence : 0.4635          
+##             Sensitivity : 0.9677          
+##             Specificity : 0.8687          
+##          Pos Pred Value : 0.8738          
+##          Neg Pred Value : 0.9663          
+##              Prevalence : 0.4844          
+##          Detection Rate : 0.4688          
+##    Detection Prevalence : 0.5365          
 ##       Balanced Accuracy : 0.9182          
 ##                                           
-##        &#39;Positive&#39; Class : goal            
+##        &#39;Positive&#39; Class : theme           
 ## </code></pre>
 </div>
 <div id="inspect-false-positives-and-false-negatives" class="section level4">
@@ -760,6 +760,16 @@ load.glm5.scores<span class="op">$</span>construction_pred &lt;-<span class="st"
 <span class="st">  </span><span class="kw">annotate</span>(<span class="dt">geom=</span><span class="st">&quot;text&quot;</span>, <span class="dt">x=</span><span class="dv">2</span>, <span class="dt">y=</span><span class="fl">0.47</span>, <span class="dt">label=</span><span class="st">&quot;threshold at response prob = 0.5&quot;</span>, <span class="dt">color=</span><span class="st">&quot;darkblue&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Observed and predicted values in test data&quot;</span>)</code></pre></div>
 <p><img src="Lab10_files/figure-html/2.13.4-1.png" width="672" /></p>
+<p>Yet another way to plot observed and predicted variables:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  <span class="kw">ggplot</span>(<span class="dt">data=</span>load.glm5.scores, <span class="kw">aes</span>(<span class="dt">x=</span>construction_obs, <span class="dt">y=</span>response)) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_violin</span>(<span class="dt">fill=</span><span class="kw">rgb</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dt">alpha=</span><span class="fl">0.6</span>), <span class="dt">color=</span><span class="st">&quot;blue&quot;</span>, <span class="dt">width =</span> <span class="dv">2</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_jitter</span>(<span class="kw">aes</span>(<span class="dt">color =</span> construction_obs)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_hline</span>(<span class="dt">yintercept=</span><span class="fl">0.6</span>, <span class="dt">linetype=</span><span class="st">&quot;dashed&quot;</span>, <span class="dt">alpha=</span><span class="fl">0.8</span>) <span class="op">+</span>
+<span class="co">#    scale_color_discrete(name = &quot;type&quot;) +</span>
+<span class="st">    </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Threshold at responce probability 0.6&quot;</span>)</code></pre></div>
+<pre><code>## Warning: position_dodge requires non-overlapping x intervals</code></pre>
+<p><img src="Lab10_files/figure-html/2.13.5-1.png" width="672" /></p>
+<p>At the threshold 0.6, there are 8 false positives (predicted as “theme” whereas the observed class is “goal”) and 7 false negatives (predicted as “goal” whereas the observed class is “theme”). The violin plots show that the distribution of response probabilities within each class is quite good (most of the “goal” response probs are below 0.2, most of the “theme” response probs equal 1).</p>
 </div>
 </div>
 <div id="auc-area-under-the-roc-curve" class="section level3">

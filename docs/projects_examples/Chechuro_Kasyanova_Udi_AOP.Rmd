@@ -1,0 +1,328 @@
+---
+title: "R Notebook"
+output:
+  html_document: default
+  html_notebook: default
+---
+
+---
+title: "Udi AOP Analysis"
+author: "I. Chechuro, P. Kasyanova"
+date: "19 06 2017"
+output:
+  word_document: default
+  html_document: default
+---
+Udi belongs to the Lezgic branch of the Northeast-Caucasian language family. It is spoken in a small area in the Northern Azerbaidzhan by ca. 10.000 people (Wikipedia). In Udi, there are two markers of participial relative clauses: -al and -i. The purpose of this study os to determine the principles of their use.
+There are two main hypotheses concerning the use of the markers. The first one is called temporal and implies that the relative tense determines the use of the marker. The second one is called aspectual and implies that the markers mark perfective and imperfective aspect.
+Since aspect is an extremely vague meaning that cannot be understood outside the utterance and without additional work with a native speaker, we limit this study to the first hypothesis which we are going to test. Thus, the main purpose of this study is to test the temporal hypothesis and to find out if there are any other factors that influence the choice of the marker.
+Our data comes from the corpus of Udi (only available as .doc files) and contains all 273 examples from both oral and written texts that are attested. Though the data is rather limited, there are no other data available for Udi.
+This study is organized as follows. First, we test single predictors. Then we create MDS-based semantiс maps for the markers. Third, we perform a GLM analysis and build an S-curve for our data. After that we draw some conclusions.
+As the possible predictors we have taken the text, the type of text (oral/written), relative tense (pst/npst/NA), nominalization (1/0), the use of a postposition (0/oša/beIšI), actionality (stat/dyn).
+It is also important that the oral corpus consists of novels written by only one person, thus, the possible (though not attested, as we will show below) significance of the type of the text could be explained by the bias of one speaker towards one form.
+First, let us read the data and introduce all the necessary libraries:
+
+```{r readingData}
+library(tidyverse)
+library(cluster)
+library(smacof)
+library(MASS)
+aop <- read.csv("/Users/ilchec/Documents/Учеба/R_Masters/R Project/udi_data.csv", sep=";")
+aop_full <- aop
+aop <- aop[,-c(3,4)]
+View(aop_full)
+```
+
+To begin with, consider some simple plots showing the correspondence between the use of the markers and (1) text type and (2) postposition use. The distribution by the text type shows that both markers are used in oral speech as well as in written.
+
+```{r textBars, echo=FALSE}
+#distibution by text type
+aop %>% 
+  ggplot(aes(corpus, fill = marker))+
+  geom_bar(stat = 'count', position="dodge")
+```
+ The distribution by the postpositions shows that oša is only possible with -i. We do not have enough data to make any judgement about beIšI. 
+```{r postpositionBars, echo=FALSE}
+aop %>% 
+  ggplot(aes(postposition, fill = marker))+
+  geom_bar(stat = 'count', position="dodge")
+```
+
+The same with a different type of plot:
+```{r postpositionCircles}
+aop %>% 
+  group_by(marker, postposition) %>% 
+  summarise(number = n()) %>% 
+  ggplot(aes(marker, postposition, label = number))+
+  geom_point(aes(size = number), color = "light blue")+
+  geom_text()+
+  scale_size(range = c(10, 30))+
+  guides(size = F)+
+  xlab("Marker")+
+  ylab("Postposition")+
+  ggtitle("Correlation between the marker and postposiitons")
+```
+
+The following plot depicts how the verbs form clusters according to the use of the markers. The only verb that only attaches “-al” is ukː ‘say’. There are verbs that tend to attach -i: har ‘come’, mand ‘stay’, and čarkː ‘to end/to cease’. Other verbs attach both suffixes. The graph also shows that a clearly stative verb bak ‘be’ is used with -al considerably more often than with -i.
+
+```{r verbClusters}
+aop_stem <- aop[,c(3,1)]
+aop_stem_t <- table(aop_stem)
+#View(aop_stem_t)
+aop_stem_t <- as.data.frame(aop_stem_t)
+aop_stem_t_al <- filter(aop_stem_t, marker == "al")
+aop_stem_t_i <- filter(aop_stem_t, marker == "i")
+aop_stem_tf <- cbind(aop_stem_t, aop_stem_t_al$Freq, aop_stem_t_i$Freq)
+#View(aop_stem_tf)
+aop_stem_tf <- aop_stem_tf[,c(1,4,5)]
+aop_stem_tf <- aop_stem_tf[c(1:92),]
+colnames(aop_stem_tf) <- c("stem", "al", "i")
+aop_stem_tf %>% 
+  ggplot(aes(al, i, label=stem))+
+  geom_text()
+```
+
+
+
+The next plot shows how texts form clusters according to the use of the markers. We do not see any correspondences between the types of the texts and the use of markers.
+
+``` {r textClusters}
+aop_text <- aop[,c(2,1)]
+aop_text_t <- table(aop_text)
+aop_text_t <- as.data.frame(aop_text_t)
+aop_text_t_al <- filter(aop_text_t, marker == "al")
+aop_text_t_i <- filter(aop_text_t, marker == "i")
+aop_text_tf <- cbind(aop_text_t, aop_text_t_al$Freq, aop_text_t_i$Freq)
+aop_text_tf <- aop_text_tf[,c(1,4,5)]
+aop_text_tf <- aop_text_tf[c(1:54),]
+colnames(aop_text_tf) <- c("text", "al", "i")
+aop_text_tf %>% 
+  ggplot(aes(al, i, label=text))+
+  geom_text()
+```
+
+The next plot shows how the markers are distributed by the relative tense. The majority of -al uses are in the ‘non-past’ clauses. The majority of -i uses are in the ‘past’ clauses. There are also some clauses that we marked NA. This means that we were indecisive and the relative tense could not be established undoubtedly. In these clauses the markers are distributed equally.
+
+```{r rtenseCircles}
+aop %>% 
+  group_by(marker, rtense) %>% 
+  summarise(number = n()) %>% 
+  ggplot(aes(marker, rtense, label = number))+
+  geom_point(aes(size = number), color = "light blue")+
+  geom_text()+
+  scale_size(range = c(10, 30))+
+  guides(size = F)+
+  xlab("Marker")+
+  ylab("Relative tense")+
+  ggtitle("Correlation between the marker and the relative tense")
+```
+
+
+
+The MDS clusterization for our variables. 
+This part is based on [Levshina 2015]. The plot of stress shows that 3 or 4 dimensions explain enough variance, and we age going to use 4 because the difference between the 3rd and 4th variables is very small.
+
+``` {r semanticMaps}
+aop.dist <- daisy(aop[,c(3,4,5,6,7,8,9)])
+stress <- sapply(1:7, function(x) smacofSym(aop.dist, type = "ordinal", ndim = x)$stress)
+plot(1:7, stress, type = "b", xlab = "n of dimensions", ylab = "stress", main = "The plot of stress in ordinal MDS")
+aop.mds <- smacofSym(aop.dist, type = "ordinal", ndim = 4)
+#plot(aop.mds$conf, main = "Exemplars of al and i: Dim 1 and 2")
+#plot(aop.mds$conf[, 2:3], main = "Exemplars of al and i: Dim 2 and 3")
+```
+
+After interpreting the dimensions, it becomes clear that the most important predictors are: postposition, stem, rtense, and nominalization.
+
+``` {r}
+y <- aop.mds$conf[, 1]
+adjR2 <- sapply(2:9, function(x) summary(lm(y ~ aop[, x]))$adj.r.squared)
+res <- data.frame(colnames(aop[,-1]), adjR2)
+View(res)
+```
+
+The negative coefficients of postposition = “oša” and postposition = “beIšI” show that the examples with postpositions have lower values on Dimension 1 than the observations with the reference level (postposition = “0”).
+
+```{r}
+summary(lm(y ~ postposition, data = aop))
+```
+
+There is no need to interpret these values.
+```{r}
+s <- summary(lm(y ~ stem, data = aop))
+View(s$coefficients)
+```
+
+The negative coefficients of postposition = “pst” show that the examples with past relative tense have lower values on Dimension 3 then the observations with the reference level (rtense = “prs”).
+```{r}
+summary(lm(y ~ rtense, data = aop))
+```
+Nominalization. The examples with nominalization have lower values in D4 than the ones without it.
+
+```{r}
+summary(lm(y ~ nominalization, data = aop))
+```
+
+Plotting the semantic map, dimensions 1 and 2:
+
+```{r}
+dens.al <- kde2d(aop.mds$conf[aop$marker == "al", 1], 
+                   aop.mds$conf[aop$marker == "al", 2]) 
+dens.i <- kde2d(aop.mds$conf[aop$marker == "i", 1], 
+                    aop.mds$conf[aop$marker == "i", 2],) 
+plot(aop.mds$conf, main = "Contour plot: Dim 1 and 2", pch = 16, col = "grey", xlab = "D1, postposition, oša on the left", ylab = "D2")
+contour(dens.al, add = TRUE, col = "red") 
+contour(dens.i, add = TRUE, col = "blue") 
+legend("topleft", c("al", "i"), col = c("red", "blue"), lty = 1)
+```
+ Dimensions 2 and 3.
+```{r}
+dens.al <- kde2d(aop.mds$conf[aop$marker == "al", 2], 
+                 aop.mds$conf[aop$marker == "al", 3]) 
+dens.i <- kde2d(aop.mds$conf[aop$marker == "i", 2], 
+                aop.mds$conf[aop$marker == "i", 3],) 
+plot(aop.mds$conf, main = "Contour plot: Dim 2 and 3", pch = 16, col = "grey", ylab = "D3, relative tense, PST is lower", xlab = "D2")
+contour(dens.al, add = TRUE, col = "red") 
+contour(dens.i, add = TRUE, col = "blue") 
+legend("topleft", c("al", "i"), col = c("red", "blue"), lty = 1)
+```
+ 
+The next chunk performs a GLM based on our predictors:
+
+```{r}
+dens.al <- kde2d(aop.mds$conf[aop$marker == "al", 1], 
+                 aop.mds$conf[aop$marker == "al", 4]) 
+dens.i <- kde2d(aop.mds$conf[aop$marker == "i", 1], 
+                aop.mds$conf[aop$marker == "i", 4],) 
+plot(aop.mds$conf, main = "Contour plot: Dim 1 and 4", pch = 16, col = "grey", ylab = "D4, NMLZ, nominalized clauses are lower", xlab = "D1")
+contour(dens.al, add = TRUE, col = "red") 
+contour(dens.i, add = TRUE, col = "blue") 
+legend("topleft", c("al", "i"), col = c("red", "blue"), lty = 1)
+```
+
+Now let us try to predict the use of the marker from all the other factors:
+
+```{r}
+fit <- glm(marker~., data = aop[, -c(2, 3, 4)], family = "binomial")
+options(scipen = 999)
+all.comb <- aggregate(marker ~  stem + rtense + actionality + matrix_tense + nominalization + postposition + corpus, data = aop, length)
+colnames(all.comb)[8] <- "number"
+final <- cbind.data.frame(all.comb, as.data.frame(predict(fit, all.comb, type="response", se.fit = T)))
+final$fit <- round(final$fit, 2)
+final$se.fit <- round(final$se.fit, 2)
+final %>% 
+  arrange(desc(fit)) ->
+  final
+```
+
+```{r, warning=FALSE}
+lapply(aop[setdiff(names(aop), "marker")], 
+       function(x) chisq.test(x, aop$marker)$expected) -> expected_values
+#expected_values
+```
+ 
+The chisq is applied only if the number is >5.
+
+```{r}
+data.frame(params = names(expected_values),
+           less_than_5 = sapply(1:length(expected_values),
+                                function(x){
+                                  sum(expected_values[[x]] < 5) > 0})) ->
+  chi_vs_fisher
+chi_vs_fisher
+```
+
+We do not perform the exact Fisher’s test because for some unknown reason it runs out of memory and crashes the R session. Nonetheless, the number of predictors is low enough to just perform the chisq.
+
+```{r}
+aop %>% 
+summarise_each( 
+funs(chisq.test(., aop$marker)$p.value), 
+-one_of("marker","text", "stem", "matrix_tense", "postposition")) -> 
+chisq.p.values 
+View(chisq.p.values)
+
+#aop %>% 
+#summarise_each( 
+#funs(fisher.test(., aop$marker)$p.value), 
+#-one_of("marker","rtense", "actionality", "nominalization", "corpus")) -> 
+#fisher.p.values 
+#View(fisher.p.values)
+
+chisq.p.values.adjust <- p.adjust(unlist(chisq.p.values), method = 'bonferroni')
+chisq.p.values.adjust
+
+#data.frame(st = unlist(chisq_statistic), df = unlist(chisq_df), p = #unlist(chisq.p.values.adjust)) -> chisq_results
+```
+
+```{r}
+chisq.p.values.adjust < 0.05
+```
+
+Making the GLM. Relative tense and nominalization are significant.
+
+```{r}
+aop$marker <- factor(aop$marker)
+aop$text <- factor(aop$text)
+aop$stem <- factor(aop$stem)
+aop$rtense <- factor(aop$rtense)
+aop$actionality <- factor(aop$actionality)
+aop$matrix_tense <- factor(aop$matrix_tense)
+aop$nominalization <- factor(aop$nominalization)
+aop$postposition <- factor(aop$postposition)
+aop$corpus <- factor(aop$corpus)
+fit <- glm(marker~., data = aop[, -c(2, 3, 9)], family = "binomial")
+summary(fit)
+```
+Preparing the data frame for plotting the S-curve.
+```{r}
+options(scipen = 999)
+all.comb <- aggregate(marker ~  rtense + actionality + matrix_tense + nominalization + postposition, data = aop, length)
+colnames(all.comb)[6] <- "number"
+final <- cbind.data.frame(all.comb, as.data.frame(predict(fit, all.comb, type="response", se.fit = T)))
+final$fit <- round(final$fit, 2)
+final$se.fit <- round(final$se.fit, 2)
+final %>% 
+  arrange(desc(fit)) ->
+  final
+#final
+```
+
+Plotting the S-curve. All combinations with npst values are grouped in the upper part, while the ones with the value pst can be found within the lower part of the graph. The combinations with postposition osa also form a group. By looking at the distribution of combinations on the vertical axis, we can conclude that it is the relative tense and postposition that clearly influence the choice of the marker. 
+
+```{r}
+final$rtense <- as.character(final$rtense)
+final$actionality <- as.character(final$actionality)
+final$matrix_tense <- as.character(final$matrix_tense)
+final$nominalization <- as.character(final$nominalization)
+final$postposition <- as.character(final$postposition)
+
+final_table <- sapply(1:nrow(final), function(x){
+  paste(final[x,1:5], collapse = "-")})
+  
+new_df <- data.frame(name = final_table,
+                     p = final$fit,
+                     se = final$se.fit)
+new_df
+new_df %>% 
+  arrange(desc(p)) -> new_df
+new_df$name %>% 
+  unlist() %>% 
+  unname() ->
+  levels
+
+new_df$name <- factor(new_df$name, levels = levels)
+
+new_df %>% 
+  mutate(min = p-se,
+         max = p+se) %>%
+  ggplot(aes(name, p)) +
+  theme_bw() +
+  geom_point() +
+  geom_errorbar(aes(ymin = min, ymax = max)) +
+  coord_flip() +
+  ylab("The probability to get -i") +
+  xlab("The combination of the values of the parameters")
+```
+
+Conclusions. Thus, the temporal hypothesis was confirmed, which does not exclude the possibility of perfective vs. imperfective aspect that we did not check within this study. Other factors that influence the choice of the marker are postposition, stem, and nominalization. The latter two influence the choice to a slightly lesser extent. The significant impact of postposition can also be explained by the relative tense hypothesis, as these postpositions exactly designate the order of events (‘before’ or ‘after’). The interpretation of the influence of the type of the stem and presence of nominalization is more complicated. We assume that each stem has its own intrinsic aspectual properties (lexical aspect) that may have an impact on the marker choice. However, not much is known about different lexical aspectual classes in Udi, so this hypothesis cannot be checked based on the current knowledge. If lexical aspect indeed plays a role, the relation is more complicated than just the opposition between stative and dynamic verbs, we proposed at the beginning of our investigation. The factor of nominalization is also hard to interpret because the nominalization patterns and properties have not yet been studied. We leave these issues open for the further research.
+

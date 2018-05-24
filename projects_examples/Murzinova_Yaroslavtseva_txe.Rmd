@@ -1,0 +1,161 @@
+---
+title: "Associative plural suffix -txe- in Adyghe"
+author: "Evgeniya Murzinova, Maria Yaroslavtseva"
+output: html_document
+---
+
+```{r setup, include=FALSE} 
+knitr::opts_chunk$set(echo = TRUE) 
+``` 
+
+## About Adyghe 
+Adyghe, also known as West Circassian, is one of the two official languages of the Republic of Adygea in the Russian Federation. It is spoken by various tribes of the Adyghe people, each with its own dialect. Outside Circassia Adyghe is spoken by Circassians in Iraq, by Circassians in Israel, and by Circassians in Syria. 
+
+There are around 128,000 speakers of Adyghe in Russia, almost all of them native speakers. In total, some 300,000 speak it worldwide. The largest Adyghe-speaking community is in Turkey, spoken by the post Russian?Circassian War (circa 1763?1864) diaspora; in addition to that, the Adyghe language is spoken by the Cherkesogai in Krasnodar Krai. 
+Adyghe belongs to the family of Northwest Caucasian languages. Kabardian (also known as East Circassian) is a very close relative, treated by some as a dialect of Adyghe or of an overarching Circassian language. Ubykh, Abkhaz and Abaza are somewhat more distantly related to Adyghe.mnb 
+The language was standardised after the October Revolution in 1917. Since 1936, the Cyrillic script has been used to write Adyghe. Before that, an Arabic-based alphabet was used together with the Latin. 
+
+## Data collection and creation of database 
+The research is based upon primary data that was collected in Krasnodar region during several interview sessions with native speakers. All the interviewees speak 
+Bzhedug dialect (which is not formal but the most widely distributed among native speakers). 
+
+Present research is built upon Animacy Hierarchy [Silverstein 1976]: 
+
+1. 1,2 > 3 
+2. ProN > ProperN > Kin > CommonN 
+3. Hum > NHum > Inanim 
+4. <span style="color:grey">Def > Specific > Non-specific</span> 
+5. Sg > Pl > Mass 
+
+Line 4 is excluded from the examination due to impossibility to check appearance of the suffix out of context. In our study we have used constructed examples not controlled for the referential status of noun phrases and so we excluded line 4 (Def > Specific > Non-specific) from the examination. Further investigation is needed. 
+
+Lines of this hierarchy are not mutually exclusive so we have combined them into one table, grouping intercross attributes into levels. That work can be described by following list of actions: 
+
+- creating a list of words from the questionnaires 
+- dividing the list into classe: Pronouns (pron), Proper Nouns (propern), Kinship Terminology (kin), Common Nouns (commonn); 
+- assign each word with attribute of animacy: Human (hum), Non Human (nhum), Inanimated (inanim) and number: Singular (sg), Plural (pl); 
+- information about ability to add APL suffix -???- was added ( yes, no) 
+
+## The Associative Plural 
+Associative plural constructions consist of a noun **X** (typically of human reference, usually a person's name or a kin term) and some other material, most often an affix, a clitic, or a word. The meaning of the construction is **?X and other people associated with X?**. Associative plural constructions are identified by two semantic properties: referential heterogeneity and reference to groups. The first property, referential heterogeneity, distinguishes associative plurals from additive plurals which happen (the most common type in most languages). The second semantic feature of the associative plural is reference to groups: it refers to a close-knit group of individuals rather than to sets without any internal cohesion. This characteristic ties associative plurals to collective plurals such as Russian 'listva' - ?a mass of leaves?; the difference is that collective plurals are referentially homogeneous. [Michael Daniel, Edith Moravcsik. 2013] 
+
+Here is the definition of Associative Plural: 
+
+**?X and X?s associate(s)?, where all members are individuals, X is the focal
+referent, and the associate(s) form a group centering around X** 
+
+In Adyghe The Associative Plural concept is realized by suffix -???- (-txe-) 
+The associative plural form of the name N (1) is opposed to additive plural form (2). Second one consists of several objects, each of which is a referent of N: 
+
+> (1) 
+> ??????????<br /> 
+> sister-APL<br /> 
+> ?sister and her associates?<br /> 
+> (2) 
+> ?????????<br /> 
+> sister-PL<br /> 
+> ?sisters?<br /> 
+
+## Hypothesis 
+We assume that in Adyghe the possibility of attaching suffix -txe- is higher when the focal referent is singular and animated. 
+
+## Our data 
+As a first step we load the data using the read.csv() function. 
+Then we list the first 6 lines and summary of our data with head() and summary(): 
+```{r} 
+ourdata <- read.csv("F:/Project/txe.pro-utf8.csv", header=TRUE) 
+head (ourdata) 
+summary(ourdata) 
+``` 
+
+## Visualization 
+In order to visualize the data, we need to run library(tidyverse) 
+```{r} 
+library(tidyverse) 
+``` 
+
+We may see the correlation between existence of Associative Plural forms and the class of the focal referent: common nouns do not attach the suffix -txe- at all. 
+
+```{r, echo=FALSE} 
+ourdata %>% 
+count(Number, isSuffix, Class, Animacy) %>% 
+ggplot(aes(x = Number, y = n, fill = isSuffix))+ 
+geom_bar(stat="identity", position=position_dodge())+ 
+facet_wrap(~ Class) + 
+labs(y = "Possibility", 
+x = "Number", 
+title = "Possibility to attach suffix -txe- by Class") 
+``` 
+
+Next bar demonstrates the correlation between Associative Plural forms and the animacy of the focal referent: animated and non-human (with a proper noun as a FR) can attach the suffix -txe-. 
+
+```{r, echo=FALSE} 
+ourdata %>% 
+count(Class, Number, isSuffix, Animacy) %>% 
+ggplot(aes(x = Class, y = n, fill = isSuffix))+ 
+geom_bar(stat="identity", position=position_dodge())+ 
+facet_wrap(~ Animacy) + 
+labs(y = "Possibility", 
+x = "Class", 
+title = "Possibility to attach suffix -txe- by Animacy") 
+``` 
+
+## Logistic regression 
+Logistic regression is a method for fitting a regression curve when **y** is a categorical variable. The typical use of this model is predicting **y** given a set of predictors **x**. The predictors can be continuous, categorical or a mix of both. 
+
+The categorical variable **y**, in general, can assume different values. In the simplest case scenario **y** is binary meaning that it can assume either the value 1 or 0, in our case, **yes** or **no** (about possibility to form associative plural) 
+
+Let us build several models with different predictors. We suppose that the best predictor for our model should be **Animacy** (according to the hypothesis). 
+
+1. We are going to check the influence of **Class** to the possibility of attaching suffix -txe-. We use standard glm() function with parameter "family" specified to "binomial".By using function summary() we obtain the results of our model: 
+```{r} 
+model.cl <- glm(isSuffix~Class, data = ourdata, family = "binomial") 
+summary(model.cl) 
+``` 
+
+2. Now we are going to use **Number** as a predictor. 
+``` {r} 
+model.nu <- glm(isSuffix~Number, data = ourdata, family = "binomial") 
+summary(model.nu) 
+``` 
+
+3. Finally, we are going to check **Animacy** influence. 
+```{r} 
+model.an <- glm(isSuffix~Animacy, data = ourdata, family = "binomial") 
+summary(model.an) 
+``` 
+
+4. Additionally, we decided to combine **all** predictors listed above: 
+```{r} 
+model.all <- glm(isSuffix~Number+Animacy+Class, data = ourdata, family = "binomial") 
+summary(model.all) 
+``` 
+
+## Result Interpretation and prediction 
+Now we can analyze the fitting and interpret what the model is telling us. 
+We can see that only Animacy are statistically significant. It has the lowest p-value suggesting a strong association of the animacy of the focal referent with the probability of having the form of the associative plural. 
+
+Finally, we may predict the order of the largest probability to form the associative plural.
+```{r} 
+ourdata %>% 
+count(Animacy, isSuffix) %>% 
+select(-n, -isSuffix) %>% 
+unique() -> 
+new.data 
+new.data %>% 
+predict(model.an, newdata = ., type = "response") -> 
+new.data$prediction 
+ura <- new.data %>% 
+arrange(desc(prediction)) 
+ura 
+``` 
+
+As we see from the model results, our hypothesis was partially correct: the probability to attach the associative plural suffix -txe- in Adyghe depends on the Animacy of the focal referent, but there is no sifnificant correlation with the Number. 
+
+## Sources 
+- ???????, ?.?. ????????? ????????????? ???????????????. ?., 2000.<br /> 
+- ??????? ??????????????: ?????? ?? ?????????? ??????????? ?????. ?., 2009. 
+- Silverstein, Michael. 1976. Hierarchy of Features and Ergativity. In Dixon, R. M. W. (ed.), Grammatical Categories in Australian Languages, 112-171. Canberra: Australian National University.<br /> 
+- RStudio. Version 1.0.136 ? ? 2009-2016 RStudio, Inc.<br /> 
+- tidyverse-package {tidyverse}<br /> 
+- Data: https://vk.com/doc383823376_447062479<br />
