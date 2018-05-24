@@ -1,0 +1,295 @@
+english,russian,cognate_set,archi,bezhta,avar
+the world,мир,A,1,1,1
+the land,земля,A,1,1,1
+the land,земля,B,0,1,1
+the soil,почва,A,1,0,1
+the soil,почва,B,0,1,0
+the soil,почва,C,0,1,0
+the dust,пыль,A,1,0,0
+the dust,пыль,B,0,1,0
+the dust,пыль,C,0,0,1
+the dust,пыль,B,0,1,0
+the mud,грязь,A,1,0,0
+the mud,грязь,B,0,1,0
+the mud,грязь,C,0,0,1
+the sand,песок,A,1,0,0
+the sand,песок,B,0,1,0
+the sand,песок,C,0,0,1
+the mountain or hill,гора или холм,A,1,0,0
+the mountain or hill,гора или холм,B,0,1,0
+the mountain or hill,гора или холм,C,0,1,0
+the mountain or hill,гора или холм,D,0,0,1
+the mountain or hill,гора или холм,E,0,0,1
+the cliff or precipice,утес или пропасть,A,1,0,0
+the cliff or precipice,утес или пропасть,B,0,1,0
+the cliff or precipice,утес или пропасть,C,0,0,1
+the plain,равнина,A,1,0,0
+the plain,равнина,D,0,1,0
+the plain,равнина,F,0,1,1
+the plain,равнина,B,0,1,0
+the plain,равнина,C,0,0,1
+the plain,равнина,E,0,0,1
+the plain,равнина,G,0,0,1
+the valley,долина,A,1,0,0
+the valley,долина,B,0,1,1
+the valley,долина,C,0,1,0
+the valley,долина,D,0,0,1
+the valley,долина,E,0,0,1
+the valley,долина,F,0,0,1
+the cave,пещера,A,1,1,1
+the water,вода,A,1,1,1
+the sea,море,A,1,1,1
+calm,спокойный,A,1,0,0
+calm,спокойный,B,0,1,0
+calm,спокойный,C,0,0,1
+calm,спокойный,D,0,0,1
+calm,спокойный,E,0,0,1
+calm,спокойный,F,0,0,1
+rough(2),бурный,A,1,0,0
+rough(2),бурный,B,0,1,0
+the foam,пена,A,1,0,0
+the foam,пена,B,0,1,1
+the lake,озеро,A,1,0,0
+the lake,озеро,D,0,1,0
+the lake,озеро,C,0,0,1
+the wave,волна,A,1,0,0
+the wave,волна,B,0,1,0
+the wave,волна,C,0,0,1
+the river or stream,волна,A,1,0,0
+the river or stream,волна,B,0,1,0
+the river or stream,волна,C,0,1,0
+the river or stream,волна,D,0,0,1
+the river or stream,волна,E,0,0,1
+the whirlpool,водоворот,A,1,0,0
+the whirlpool,водоворот,B,0,1,0
+the whirlpool,водоворот,C,0,0,1
+the whirlpool,водоворот,D,0,0,1
+the spring or well,родник или колодец,A,1,0,0
+the spring or well,родник или колодец,B,0,1,0
+the spring or well,родник или колодец,C,0,0,1
+the spring or well,родник или колодец,D,0,0,1
+the swamp,болото,A,1,0,0
+the swamp,болото,B,0,1,0
+the swamp,болото,C,0,0,1
+the waterfall,водопад,A,1,0,0
+the waterfall,водопад,B,0,1,0
+the waterfall,водопад,C,0,0,1
+the woods or forest,лес,A,1,0,0
+the woods or forest,лес,B,0,1,0
+the woods or forest,лес,C,0,0,1
+the wood,дерево (материал),A,1,0,0
+the wood,дерево (материал),B,0,1,0
+the wood,дерево (материал),C,0,0,1
+the stone or rock,камень,A,1,0,0
+the stone or rock,камень,B,0,1,0
+the stone or rock,камень,C,0,0,1
+the stone or rock,камень,D,0,0,1
+the earthquake,камень,A,1,0,0
+the earthquake,камень,B,0,1,0
+the earthquake,камень,C,0,0,1
+the sky,небо,A,1,0,0
+the sky,небо,B,0,1,0
+the sky,небо,C,0,0,1
+the sun,солнце,A,1,1,1
+the moon,луна,A,1,1,1
+the star,звезда,A,1,0,0
+the star,звезда,B,0,1,1
+the lightning,молния,A,1,0,0
+the lightning,молния,B,0,1,0
+the lightning,молния,C,0,0,1
+the thunder,гром,A,1,0,0
+the thunder,гром,B,0,1,0
+the thunder,гром,C,0,0,1
+the bolt of lightning,молния,A,1,0,0
+the bolt of lightning,молния,B,0,1,0
+the bolt of lightning,молния,C,0,0,1
+the storm,буря,A,1,0,0
+the storm,буря,B,0,1,0
+the storm,буря,C,0,0,1
+the rainbow,радуга,A,1,0,0
+the rainbow,радуга,B,0,1,0
+the rainbow,радуга,C,0,0,1
+the light,свет (например солнечный),A,1,0,0
+the light,свет (например солнечный),B,0,1,1
+the light,свет (например солнечный),C,0,0,1
+the light,свет (например солнечный),D,0,0,1
+the darkness,темнота,A,1,0,1
+the darkness,темнота,B,0,1,0
+the shade or shadow,тень,A,1,0,0
+the shade or shadow,тень,B,0,1,0
+the shade or shadow,тень,C,0,0,1
+the dew,роса,A,1,0,0
+the dew,роса,B,0,1,0
+the air,воздух,A,1,1,1
+the air,воздух,B,0,1,0
+the wind,ветер,A,1,0,0
+the wind,ветер,B,0,1,0
+the wind,ветер,C,0,0,1
+the cloud,облако,A,1,0,0
+the cloud,облако,B,0,1,0
+the cloud,облако,C,0,0,1
+the fog,туман,A,1,0,0
+the fog,туман,B,0,1,0
+the fog,туман,C,0,0,1
+the rain,дождь,A,1,0,0
+the rain,дождь,B,0,1,0
+the rain,дождь,C,0,0,1
+the snow,снег,A,1,0,0
+the snow,снег,B,0,1,1
+the ice,лед,A,1,0,0
+the ice,лед,B,0,1,0
+the ice,лед,C,0,0,1
+to freeze,"замерзать, замерзнуть",A,1,0,0
+to freeze,"замерзать, замерзнуть",B,0,1,0
+to freeze,"замерзать, замерзнуть",C,0,0,1
+the weather,погода,A,1,1,1
+the weather,погода,B,0,1,0
+the fire,огонь,A,1,1,1
+the flame,пламя,A,1,0,1
+the flame,пламя,B,0,1,1
+the smoke,дым,A,1,0,0
+the smoke,дым,B,0,1,0
+the smoke,дым,C,0,1,0
+the smoke,дым,D,0,0,1
+the steam,пар,A,1,0,0
+the steam,пар,B,0,1,0
+the steam,пар,C,0,0,1
+the ash,пепел,A,1,0,0
+the ash,пепел,B,0,1,0
+the ash,пепел,C,0,0,1
+the embers,"зола, тлеющие угли",A,1,0,0
+the embers,"зола, тлеющие угли",B,0,1,0
+the embers,"зола, тлеющие угли",C,0,0,1
+to burn(1),"сжигать, сжечь",A,1,1,0
+to burn(1),"сжигать, сжечь",B,0,0,1
+to burn(2),гореть,C,1,1,1
+to light,"зажигать, зажечь",A,1,0,0
+to light,"зажигать, зажечь",B,0,1,0
+to light,"зажигать, зажечь",C,0,0,1
+to light,"зажигать, зажечь",D,0,0,1
+to extinguish,тушить,A,1,0,0
+to extinguish,тушить,D,0,1,0
+to extinguish,тушить,C,0,0,1
+the match,спичка,A,1,0,0
+the match,спичка,D,0,1,1
+the firewood,спичка,A,1,0,0
+the firewood,спичка,D,0,1,0
+the firewood,спичка,C,0,0,1
+the charcoal,уголь,A,1,0,0
+the charcoal,уголь,B,0,1,0
+the charcoal,уголь,C,0,0,1
+the person,человек,A,1,1,1
+the person,человек,B,0,1,0
+the person,человек,C,0,1,1
+the person,человек,D,0,0,1
+the man,мужчина,A,1,0,0
+the man,мужчина,B,0,1,0
+the man,мужчина,C,0,1,0
+the man,мужчина,D,0,0,1
+the woman,женщина,A,1,0,0
+the woman,женщина,D,0,1,0
+the woman,женщина,C,0,1,0
+the woman,женщина,D,0,0,1
+the woman,женщина,E,0,0,1
+male(1),мужской,A,1,0,0
+male(1),мужской,B,0,1,0
+male(1),мужской,C,0,1,0
+male(1),мужской,D,0,0,1
+male(1),мужской,E,0,0,1
+female(1),женский,A,1,0,0
+female(1),женский,B,0,1,0
+female(1),женский,C,0,1,0
+female(1),женский,D,0,0,1
+female(1),женский,E,0,0,1
+the boy,мальчик,A,1,0,0
+the boy,мальчик,B,0,1,0
+the boy,мальчик,C,0,0,1
+the young man,юноша,A,1,0,0
+the young man,юноша,B,0,1,1
+the young man,юноша,C,0,0,1
+the girl,девушка,A,1,0,0
+the girl,девушка,B,0,1,0
+the girl,девушка,C,0,0,1
+the young woman,молодая женщина,A,1,1,0
+the young woman,молодая женщина,B,0,1,0
+the child(1),ребёнок,A,1,0,0
+the child(1),ребёнок,B,0,1,0
+the child(1),ребёнок,C,0,0,1
+the baby,младенец,A,1,0,0
+the baby,младенец,B,0,1,0
+the baby,младенец,C,0,0,1
+the husband,муж,A,1,0,0
+the husband,муж,B,0,1,0
+the husband,муж,C,0,1,0
+the husband,муж,D,0,0,1
+the wife,жена,A,1,0,0
+the wife,жена,B,0,1,0
+the wife,жена,C,0,0,1
+the wife,жена,D,0,0,1
+to marry,выйти замуж,A,1,0,0
+to marry,жениться,A,1,0,0
+to marry,выйти замуж,D,0,1,0
+to marry,выйти замуж,C,0,0,1
+to marry,жениться,B,0,1,0
+to marry,жениться,C,0,0,1
+to marry,жениться,D,0,0,1
+the wedding,свадьба,A,1,0,0
+the wedding,свадьба,B,0,1,1
+the divorce,развод (расторжения брака),A,1,0,0
+the divorce,развод (расторжения брака),B,0,1,0
+the divorce,развод (расторжения брака),C,0,1,0
+the divorce,развод (расторжения брака),D,0,0,1
+the divorce,развод (расторжения брака),E,0,0,1
+the father,отец,A,1,1,0
+the father,отец,B,0,0,1
+the mother,мать,A,1,0,0
+the mother,мать,B,0,1,0
+the mother,мать,C,0,0,1
+the parents,родители,A,1,0,0
+the parents,родители,B,0,1,0
+the parents,родители,C,0,0,1
+the parents,родители,D,0,0,1
+the son,сын,A,1,0,0
+the son,сын,B,0,1,0
+the son,сын,C,0,0,1
+the daughter,дочь,A,1,0,0
+the daughter,дочь,D,0,1,0
+the daughter,дочь,C,0,0,1
+the brother,брат,A,1,0,0
+the brother,брат,B,0,1,0
+the brother,брат,C,0,0,1
+the sister,сестра,A,1,0,0
+the sister,сестра,B,0,1,0
+the sister,сестра,C,0,0,1
+the twins,близнецы,A,1,0,0
+the twins,близнецы,B,0,1,0
+the twins,близнецы,C,0,0,1
+the grandfather,дедушка,A,1,NA,0
+the grandfather,дедушка,D,0,NA,1
+the grandfather,дедушка,C,0,NA,1
+the old man,старик,A,1,0,0
+the old man,старик,B,0,1,0
+the old man,старик,C,0,0,1
+the grandmother,бабушка,A,1,NA,0
+the grandmother,бабушка,B,0,NA,1
+the grandmother,бабушка,C,0,NA,1
+the grandmother,бабушка,D,0,NA,1
+the old woman,старуха,A,1,0,0
+the old woman,старуха,B,0,1,0
+the old woman,старуха,C,0,0,1
+the old woman,старуха,D,0,0,1
+the grandson,внук,A,1,NA,0
+the grandson,внук,B,0,NA,1
+the grandson,внук,C,0,NA,1
+the granddaughter,внучка,A,1,NA,0
+the granddaughter,внучка,B,0,NA,1
+the granddaughter,внучка,C,0,NA,1
+the uncle,дядя,A,1,0,0
+the uncle,дядя,B,0,1,0
+the uncle,дядя,C,0,0,1
+the aunt,тётя,A,1,0,0
+the aunt,тётя,B,0,1,0
+the aunt,тётя,C,0,0,1
+the aunt,тётя,D,0,0,1
+the aunt,тётя,E,0,0,1
+the aunt,тётя,F,0,0,1
