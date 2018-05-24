@@ -266,7 +266,7 @@ v <- rep(NA, nrow(load.glm5.scores))
 v <- ifelse(load.glm5.scores$response >= .5, "theme", "goal")
 load.glm5.scores$construction_pred <- as.factor(v)
 
-confusionMatrix(data = load.glm5.scores$construction_pred, reference = load.glm5.scores$construction_obs)
+confusionMatrix(data = load.glm5.scores$construction_pred, reference = load.glm5.scores$construction_obs, positive="theme")
 ```
 
 #### Inspect false positives and false negatives  
@@ -284,6 +284,20 @@ load.glm5.scores %>%
   annotate(geom="text", x=2, y=0.47, label="threshold at response prob = 0.5", color="darkblue") +
   ggtitle("Observed and predicted values in test data")
 ```
+
+
+Yet another way to plot observed and predicted variables:
+```{r 2.13.5}
+  ggplot(data=load.glm5.scores, aes(x=construction_obs, y=response)) + 
+    geom_violin(fill=rgb(1,1,1,alpha=0.6), color="blue", width = 2) +
+    geom_jitter(aes(color = construction_obs)) +
+    geom_hline(yintercept=0.6, linetype="dashed", alpha=0.8) +
+#    scale_color_discrete(name = "type") +
+    labs(title="Threshold at responce probability 0.6")
+```
+
+At the threshold 0.6, there are 8 false positives (predicted as "theme" whereas the observed class is "goal") and 7 false negatives (predicted as "goal" whereas the observed class is "theme"). The violin plots show that the distribution of response probabilities within each class is quite good (most of the "goal" response probs are below 0.2, most of the "theme" response probs equal 1). 
+
 
 ### 2.14 AUC (area under the ROC curve)
 

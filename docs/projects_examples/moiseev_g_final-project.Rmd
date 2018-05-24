@@ -1,0 +1,210 @@
+---
+title: "Social Writing Style Analysis"
+author: "Moiseev G., Nasedkin A."
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
+---
+
+## Introduction
+
+Project description, data and scripts for comments retrieving from VK groups can be found in our [GitHub repository](https://github.com/JustFlare/social_writing_style_analysis)
+
+Prerequisites:
+* the *csv_data.csv* file should be located in the same directory with current .Rmd file
+* this file can be found [here](https://github.com/JustFlare/social_writing_style_analysis/blob/master/final_project.Rmd)
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(lme4)
+library(car)
+
+rm(list=ls())
+```
+
+## Data
+
+### Load the data. Gather desired columns. Filter the data by .95 quantile of target variable.
+```{r}
+df <- read.csv(file="csv_data.csv", header=TRUE, sep=",")
+df <- df[c("u_id", "u_sex", "u_year", "u_uni", "f_char_cnt_sent", "f_word_cnt_sent", "f_word_len_avg", "f_punct_cnt_word")]
+df <- df[df$f_punct_cnt_word < quantile(df$f_punct_cnt_word, 0.95),]
+head(df, 10)
+```
+
+### Compute mean feature values by user
+```{r}
+avg_df <- aggregate(. ~ u_id + u_sex + u_year + u_uni, df, mean)
+avg_df[avg_df$u_id == 242515614, ]
+```
+
+### General statistics
+```{r}
+sprintf('Distinct users: %d', length(unique(df$u_id)))
+sprintf('Distinct comments: %d', nrow(df))
+sprintf('Average number of comments per user: %f', nrow(df) / length(unique(df$u_id)))
+```
+
+### Distributions
+```{r warning=FALSE}
+# users distribution by comments count
+stat <- df %>%
+  group_by(u_id) %>%
+  summarise(cnt_comment = n()) %>%
+  group_by(cnt_comment) %>%
+  summarise(cnt_user = n())
+
+stat %>%
+  ggplot(aes(cnt_comment, cnt_user)) +
+  geom_line() +
+  # Right boundary set in order to zoom chart a little
+  # cause there are some users with astonishing count of comments
+  # Left boundary set due to the assumption in data
+  scale_x_continuous(limits = c(10, 100)) +
+  labs(
+    title="Distribution of users by number of their comments",
+    x="Number of comments",
+    y="Number of unique users"
+  )
+```
+```{r}
+# comments count by birth year of their author
+df %>%
+  group_by(u_year) %>%
+  summarise(cnt_comment = n()) %>%
+  ggplot(aes(u_year, cnt_comment)) +
+  geom_line() +
+  scale_x_discrete(limits = seq(min(df$u_year), max(df$u_year), 3)) +
+  theme(axis.text.x=element_text(angle=30)) +
+  labs(
+    title="Distribution of comments by their author age",
+    x="Author age",
+    y="Number of comments"
+  )
+```
+```{r}
+# birth year distribution
+unique(df[c('u_id', 'u_year')]) %>%
+  group_by(u_year) %>%
+  summarise(cnt_user = n()) %>%
+  ggplot(aes(u_year, cnt_user)) +
+  geom_line() +
+  scale_x_discrete(limits = seq(min(df$u_year), max(df$u_year), 3)) +
+  theme(axis.text.x=element_text(angle=30)) +
+  labs(
+    title="Distribution of users by their age",
+    x="Age",
+    y="Number of unique users"
+  )
+```
+
+## Regression
+
+
+### Fit and store the linear regression models by each user
+```{r}
+pvalue_threshold = 0.05
+
+# function to return the p-value from fitted regression
+lmp <- function (modelobject) {
+  if (class(modelobject) != "lm") stop("Not an object of class 'lm' ")
+  
+  out <- tryCatch(
+    {
+      f <- summary(modelobject)$fstatistic
+      p <- pf(f[1],f[2],f[3],lower.tail=F)
+      attributes(p) <- NULL
+      return(p)   
+    },
+    error=function(err) {
+      return(NaN)
+    }
+  )
+}
+
+for (id in users) {
+  temp_lm <- lm(f_punct_cnt_word ~ ., data = df[df$u_id == id, names(df) != "u_id"])
+  temp_lmp <- lmp(temp_lm)
+  if (is.nan(temp_lmp)) {
+    print(sprintf("Undefined p-value for user %d", id))
+    next
+  }
+  if (temp_lmp < pvalue_threshold) {
+    user_lm[[id]] <- temp_lm
+  }
+}
+
+print("percent of significant regressions: ")
+length(user_lm) / length(users)
+
+rm(id)
+```
+
+We can see that most regressions are statistically significant. It means that for most users factorial variance is bigger than residual. Consequently, we can say that there is a linear dependancy between our text-based factors and number of punctuations per word. 
+
+### Fit the linear regression model on the whole mean data
+
+Lets include personal features such as sex and birth year. To make regression with them we use aggregated text-based features (simple arithmetic mean).
+
+```{r}
+# remain sex, year and comment features
+avg_df_year <- avg_df[c("u_sex", "u_year", "f_char_cnt_sent", "f_word_cnt_sent", "f_word_len_avg", "f_punct_cnt_word")]
+
+avg_fit_year <- lm(f_punct_cnt_word ~ ., data = avg_df_year)
+summary(avg_fit_year)
+```
+
+We can see that all absolute t-values for our factors are bigger than 1.96 which means that they all are statistically significant (we can't replace them with null). So, we can say that personal features are at least useful in such model.
+
+The p-value is lower than 0.05 => the regression is significant. But its' value is extremely small which is a bit suspicious. The reason for that can be noise in our data or its' large amount. Maybe visualization of this model would make things more clear?
+
+## Standard and Leverage plots
+### With year
+```{r}
+plot(avg_df_year)
+leveragePlots(avg_df_year)
+```
+
+From this plots we can acertain that despite our quantile filtering there still are some noises and outliers in our data that make things quite strange on the plots.
+
+
+But how can we evaluate the influence of year in our model. Firts thing to see - how model would work without it:
+
+### Do it again but without year
+```{r}
+# remain sex, year and comment features
+avg_df <- avg_df[c("u_sex", "f_char_cnt_sent", "f_word_cnt_sent", "f_word_len_avg", "f_punct_cnt_word")]
+
+avg_fit <- lm(f_punct_cnt_word ~ ., data = avg_df)
+summary(avg_fit)
+```
+
+Again we see extremely small p-value (the data is the same) but now the F-statistics is smaller. 
+Moreover, we can make sense from another measure - Adjusted R-squared which is only useful in model comparison. Adjusted R-squared as simple R-squared indicates how well terms fit a line but it also penalizes for useless variables. We can see that without year Adjusted R-squared is lower => the model withour year is making more errors or its' regressors aren't efficient enough. This is first agrument in favour of our hypothesis - that number of punctuation marks depends on birth year. In other case Adjusted R-squared would penalize us for useless variable and the model without year would have greater Adjusted R-squared value.
+
+
+
+Just for comparison we may look at the plots of model without birth year:
+
+### Without year plots
+```{r}
+plot(avg_fit)
+leveragePlots(avg_fit)
+```
+
+### Fit and store the linear regression models by each birth year group
+```{r}
+years <- sort(unique(avg_df$u_year))
+year_lm <- list()  # list of lm by each presented year
+for (y in years) {
+  year_lm[[y]] <- lm(f_punct_cnt_word ~ ., data = avg_df[avg_df$u_year == y, names(avg_df) != "u_year"])
+}
+rm(y)
+summary(year_lm[[1994]])
+```
+

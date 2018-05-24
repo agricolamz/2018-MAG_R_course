@@ -1,0 +1,412 @@
+---
+title: 'R project: Prepositions'
+author: "Соня Никифорова, Яна Курмачева"
+date: "19/06/2017"
+output:
+  html_notebook: default
+  html_document: default
+---
+Предмет исследования: распределение предлогов “про” и “о/об” в речи.  
+Материал исследования: примеры из Национального Корпуса Русского Языка.
+
+Факторы, которые рассматриваются как возможно влияющие на выбор предлога (независимые переменнные):
+
+- регистр речи (письменный, устный);   
+- жанр текста (художественный, нехудожественный)*;   
+- часть речи слова, от которого зависит предлог (глагол, существительное);   
+- время создания текста (до 1950 года, после 1950 года);  
+- тип корня.
+
+*Жанр для письменных текстов в НКРЯ уже задан как дихотомия "художественных текстов" и "нехудожественных текстов"; в устном корпусе под "художественными" мы понимали жанры "театральная речь" и "речь кино", под "нехудожественными" — жанры "устная публичная речь" и "устная непубличная речь". Жанры "авторское чтение" и "художественное чтение" было решено не учитывать, так как тексты этих жанров — это фактически озвученная письменная, а не устная речь.
+
+У каждой из первых четырех переменных два значения (уровня), и следовательно, при работе с каждым из рассмотренных корней было задано 16 комбинаций параметров поиска. Из выдачи были взяты все примеры, если их было 50 или меньше; если примеров в выдаче было больше 50, забирались первые 50 подходящих примеров. 
+
+Рассмотренные лексемы:
+
+- разговаривать (говорить, поговорить) / разговор  
+- знать (узнать) / знание  
+- спрашивать (спросить) / вопрос (в значении question, не issue).  
+- помнить (вспомнить, вспоминать) / воспоминание (память)  
+- шутить (пошутить) / шутка  
+- рассказывать (рассказать) / рассказ  
+- писать (написать) / письмо  
+- рассуждать / рассуждение  
+- слышать (услышать) / слух  
+- петь (спеть) / песня
+
+Нулевой гипотезой является предположение о том, что единственными факторами, влияющими на выбор предлога, являются регистр и жанр текста.
+
+В результате получен 5151 пример. Для каждого примера указано, какой предлог был использован. Данные представлены в файле prepositions.csv и проиллюстрированы в графиках.
+
+```{r}
+library(randomForest)
+library(tidyverse)
+library(caret)
+
+data <- read.csv("prepositions.csv", head = TRUE, sep = ";", encoding = "UTF-8")
+data <- data[, -c(7,8)]
+```
+
+```{r}
+data %>%
+  ggplot(aes(register, fill = preposition)) +
+  geom_bar(position = "dodge") +
+  facet_wrap(~root) +
+  labs(x = "Регистр", y = "Общее число примеров") +
+  theme_bw() +
+  guides(fill = guide_legend(title = "Предлог"))
+```
+
+```{r}
+# data %>%
+#   ggplot(aes(genre, fill = preposition)) +
+#   geom_bar(position = "dodge") +
+#   facet_wrap(~root) +
+#   labs(x = "Жанр текста", y = "Общее число примеров") +
+#   theme_bw() +
+#   guides(fill = guide_legend(title = "Предлог"))
+```
+
+```{r}
+# data %>%
+#   ggplot(aes(date_of_creation, fill = preposition)) +
+#   geom_bar(position = "dodge") +
+#   facet_wrap(~root) +
+#   labs(x = "Время создания текста", y = "Общее число примеров") +
+#   theme_bw() +
+#   guides(fill = guide_legend(title = "Предлог"))
+```
+
+```{r}
+# data %>%
+#   ggplot(aes(head_pos, fill = preposition)) +
+#   geom_bar(position = "dodge") +
+#   facet_wrap(~root) +
+#   labs(x = "Часть речи вершины", y = "Общее число примеров") +
+#   theme_bw() +
+#   guides(fill = guide_legend(title = "Предлог"))
+```
+
+Нагляднее представить изменение соотношения предлогов в зависимости от значений параметров можно по графикам, показывающим не абсолютное количество использованных “про” и “о/об”, а проценты от общего числа примеров:
+
+```{r}
+data %>% 
+  count(root, genre, head_pos, date_of_creation, register, preposition) %>% 
+  spread(key = preposition, value = n) %>%
+  mutate(sum = `о/об`+`про`,
+        `о/об_%` = `о/об`/sum*100,
+        `про_%` = `про`/sum*100) %>% 
+  select(-c(`о/об`, `про`, sum)) %>% 
+  gather(key = preposition, value = percent, `о/об_%`:`про_%`) %>% 
+  na.omit() -> data_pct
+```
+
+```{r}
+data_pct %>% 
+  filter(root == "говор") %>%  
+  ggplot(aes(preposition, percent, fill = preposition)) +  
+  geom_bar(stat = "identity") +
+  facet_grid(genre + head_pos ~ date_of_creation + register) +
+  labs(x = "Предлог", y = " ") +
+  theme_bw() +
+  guides(fill = FALSE)
+```
+
+```{r}
+# data_pct %>% 
+#   filter(root == "знат") %>% 
+#   ggplot(aes(preposition, percent, fill = preposition)) +  
+#   geom_bar(stat = "identity") +
+#   facet_grid(genre + head_pos ~ date_of_creation + register) +
+#   labs(x = "Предлог", y = " ") +
+#   theme_bw() +
+#   guides(fill = FALSE)
+```
+
+```{r}
+# data_pct %>% 
+#   filter(root == "прос") %>% 
+#   ggplot(aes(preposition, percent, fill = preposition)) +  
+#   geom_bar(stat = "identity") +
+#   facet_grid(genre + head_pos ~ date_of_creation + register) +
+#   labs(x = "Предлог", y = " ") +
+#   theme_bw() +
+#   guides(fill = FALSE)
+```
+
+```{r}
+# data_pct %>% 
+#   filter(root == "помн") %>% 
+#   ggplot(aes(preposition, percent, fill = preposition)) +  
+#   geom_bar(stat = "identity") +
+#   facet_grid(genre + head_pos ~ date_of_creation + register) +
+#   labs(x = "Предлог", y = " ") +
+#   theme_bw() +
+#   guides(fill = FALSE)
+```
+
+```{r}
+# data_pct %>% 
+#   filter(root == "шут") %>% 
+#   ggplot(aes(preposition, percent, fill = preposition)) +  
+#   geom_bar(stat = "identity") +
+#   facet_grid(genre + head_pos ~ date_of_creation + register) +
+#   labs(x = "Предлог", y = " ") +
+#   theme_bw() +
+#   guides(fill = FALSE)
+```
+
+```{r}
+# data_pct %>% 
+#   filter(root == "сказ") %>% 
+#   ggplot(aes(preposition, percent, fill = preposition)) +  
+#   geom_bar(stat = "identity") +
+#   facet_grid(genre + head_pos ~ date_of_creation + register) +
+#   labs(x = "Предлог", y = " ") +
+#   theme_bw() +
+#   guides(fill = FALSE)
+```
+
+```{r}
+# data_pct %>% 
+#   filter(root == "пис") %>% 
+#   ggplot(aes(preposition, percent, fill = preposition)) +  
+#   geom_bar(stat = "identity") +
+#   facet_grid(genre + head_pos ~ date_of_creation + register) +
+#   labs(x = "Предлог", y = " ") +
+#   theme_bw() +
+#   guides(fill = FALSE)
+```
+
+```{r}
+# data_pct %>% 
+#   filter(root == "сужд") %>% 
+#   ggplot(aes(preposition, percent, fill = preposition)) +  
+#   geom_bar(stat = "identity") +
+#   facet_grid(genre + head_pos ~ date_of_creation + register) +
+#   labs(x = "Предлог", y = " ") +
+#   theme_bw() +
+#   guides(fill = FALSE)
+```
+
+```{r}
+# data_pct %>% 
+#   filter(root == "слыш") %>% 
+#   ggplot(aes(preposition, percent, fill = preposition)) +  
+#   geom_bar(stat = "identity") +
+#   facet_grid(genre + head_pos ~ date_of_creation + register) +
+#   labs(x = "Предлог", y = " ") +
+#   theme_bw() +
+#   guides(fill = FALSE)
+```
+
+```{r}
+# data_pct %>% 
+#   filter(root == "пе") %>% 
+#   ggplot(aes(preposition, percent, fill = preposition)) +  
+#   geom_bar(stat = "identity") +
+#   facet_grid(genre + head_pos ~ date_of_creation + register) +
+#   labs(x = "Предлог", y = " ") +
+#   theme_bw() +
+#   guides(fill = FALSE)
+```
+
+###Препроцессинг данных
+
+Данные были разделены на два сабсета - тренировочный (75%) и тестовый (25%) - с помощью метода стратифицированной выборки. Тестовый сабсет использовался при проверке обобщающей способности моделей.
+
+```{r}
+#table(data$preposition)/sum(table(data$preposition)) #процентное соотношение предлогов 'о/об' и 'про'  
+
+set.seed(123)
+dataR <- data[order(runif(nrow(data))),]
+data_split <- createDataPartition(y = dataR$preposition, p = 0.75, list = FALSE)
+#head(data_split)
+
+trainSet <- dataR[data_split, ]
+testSet <- dataR[-data_split, ]
+
+head(trainSet)
+```
+
+###Логистическая регрессия
+
+Мы обучили модель логистической регрессии с использованием всех возможных предикторов:
+
+```{r}
+fit <- glm(preposition ~ ., data = trainSet, family = "binomial")
+summary(fit)
+```
+Как видно, бОльшую часть признаков алгоритм считает значимыми для предсказания предлога. Проиллюстрируем его предсказательные возможности с помощью violin plots:
+
+```{r}
+rd <- data.frame(p = predict(fit, newdata = testSet, type = "response"), prep = testSet$preposition, rt = testSet$root, hp = testSet$head_pos, gnr = testSet$genre, rgstr = testSet$register, dt = testSet$date_of_creation)
+```
+
+```{r}
+rd %>% 
+  arrange(p) %>% 
+  ggplot(aes(prep, p, fill = rt)) +
+  geom_violin() +
+  facet_wrap(~rt) +
+  labs(x = "", y = "") +
+  theme_bw() +
+  guides(fill = FALSE)
+```
+
+```{r}
+rd %>% 
+  arrange(p) %>% 
+  ggplot(aes(prep, p, fill = hp)) +
+  geom_violin() +
+  facet_wrap(~hp) +
+  labs(x = "", y = "") +
+  theme_bw() +
+  guides(fill = FALSE)
+```
+
+```{r}
+rd %>% 
+  arrange(p) %>% 
+  ggplot(aes(prep, p, fill = gnr)) +
+  geom_violin() +
+  facet_wrap(~gnr) +
+  labs(x = "", y = "") +
+  theme_bw() +
+  guides(fill = FALSE)
+```
+
+```{r}
+rd %>% 
+  arrange(p) %>% 
+  ggplot(aes(prep, p, fill = rgstr)) +
+  geom_violin() +
+  facet_wrap(~rgstr) +
+  labs(x = "", y = "") +
+  theme_bw() +
+  guides(fill = FALSE)
+```
+
+```{r}
+rd %>% 
+  arrange(p) %>% 
+  ggplot(aes(prep, p, fill = dt)) +
+  geom_violin() +
+  facet_wrap(~dt) +
+  labs(x = "", y = "") +
+  theme_bw() +
+  guides(fill = FALSE)
+```
+
+Как можно видеть, все параметры, кроме корня вершины, не имеют значений, которые бы хорошо разделяли предлоги "о/об" и "про" - вероятность получить "о/об" выше во всех случаях.
+Три значения признака root (корень вершины) резко выделяются на общем фоне: вероятность увидеть предлог "про" еще более низка, чем обычно, если корень вершины - "сужд" (рассуждать/рассуждение), и неожиданно (принимая во внимание общие тенденции) высока, если корень вершины - "пе" (петь/песня) или "шут" (шутить/шутка).
+
+###Случайные леса (RandomForests)
+
+Случайный лес - ансамбль решающих деревьев (строим много деревьев на случайных подвыборках и усредняем их результаты). Зд. алгоритм применяется для задач классификации (зависимая переменная - категориальная).  
+
+```{r}
+set.seed(123)
+rf <- randomForest(preposition ~ ., data = trainSet, ntree = 1000, mtry = 3, importance = TRUE, do.trace = 500/10) #ntree - количество построенных деревьев, mtry - случайно выбираемые при каждом делении предикторы 
+print(rf)
+```
+
+OOB (out-of-bag error rate) - оценка качества модели на неиспользуемой части выборки (out-of-bag samples).
+
+```{r}
+plot(rf, main = "") #черная кривая на графике - out-of-bag ошибка
+```
+
+####"Тонкая настройка"
+
+Судя по выдаче функции и графику, при изменении количества деревьев в ансамбле out-of-bag ошибка меняется незначительно; при этом минимальное значение она принимает при ntree = 650. Скорректируем количество деревьев и определим оптимальное число выбираемых при каждом делении предикторов с помощью функции tuneRF():
+
+```{r}
+tuneRF(trainSet[,-6], trainSet[,6], stepFactor = 0.5, plot = TRUE, ntreeTry = 650, trace = TRUE, improve = 0.05)
+```
+
+Наименьшую ошибку прогноза получаем при делении на основе четырех случайно выбранных переменных (mtry = 4).
+
+```{r}
+set.seed(123)
+tuned_rf <- randomForest(preposition ~ ., data = trainSet, ntree = 650, mtry = 4, importance = TRUE, do.trace = 650/10) #обучаем модель с новыми параметрами 
+print(tuned_rf)
+```
+
+```{r}
+plot(tuned_rf, main = "")
+```
+
+```{r}
+tree <- getTree(tuned_rf, 1, labelVar = TRUE) #достаем первое дерево
+head(tree)
+tail(tree)
+```
+
+split var - разделяющая переменная, split point - значение, с которым она сравнивается, status=1 - нетерминальный узел, left daughter, right daughter - следующие за ним левый и правый узлы, status=-1 - терминальный узел, prediction - прогноз для терминального узла.
+
+```{r}
+hist(treesize(tuned_rf), main = "", xlab = "Размер дерева", ylab = "", col = "springgreen2") #график, показывающий количество узлов у построенных алгоритмом деревьев; больше всего деревьев (около 225) содержат от 90 до 95 узлов
+```
+
+Алгоритм позволяет добиться высокого качества классификации, но совершенно не объясняет, как устроены данные. Понять, что происходит "внутри", достаточно сложно даже по одному дереву (а всего их несколько сотен). Для описания полученных результатов мы можем оценить, насколько важен тот или иной предиктор: 
+
+```{r}
+importance(tuned_rf, type = 1)
+```
+
+Самым значимым предиктором оказывается root, "полезность" всех остальных переменных для классификации данных гораздо ниже.  
+
+```{r}
+varImpPlot(tuned_rf, type = 1, main = "")
+```
+
+```{r}
+rfPredicted <- predict(tuned_rf, testSet)
+confusionMatrix(rfPredicted, testSet$preposition) #строим матрицу ошибок на тестовых данных
+```
+
+```{r}
+# metrics <- c(Accuracy = (1024 + 45)/nrow(testSet), Precision = 1024/(1024 + 160), Recall = 1024/(1024 + 58), Specificity = 45/(45 + 160))
+# metrics
+```
+
+Модель склонна предсказывать предлог “о/об” в большинстве случаев - поэтому самой частотной ошибкой является предсказание “о/об” при истинном значении “про”. Это происходит потому, что случаев употребления предлога “о/об” в наших данных намного больше - 4328 наблюдений с “о/об” против 823 наблюдений с “про”. Метрики качества при этом оказываются неплохими, но причина этого - не удачный подбор признаков и успешное обучение алгоритма, а высокая частотность одного из классов, к которому модель в результате "склоняется".
+
+##Вывод
+
+Итак, построенные нами модели опровергают нашу нулевую гипотезу сразу по двум, причем противоречащим друг другу причинам. 
+С одной стороны, модель логистической регрессии признает значимыми, помимо регистра и жанра текста, и другие параметры - и корень слова, и его часть речи, и дату возникновения текста. Деревья в случайном лесе также производят деления по всем этим параметрам, самым значимым при этом полагая корень вершины, а наименее значимым - жанр.
+С другой стороны, абсолютное преобладание предлога "о/об" над предлогом "про" в текстах приводит к тому, что ни один из выбранных нами признаков не может хорошо разделить случаи употребления "о/об" и "про" - в любых комбинациях "о/об" оказывается частотнее. 
+Единственные значения параметров, при которых вероятность "про" действительно сильно повышается (что "ловится" обоими алгоритмами) - это корни "пе" (петь/песня) и "шут" (шутить/шутка).
+Поиск других признаков, которые бы хорошо разделили наши предлоги, остается задачей будущих исследований.
+
+###Appendix A
+
+Trellis graphs (графики, визуализирующие определенный сабсет данных):
+
+```{r}
+# data %>%
+#   count(root, genre, head_pos, date_of_creation, register, preposition) %>%
+#   spread(key = preposition, value = n) -> data_summed
+```
+
+```{r}
+# barchart(`о/об`+`про` ~ genre | register + root + head_pos + date_of_creation, data_summed, layout = c(5, 2), auto.key = TRUE, xlab = "Жанр текста", ylab = "Число примеров")
+```
+
+```{r}
+# barchart(`о/об`+`про` ~ head_pos | register + genre + root + date_of_creation, data_summed, layout = c(5, 2), auto.key = TRUE, xlab = "Часть речи вершины", ylab = "Число примеров")
+```
+
+```{r}
+# barchart(`о/об`+`про` ~ register | root + genre + head_pos + date_of_creation, data_summed, layout = c(5, 1), aspect = 1.5, auto.key = TRUE, xlab = "Регистр речи", ylab = "Число примеров")
+```
+
+```{r}
+# barchart(`о/об`+`про` ~ root | register + genre + head_pos + date_of_creation, data_summed, layout = c(1, 2), auto.key = TRUE, xlab = "Корень", ylab = "Число примеров")
+```
+
+```{r}
+# barchart(`о/об`+`про` ~ date_of_creation | register + root + head_pos + genre, data_summed, layout = c(4, 2), auto.key = TRUE, xlab = "Дата создания текста", ylab = "Число примеров")
+```
