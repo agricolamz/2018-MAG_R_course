@@ -1,0 +1,54 @@
+---
+title: "Lab 12. Claster analysis"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE)
+```
+
+### [Assignment link](https://goo.gl/uFsyfd)
+
+```{r}
+library(tidyverse)
+```
+
+### 1.
+```{r}
+df <- read.csv("http://goo.gl/nLkHLq")
+d <- dist(t(df[,3:6]))
+set.seed(42)
+kmeans(d, 3)
+hc <- hclust(d)
+plot(hc)
+```
+
+### 2.
+```{r}
+df <- read.csv("http://goo.gl/Zjr9aF")
+row.names(df) <- df$speaker
+d <- dist((df[,-c(6:9, 1)]))
+min(d)
+set.seed(42)
+km <- kmeans(d, 2)
+cbind.data.frame(cluster = km$cluster, orientation = df$orientation) %>% 
+  count(cluster, orientation)
+plot(df[,-c(6:9, 1)], col = km$cluster, pch = c(16, 1)[df$orientation])
+
+df %>% 
+  mutate(cluster = km$cluster) %>%
+  group_by(cluster) %>% 
+  summarise(mean = mean(perceived.as.homo.percent),
+            sd = sd(perceived.as.homo.percent))
+
+hc <- hclust(d)
+plot(hc)
+```
+
+### 3.
+
+```{r}
+library(stringdist)
+stringdist("Antidisestablishmentarianism", "computer", method = "lv")
+stringdist("Antidisestablishmentarianism", "computer", method = "jaccard")
+```
+

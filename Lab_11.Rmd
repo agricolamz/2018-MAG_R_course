@@ -50,5 +50,8 @@ fit2 <- cforest(vowel~f1+f2, data = shva, controls=cforest_unbiased(ntree=100, m
 varimp(fit2)
 predict(fit2, newdata = data.frame(f1 = as.integer(600),
                         f2 = as.integer(1300)),OOB=TRUE)
+
+
+fit
 ```
 
