@@ -82,14 +82,13 @@ title: "Linguistic data: quantitative analysis and visualisation"
 * (.2018) lecture
 * (.2018) [Lab 12: Clusterization](https://agricolamz.github.io/2018-MAG_R_course/Lab_12.html). [Assignment link](https://goo.gl/forms/7Wx86DqWNVHlXyji1)
 
-* HW-3. Due: next class
 
 ### 13. Principal component analysis, Simple and Multiple correspondence analysis
 
 * (.2018) Lecture 13
-* (.2018) Lab 13: PCA, MCA, Assignment link
+* (.2018) [Lab 13: PCA](https://goo.gl/forms/4F8kTY8WqZvNZwjY2), Assignment link
 * (.2018) Lecture 14
-* (.2018) Lab 14: PCA, MCA, Assignment link
+* (.2018) Lab 14: MCA, Assignment link
 
 ### 14. Empirical Bayes
 

@@ -1,0 +1,55 @@
+---
+title: "Lab 13. PCA and MCA"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE)
+```
+
+```{r}
+library(tidyverse)
+library(ggfortify)
+```
+
+### [Assignment link](https://goo.gl/forms/4F8kTY8WqZvNZwjY2)
+
+### 1
+```{r}
+gospels <- read.csv("https://goo.gl/mdBVVe")
+row.names(gospels) <- gospels$word
+PCA <- prcomp(gospels[,2:5], center = TRUE, scale. = TRUE)
+
+summary(PCA)
+autoplot(PCA,
+         shape = FALSE,
+         loadings = TRUE,
+         label = TRUE,
+         loadings.label = TRUE)+
+  theme_bw()
+
+predict(PCA, data.frame(John = 0.05, Luke = 0.01, Mark = 0.02, Matthew = 0.02))
+```
+
+
+### 2.
+```{r}
+reg_bnc <- read.csv("https://goo.gl/19QywL")
+pca <- prcomp(reg_bnc[,-1], center = TRUE, scale. = TRUE)
+summary(pca)
+autoplot(pca,
+         shape = FALSE,
+         loadings = TRUE,
+         label = TRUE,
+         loadings.label = TRUE)+
+  theme_bw()
+reg_bnc <- cbind(reg_bnc, pca$x)
+
+reg_bnc %>% 
+  ggplot(aes(PC1, PC2, color = Reg))+
+  geom_point()+
+  stat_ellipse()+
+  theme_bw()
+```
+
