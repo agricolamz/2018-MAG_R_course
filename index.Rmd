@@ -66,7 +66,7 @@ title: "Linguistic data: quantitative analysis and visualisation"
 
 ### 10. Binary logistic regressions
 
-* (10.05.2018) [Lecture 10](https://agricolamz.github.io/2018-MAG_R_course/docs/Lec10_Logistic_regression.html)
+* (10.05.2018) [Lecture 10](https://agricolamz.github.io/2018-MAG_R_course/Lec10_Logistic_regression.html)
 * (10.05.2018) Lab 10: [Assignment](https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/Lab10_assignment.Rmd) [Code](https://agricolamz.github.io/2018-MAG_R_course/Lab10)
 
 * Final Exam Projects: Data. Data annotation. Please put a link here, sheet [Projects](https://docs.google.com/spreadsheets/d/1HdjLzF3jUXddq2N7pUpGn7P1tMJ4ut9mskucVjiNlwQ) Due: 20.05.2018
@@ -79,28 +79,36 @@ title: "Linguistic data: quantitative analysis and visualisation"
 
 ### 12. Clusterization
 
-* (.2018) lecture
-* (.2018) [Lab 12: Clusterization](https://agricolamz.github.io/2018-MAG_R_course/Lab_12.html). [Assignment link](https://goo.gl/forms/7Wx86DqWNVHlXyji1)
+* (24.05.2018) lecture 
+* (24.05.2018) [Lab 12: Clusterization](https://agricolamz.github.io/2018-MAG_R_course/Lab_12.html). [Assignment link](https://goo.gl/forms/7Wx86DqWNVHlXyji1)
 
 
-### 13. Principal component analysis, Simple and Multiple correspondence analysis
+### 13. Principal component analysis, t-SNE, Simple and Multiple correspondence analysis
 
-* (.2018) Lecture 13
-* (.2018) [Lab 13: PCA](https://goo.gl/forms/4F8kTY8WqZvNZwjY2), Assignment link
-* (.2018) Lecture 14
-* (.2018) [Lab 14: MCA](https://agricolamz.github.io/2018-MAG_R_course/Lab_14.html), Assignment link
+* (31.05.2018) Lecture 13 [slides](https://agricolamz.github.io/2018-MAG_R_course/Lec13_PCA.html) [3D slides](https://agricolamz.github.io/2018-MAG_R_course/Lec13_PCA_3D.html)  
+* (31.05.2018) [Lab 13: PCA](https://goo.gl/forms/4F8kTY8WqZvNZwjY2), Assignment link  
+* (02.06.2018) Lecture 14 [slides](https://agricolamz.github.io/2018-MAG_R_course/Lec14_CA_MCA.html)
+* (02.06.2018) [Lab 14: t-SNE, CA, MCA](https://agricolamz.github.io/2018-MAG_R_course/Lab_14.html)
 
-### 14. Empirical Bayes
+### 14. Empirical Bayes (CL)
 
-* (.2018) lecture
-* (.2018) Lab 14, Assignment link
+* (05.06.2018) lecture
+* (05.06.2018) Lab 14, Assignment link
 
-### 15. Statistics for Hackers
+### 15. Statistics for Hackers (CL)
 
-* (.2018) lecture
-* (.2018) Lab 15, Assignment link
+* (14.06.2018) lecture
+* (14.06.2018) Lab 15, Assignment link
 
-### Project presentation schedule
+### 16. Time series data (TL)
+* (05.06.2018) lecture
+* (05.06.2018) Lab 
+
+
+### Exam: Project presentation
+* (13.06.2018) [schedule]()
+* (19.06.2018) [schedule]()
+
 
 ### Textbooks
 
