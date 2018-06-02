@@ -9,7 +9,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ```{r 0.0, message=FALSE, warning=FALSE}
-library(FactoMineR)
+# library(FactoMineR)
 library(tidyverse)
 library(ca)
 library(vcd)
@@ -117,183 +117,26 @@ tt_col %>%
 
 ## MCA 
 
-We use `MCA()` function in `FactoMineR` to perform multiple correspondence analysis.
+Dataset and description from [paper by Natalia Levshina](https://goo.gl/v6AmVj). Modern standard Dutch has two periphrastic causatives with the infinitive: the constructions with doen ‘do’ and laten ‘let’. The study is based on an 8-million token corpus of Netherlandic and Belgian Dutch. After the manual cleaning, there were left with 6,808 observations, which were then coded for seven semantic, syntactic, geographical and thematic variables.
 
-## 2 Grammaticalization of participles in Russian    
+* Aux --- a factor that specifies the causative auxiliary with levels laten and doen.
+* Country --- a factor with levels NL (the Netherlands) and BE (Belgium).
+* Causation --- a factor that describes the type of causation with levels Affective, Inducive, Physical and Volitional
+* EPTrans --- a factor that specifies the transitivity of the Effected Predicate with levels Intr (intransitive) and Tr (transitive).
+* EPTrans1 --- a factor with levels Intr and Tr. It is very similar to the previous one, except for a few observations.
 
-Kosheleva 2017 studied the adjectivation of participles in Russian as a gradient phenomenon. The participle form loses its verb-like properties when it is used in a particular context or is a form of a particular lexeme. In each sentence, the participle was evaluated as being more 'adjective-like' or more 'participle-like':  
-* `Like`: adj vs. ptcp  
-In addition, other grammatical properties of the participle forms were tagged:  
-* `Tense`: past, pres(ent)  
-* `Voice`: act(ive), pass(ive), med(medium, in reflexive verbs)  
-* `Asp` (aspect): ipf (imperfective), pf (perfective)  
-* `Trans` (transitivity): intr(ansitive), tran(sitive)  
-* `Plen`: plen (full form), sh (short form)   
-as well as the properties of construction they are used in:   
-* `Cx`: attr(ibutive), depict(ive), pred(icative)  
-* `Dep`: yes (the participle has dependencies), no  
-* `Anim` (animacy of the subject): anim(ate), inan(imate)    
-
-Load the data and take a peek
-```{r 2.0}
-adj <- read.csv(file='/Users/olyashevskaya/Documents/!Vyshka/DataAnalysis/2018/adj_ptcp_kosheleva.csv', sep='\t')
-str(adj) # please check that all variables are factors. If not, apply as.factor()
-summary(adj)
-head(adj)
+```{r}
+dutch_caus <- read.csv("https://goo.gl/2yAR3T")
+MCA <- MASS::mca(dutch_caus[,-1])
+MCA
+dutch_caus <- cbind(dutch_caus, MCA$rs)
+variables <- as_data_frame(MCA$cs)
+variables$var_names <- rownames(MCA$cs)
+dutch_caus %>% 
+  ggplot(aes(`1`, `2`))+
+  geom_point(aes(color = Aux))+
+  stat_ellipse(aes(color = Aux))+
+  geom_text(data = variables, aes(`1`, `2`, label = var_names))+
+  theme_bw()+
+  scale_x_continuous(limits = c(-0.015, 0.02))
 ```
-
-### 2.1 Number of levels per variable, descriptive statistics
-We will use `cats` to color grammatical and constructional features in MCA plots:
-```{r 2.1}
-# apply MCA
-cats = apply(adj, 2, function(x) nlevels(as.factor(x)))
-cats
-```
-
-Contingency table with ggplot2:
-```{r 2.1.1}
-adj %>%
-   group_by(Like, Voice) %>%
-   summarise(number = n()) %>%
-   ggplot(aes(Like, Voice, label = number))+
-   geom_point(aes(size = number), color = "light blue")+
-   geom_text()+
-   scale_size(range = c(10, 30))+
-   guides(size = F)+
-   xlab("Adjective vs. Participle")+
-   ylab("Voice")+
-   ggtitle("Correlation between the level of adjectiveness and voice")
- 
-```
-
-Mosaic plot, colored by Pearson residuals:
-```{r 2.1.2}
-mosaic(~ Like + Voice + Tense, data = adj, shade = T) # observed
-```
-
-We can also compare it with plot based on expected values:
-```{r 2.1.3}
-mosaic(~ Like + Voice + Tense, data = adj, type = "expected") # expected
-```
-
-### 2.2 MCA() 
-
-```{r 2.2}
-# apply MCA
-mca1 = MCA(adj, graph = FALSE)
-mca1
-```
-
-### 2.3 Inertia 
-Table of eigenvalues will show us explained variance (inertia):
-```{r 2.3}
-mca1$eig
-```
-
-### 2.4 Plot
-FactoMineR has a built-in function to plot the results:
-```{r 2.4}
-plot(mca1)
-```
-
-### 2.5 Plot variables with ggplot2
-However, a nicer graph can be plotted with ggplot2
-```{r 2.5}
-# variable coordinates
-mca1_vars_df = data.frame(mca1$var$coord, Variable = rep(names(cats), cats))
-
-# individual observation coordinates
-mca1_obs_df = data.frame(mca1$ind$coord)
-
-# plot of variable categories
-ggplot(data=mca1_vars_df, 
-       aes(x = Dim.1, y = Dim.2, label = rownames(mca1_vars_df))) +
- geom_hline(yintercept = 0, colour = "gray70") +
- geom_vline(xintercept = 0, colour = "gray70") +
- geom_text(aes(colour=Variable)) +
- ggtitle("MCA plot of variables using FactoMineR and ggplot2")
-```
-
-### 2.6 Plot individuals and variables with ggplot2
-```{r 2.6}
-ggplot(data = mca1_obs_df, aes(x = Dim.1, y = Dim.2)) +
-  geom_hline(yintercept = 0, colour = "gray70") +
-  geom_vline(xintercept = 0, colour = "gray70") +
-  geom_point(colour = "gray50", alpha = 0.7) +
-  geom_density2d(colour = "gray60", alpha = 0.5) +
-  geom_text(data = mca1_vars_df, 
-            aes(x = Dim.1, y = Dim.2, 
-                label = rownames(mca1_vars_df), colour = Variable)) +
-  ggtitle("MCA plot of observations and variables using R package FactoMineR") +
-  scale_colour_discrete(name = "Variable")
-```
-
-### 2.7 mjca()
-This is another function from the package "ca" by Michael Greenacre and Oleg Nenadic.
-Method `lambda="Burt"` is less conservative, so explained inertia can be higher:
-```{r 2.7}
-# apply mjca
-mca2 <-  mjca(adj, lambda = "Burt", nd = 5)
-
-#summary
-# summary(mca2)
-
-# eigenvalues
-# mca2$sv^2
-
-# column coordinates
-head(mca2$colcoord, 3)
-
-# row coordinates
-head(mca2$rowcoord, 3)
-```
-
-### 2.8 Plot variables with ggplot2
-Use the column coordinates `colcoord` to make a data frame and pass it to ggplot():
-```{r 2.8}
-mca2_vars_df = data.frame(mca2$colcoord, Variable = rep(names(cats), cats))
-rownames(mca2_vars_df) = mca2$levelnames
-
-# plot
-ggplot(data = mca2_vars_df, 
-       aes(x = X1, y = X2, label = rownames(mca2_vars_df))) +
-  geom_hline(yintercept = 0, colour = "gray70") +
-  geom_vline(xintercept = 0, colour = "gray70") +
-  geom_text(aes(colour = Variable)) +
-  labs(title = "MCA plot of variables using R package ca and ppglot2",
-       subtitle = "Model: mjca(adj, lambda = \"Burt\", nd = 5)",
-       caption = "Source: Kosheleva 2017")
-```
-
-### 2.9 Plot individuals and variables with ggplot2
-Use the row coordinates `rowcoord` to make a data frame and pass it to ggplot():
-```{r 2.9}
-# individual observation coordinates 
-mca2_obs_df = data.frame(mca2$rowcoord)
-head(mca2_obs_df)
-
-# variable coordinates  
-mca2_vars_df = data.frame(mca2$colcoord, Variable = rep(names(cats), cats))
-rownames(mca2_vars_df) = mca2$levelnames
-head(mca2_vars_df)
-
-# plot
-mca1_obs_df = data.frame(mca1$ind$coord)
-
-# plot of individuals and variables
-ggplot(data = mca2_obs_df, aes(x = X1, y = X2)) +
-  geom_hline(yintercept = 0, colour = "gray70") +
-  geom_vline(xintercept = 0, colour = "gray70") +
-  geom_point(aes(colour = factor(adj$Like)), alpha = 0.7) +
-#  scale_colour_manual(values = c("black", "red")) + 
-  geom_density2d(colour = "gray60", alpha = 0.5) +
-  geom_text(data = mca2_vars_df, 
-            aes(x = X1, y = X2, 
-                label = rownames(mca2_vars_df), colour = Variable)) +
-  scale_colour_discrete(name = "Variable") +
-  labs(title = "MCA plot of variables using R package ca and ppglot2",
-       subtitle = "Model: mjca(adj, lambda = \"Burt\", nd = 5)",
-       caption = "Source: Kosheleva 2017")
-```
-
-
