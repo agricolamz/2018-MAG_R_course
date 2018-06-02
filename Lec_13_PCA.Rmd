@@ -1,0 +1,204 @@
+---
+title: "Component analysis"
+date: 25.05.2017
+font-family: 'Brill'
+transition: none
+output:
+  slidy_presentation:
+    df_print: kable
+    footer: "Presentation link: https://goo.gl/hEL1Hh"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message=FALSE, echo = FALSE)
+```
+
+```{r, include=FALSE}
+library(tidyverse)
+library(ggfortify)
+```
+
+### 1. Main problem
+Sometimes you have a huge amount of variables. So, to make your data profitable you need to reduce number of variables saving without losing the precious information. 
+
+* Principal component analysis (PCA)
+* Linear discriminant analysis (LDA)
+* Multidimensional scaling (MDS)
+* ...
+
+### 2. Data
+I will use a dataset from [Huttenlocher, Vasilyeva, Cymerman, Levine 2002]. Authors analysed 46 pairs of mothers and children (aged from 47 to 59 months, mean age -- 54). They recorded and trinscribed 2 hours from each child per day. During the study they collected number of noun phrases per utterance in mother speech to the number of noun phrases per utterance in child speech.
+```{r}
+df <- read.csv("http://goo.gl/Qo3Yy2")
+
+df %>%
+  ggplot(aes(mother, child))+
+  geom_point(color = "darkgreen", size = 3)+
+  stat_ellipse(linetype=2)+
+  theme_bw()
+```
+
+### 3. PCA
+PCA is essentially a rotation of the coordinate axes, chosen such that each successful axis captures as much variance as possible. We can reduce 2 dementions to one using a regression:
+
+```{r}
+fit <- lm(child~mother, data = df)
+df$model <- predict(fit)
+
+df %>%
+  ggplot(aes(mother, child))+
+  geom_line(aes(mother, model), color = "blue")+
+  geom_point(color = "darkgreen", size = 3)+
+  stat_ellipse(linetype=2)+
+  theme_bw()
+```
+
+We used regression for predicting value of one variable by another variable.
+
+```{r}
+
+df %>%
+ ggplot(aes(mother, child))+
+stat_ellipse(linetype=2)+
+geom_segment(aes(x=min(mother), y=1.8, xend=2, yend=1.8), size=0.5, color = "red", arrow =  arrow(angle = 10, type = "closed", ends = "first"))+
+geom_segment(aes(x=2, y=min(child), xend=2, yend=1.8), size=0.5, color = "red", arrow =  arrow(angle = 10, type = "closed"))+
+geom_line(aes(mother, model), color = "blue")+
+geom_point(color = "darkgreen", size = 3)+
+scale_y_continuous(breaks = c(1.2, 1.4, 1.6, 1.8, 2.0))+
+ theme_bw()+
+theme(axis.text.x = element_text(color=c("black", "black", "black", "red", "black"), size=c(9, 9, 9, 14, 9)),
+      axis.text.y = element_text(color=c("black", "black", "black", "red", "black", "black"), size=c(9, 9, 9, 14, 9, 9)))
+```
+
+In PCA we change coordinate system and start predicting variables' values using less variables.
+
+```{r}
+df <- read.csv("http://goo.gl/Qo3Yy2")
+pca <- prcomp(df)
+PC1 <- data.frame(t(t(matrix(c(seq(-1, 1, by = 0.1), rep(0, 41)), ncol = 2) %*% t(pca$rotation)) + pca$center))
+ 
+df %>%
+  ggplot(aes(mother, child))+
+  stat_ellipse(linetype=2)+
+  geom_segment(aes(x=1, y=1.9, xend=2, yend=1.9), size=0.5, color = "red", arrow =  arrow(angle = 10, type = "closed", ends = "first"))+
+  geom_segment(aes(x=2, y=1, xend=2, yend=1.9), size=0.5, color = "red", arrow =  arrow(angle = 10, type = "closed", ends = "first"))+
+  geom_line(data = PC1, aes(mother, child), color = "blue", arrow =  arrow(angle = 10, type = "closed"))+
+  geom_point(color = "darkgreen", size = 3)+
+  scale_y_continuous(breaks = c(1.2, 1.6, 1.9, 2.0))+
+  theme_bw()+
+  theme(axis.text.x = element_text(
+    color=c("black", "black", "red", "black"),
+    size=c(9, 9, 14, 9)),
+    axis.text.y = element_text(
+      color=c("black", "black", "red", "black"),
+      size=c(9, 9, 14, 9)))+
+  annotate("text", x = 2.38, y = 2.3, label = "PC1")
+```
+
+So the blue line is *the first Princple Component* (and it is NOT a regression line). The number of the PCs is always equal to the number of variables. So we can draw the second PC:
+
+```{r}
+PC2 <- data.frame(t(t(matrix(c(rep(0, 41), seq(-0.7, 0.7, by = 0.1)), ncol = 2) %*% t(pca$rotation)) + pca$center))
+
+df %>%
+  ggplot(aes(mother, child))+
+  stat_ellipse(linetype=2)+
+  geom_line(data = PC1, aes(mother, child), color = "blue", arrow =  arrow(angle = 10, type = "closed"))+
+  geom_line(data = PC2, aes(mother, child), color = "blue", arrow =  arrow(angle = 10, type = "closed", ends = "first"))+
+  geom_segment(aes(x=1, y=1.9, xend=2, yend=1.9), size=0.5, color = "red", arrow =  arrow(angle = 10, type = "closed", ends = "first"))+
+  geom_segment(aes(x=2, y=1, xend=2, yend=1.9), size=0.5, color = "red", arrow =  arrow(angle = 10, type = "closed", ends = "first"))+
+  geom_point(color = "darkgreen", size = 3)+
+  scale_y_continuous(breaks = c(1.2, 1.6, 1.9, 2.0))+
+  theme_bw()+
+  theme(axis.text.x = element_text(color=c("black", "black", "red", "black"), 
+    size=c(9, 9, 14, 9)),
+    axis.text.y = element_text(color=c("black", "black", "red", "black"),
+      size=c(9, 9, 14, 9)))+
+  annotate("text", x = 2.38, y = 2.3, label = "PC1")+
+  annotate("text", x = 1.39, y = 2.15, label = "PC2")
+```
+
+So the main point of PCA is that if cumulative proportion of explained variance is high we can drop some PCs. So, we need know the following things:
+
+* What is the cumulative proportion of explained variance?
+```{r, echo = TRUE}
+summary(prcomp(df))
+```
+
+So, PC1 explains only 78.9% of the variance in our data.
+
+* How PCs are rotated comparing to the old axes?
+```{r, echo = TRUE}
+df <- read.csv("http://goo.gl/Qo3Yy2")
+prcomp(df)
+```
+
+So the formula for the first component rotation is
+$$PC1 = 0.6724959 \times child + 0.7401009  \times mother$$
+The formula for the second component rotation is
+$$PC2 = -0.7401009 \times child + 0.6724959  \times mother$$
+
+From now we can change the axes:
+
+```{r}
+df.scaled <- scale(df, center = TRUE, scale = TRUE)
+res.cor <- cor(df.scaled)
+res.eig <- eigen(res.cor)
+eigenvectors.t <- t(res.eig$vectors)
+df.scaled.t <- t(df.scaled)
+df.new <- eigenvectors.t %*% df.scaled.t
+df.new <- t(df.new)
+colnames(df.new) <- c("PC1", "PC2")
+df.new <- data.frame(df.new)
+horisontal_line <- data.frame(predict(pca, data.frame(mother = seq(1, 2, by = 0.1), child = rep(1.9, 11))))
+vertical_line <- data.frame(predict(pca, data.frame(mother = rep(2.0, 10), child = seq(1, 1.9, by = 0.1))))
+x_line <- data.frame(predict(pca, data.frame(mother = seq(0, 2, by = 0.1), child = rep(0, 21))))
+y_line <- data.frame(predict(pca, data.frame(mother = rep(0, 21), child = seq(0, 2, by = 0.1))))
+
+df.new %>% 
+  ggplot(aes(PC1, PC2))+
+  geom_point()+
+  stat_ellipse(linetype=2)+
+  geom_line(data = horisontal_line, aes(PC1, PC2), color = "red", arrow =  arrow(angle = 10, type = "closed", ends = "first"))+
+  geom_line(data = vertical_line, aes(PC1, PC2), color = "red", arrow =  arrow(angle = 10, type = "closed", ends = "first"))+
+  geom_line(data = x_line, aes(PC1, PC2), color = "blue", arrow =  arrow(angle = 10, type = "closed"))+
+  geom_line(data = y_line, aes(PC1, PC2), color = "blue", arrow =  arrow(angle = 10, type = "closed"))+
+  theme_bw()+
+  annotate("text", x = -1.1, y = -1.15, label = "child")+
+  annotate("text", x = -1.3, y = 1.4, label = "mother")
+```
+
+The `autoplot()` function from `ggfortify` package produces nearly the same graph:
+```{r}
+autoplot(pca,
+         loadings = TRUE,
+         loadings.label = TRUE)+
+  theme_bw()+
+  stat_ellipse(linetype=2)
+  
+```
+
+
+### Summary:
+
+* If the cumulative proportion of explained variance for some PCs is high, we can change coordinate system and start predicting variables' values using less variables.
+* We can even make a regresion or clusterisation model.
+* PCA for categorical variables is called Multiple correspondence analysis (MCA)
+
+### R functions
+
+There are several functions for PCA, MCA and their visualisation.
+
+* PCA: prcomp()
+* PCA: princomp()
+* PCA: FactoMineR::PCA()
+* PCA: ade4::dudi.pca()
+* PCA: amap::acp()
+* PCA visualisation: ggfortify::autoplot
+* MCA: FactoMineR::MCA()
+* MCA: MASS::mca()
+* MCA: ade::dudi.acm()
+* MCA: ca::mjca()
+* MCA: homals::homals()
+
+
