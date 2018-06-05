@@ -1,0 +1,167 @@
+---
+title: "Lecture 15. Time series (and other species)"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\_  
+\_  
+\_  
+
+## Why do we need them?
+
+#### In general data analysis:
+
+<img src="http://a-little-book-of-r-for-time-series.readthedocs.io/en/latest/_images/image16.png" width=600></img>  
+<sup>Annual diameter of women’s skirts at the hem, from 1866 to 1911 (original data from Hipel and McLeod, 1994, [data](http://robjhyndman.com/tsdldata/roberts/skirts.dat) from [LRBTS](http://a-little-book-of-r-for-time-series.readthedocs.io/en/latest/src/timeseries.html#time-series-analysis)).</sup>  
+
+* trends in fashion industry   
+* prices on fruits and vegetables  
+* stock prices  
+and other creatures that have certain __inherent variation__, tend to __form periods__ (have seasonality) and usually __change in time__.
+
+We can make forecasts for future times not covered by the original time series.
+
+\_  
+\_  
+\_  
+
+#### What about linguistics?
+
+```
+
+
+
+
+
+
+
+
+Any ideas?
+
+
+
+
+
+
+
+
+
+
+
+
+```
+
+* time-based corpus data  
+* longitudinal data  
+
+<img src="https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/img/GoogleBooksNgrams.png" width=800></img>  
+<sup>Occurrences of the Russian words _и_, _на_, _не_, _а_, _о_</sup>  
+
+
+In terms of raw frequencies, we would expect something like:  
+
+```{r echo = FALSE}
+data <- read.csv("http://robjhyndman.com/tsdldata/misc/kings.dat",skip=3)
+names(data) <- "numericvalue"
+data <- ts(data)
+plot.ts(data)
+```
+
+\_  
+\_  
+\_  
+
+Corpus data:
+
+* "natural" variance in time  
+* fluctuation caused by uneven distribution of parts of corpora in time (uneven size)   
+* fluctuation caused by uneven distribution of genres in time      
+
+
+It is generally ok to group year data in categories, but it is generally not acceptable to use them "as is" in numeric variables.       
+
+\_  
+\_  
+\_  
+
+```{r 0.0, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(TTR)
+```
+
+
+## Smoothing  
+
+### Simple smoothing average  
+
+To estimate the trend component of a non-seasonal time series, it is common to use a smoothing method, such as calculating the simple moving average of the time series. SMA() calculates the arithmetic mean of the series over the past n observations.
+
+```{r}
+data <- read.csv("http://robjhyndman.com/tsdldata/misc/kings.dat",skip=3)
+names(data) <- "n"
+data <- ts(data)
+plot.ts(data)
+data.SMA3 <- SMA(data, n=3)
+plot.ts(data.SMA3)
+data.SMA8 <- SMA(data, n=8)
+plot.ts(data.SMA8)
+plot.ts(SMA(data, n=20))
+```
+
+
+### Exponential smoothing 
+EMA (exponential moving average) calculates an exponentially-weighted mean, giving more weight to recent observations.  
+In HoltWinters() (simple exponential smoothing predictive model) smoothing is controlled by the parameter _alpha_ [0;1]. Values of alpha that are close to 0 mean that little weight is placed on the most recent observations when making forecasts of future values.
+
+### Exponential data analysis  
+
+With simple exponential 
+```{r}
+data.EMA8 <- EMA(data, n=8)
+plot.ts(data.EMA8)
+data.EMA <- HoltWinters(data, beta=FALSE, gamma=FALSE)
+data.EMA
+plot(data.EMA)
+```
+
+
+## Other approaches to time series in linguistics
+
+### Sampling 
+
+To make sampling, we draw random samples of N′ tokens from the data by performing a binomial split for each t (time perios). For each word, this procedure returns binomial (fit, pt) random variates, where pt is the probability of success, which is given as: N′/N<sub>t</sub>. The resulting corpora of (approximately) N′ tokens. 
+
+
+### Iterative sequential interval estimation (GriesHilpert2010)  
+
+<img src="https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/img/GriesHilpert2010.png" width=800></img>  
+<sup>3rd person singular present tense -(e)s (Gries & Hilpert 2010)</sup>  
+
+<img src="https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/img/Hilpert_ISIE.png" width=800></img>  
+
+<img src="https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/img/Hilpert_ISIE2.png" width=800></img>  
+
+
+### Iterative sequential interval estimation (GriesHilpert2010)  
+
+<img src="https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/img/Hilpert_VNC_dendrogram2.png" width=800></img>  
+
+<img src="https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/img/Hilpert_VNC_dendrogram3.png" width=800></img>  
+<sup>VNC dendrogram on _just because_ with line plots of observed frequencies and mean frequencies per cluster and scree plot (TIME corpus, Hilpert & Gries 2009)</sup>  
+
+<img src="https://raw.githubusercontent.com/agricolamz/2018-MAG_R_course/master/img/Hilpert_VNC_dendrogram.png" width=800></img>  
+<sup>VNC dendrogram on _keep V-ing_ with line plots of observed frequencies and mean frequencies per cluster and scree plot (TIME corpus, Hilpert & Gries 2009)</sup>  
+
+
+### Underlying function
+
+Solovyev et al. 2017 calculates a function to extract its value in each datapoint.
+
+<img src="http://images.slideplayer.com/14/4437612/slides/slide_12.jpg" width=800></img>  
+
+
+```{r}
+```
