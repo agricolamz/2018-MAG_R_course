@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="O. Lyashevskaya, G. Moroz, I. Schurov" />
+
+
+<title></title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/lumen.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 54px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+
+.section h2 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h3 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h4 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h5 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h6 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore"><ol start="15" style="list-style-type: decimal">
+<li>Empirical Bayes Estimation</li>
+</ol></h1>
+<h4 class="author"><em>O. Lyashevskaya, G. Moroz, I. Schurov</em></h4>
+
+</div>
+
+
+<style>
+.parallax {
+    /* The image used */
+    background-image: url("15_stat.jpg");
+    
+    /* Set a specific height */
+    min-height: 420px; 
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto;
+}
+</style>
+<div class="parallax">
+
+</div>
+<div id="probability-destribution" class="section level3">
+<h3>1. Probability destribution</h3>
+<ul>
+<li>A probability value must be nonnegative.</li>
+<li>The sum of the probabilities across all events in the entire sample space must be 1.</li>
+<li>For any two mutually exclusive events, the probability that one or the other occurs is the sum of their individual probabilities.</li>
+</ul>
+<div id="discrete-case" class="section level4">
+<h4>Discrete case:</h4>
+<p><span class="math display">\[p(⚀) + p(⚁) + p(⚂) + p(⚃) + p(⚄) + p(⚅) = \sum_{i = 0}^{n} p(x_i) = 1\]</span></p>
+</div>
+<div id="continuouse-case" class="section level4">
+<h4>Continuouse case:</h4>
+<p><img src="Lec_15_Comp_Bayes_files/figure-html/unnamed-chunk-1-1.png" width="672" /> <span class="math display">\[ = \int p(x)dx = 1\]</span></p>
+<div class="parallax">
+
+</div>
+</div>
+</div>
+<div id="two-way-destribution" class="section level3">
+<h3>2. Two-way destribution</h3>
+<div id="joint-probability" class="section level4">
+<h4>Joint probability</h4>
+<p><span class="math display">\[p(A, B) = p(B, A)\]</span></p>
+</div>
+<div id="conditional-probability" class="section level4">
+<h4>Conditional probability</h4>
+<p><span class="math display">\[p(B|A) = p(A, B)/P(A)\]</span></p>
+</div>
+<div id="discrete-case-1" class="section level4">
+<h4>Discrete case:</h4>
+<img src="Lec_15_Comp_Bayes_files/figure-html/unnamed-chunk-2-1.png" width="672" />
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Hair"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["Brown"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Blue"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Hazel"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Green"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Sum"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"Black","2":"0.11","3":"0.03","4":"0.03","5":"0.01","6":"0.18"},{"1":"Brown","2":"0.20","3":"0.14","4":"0.09","5":"0.05","6":"0.48"},{"1":"Red","2":"0.04","3":"0.03","4":"0.02","5":"0.02","6":"0.12"},{"1":"Blond","2":"0.01","3":"0.16","4":"0.02","5":"0.03","6":"0.21"},{"1":"Sum","2":"0.37","3":"0.36","4":"0.16","5":"0.11","6":"1.00"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<ul>
+<li><em>joint probability</em>: probability of having blue eyesand blond hair: <span class="math display">\[p(Hair = Blond, Eye = Blue) = p(Eye = Blue, Hair = Blond) = 0.16\]</span></li>
+<li><em>conditional probability</em>: probability of having blond hair, if eyes are blue: <span class="math display">\[p(Hair = Blond|Eye = Blue) = \frac{p(Eye = Blue, Hair = Blond)}{\sum_{i=1}^{n} p(Eye = Blue, Hair = x_i)} = \frac{0.16}{0.36} \approx 0.45\]</span></li>
+</ul>
+</div>
+<div id="continuouse-case-1" class="section level4">
+<h4>Continuouse case:</h4>
+<p><img src="Lec_15_Comp_Bayes_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<ul>
+<li><em>joint probability</em>: probability of having blue eyesand blond hair: <span class="math display">\[p(sex = f, year = 1945) = p(year = 1945, sex = f)\]</span></li>
+<li><em>conditional probability</em>: probability of having blond hair, if eyes are blue: <span class="math display">\[p(year = 1945|sex = f) = \frac{p(sex = f, year = 1945)}{\int p(sex = f, year = x)dx}\]</span></li>
+</ul>
+<div class="parallax">
+
+</div>
+</div>
+</div>
+<div id="bayes-rule" class="section level3">
+<h3>3. Bayes rule</h3>
+<span class="math display">\[p(A|B) = \frac{p(A, B)}{p(B)}\Rightarrow p(A|B) \times p(B) = p(A, B)\]</span> <span class="math display">\[p(B|A) = \frac{p(B, A)}{p(A)}\Rightarrow p(B|A) \times p(A) = p(B, A)\]</span> <span class="math display">\[p(A|B) \times p(B) = p(B|A) \times p(A)\]</span> <span class="math display">\[p(A|B) = \frac{p(B|A)p(A)}{p(B)}\]</span> <span class="math display">\[p(A|B) = \frac{p(B|A)p(A)}{\sum_{i=1}^{n} p(B, a_i) \times p(a_i)}\]</span>
+<div class="parallax">
+
+</div>
+</div>
+<div id="bayes-inference" class="section level3">
+<h3>4. Bayes inference</h3>
+<div class="parallax">
+
+</div>
+</div>
+<div id="how-stop-afraid-to-choose-a-prior" class="section level3">
+<h3>5. How stop afraid to choose a prior?</h3>
+<div class="parallax">
+
+</div>
+</div>
+<div id="empirical-bayes-estimation" class="section level3">
+<h3>6. Empirical Bayes Estimation</h3>
+<div class="parallax">
+
+</div>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<p> <center> &copy; О. Ляшевская, И. Щуров, Г. Мороз, code on
+<a href="https://github.com/agricolamz/2018-MAG_R_course"> GitHub<img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png"  style="width:30px;height:30px;border:0"> </center></p>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,117 @@
+---
+title: "15. Empirical Bayes Estimation"
+author: "O. Lyashevskaya, G. Moroz, I. Schurov"
+output: 
+  html_document:
+    df_print: paged
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, echo = FALSE, comment = "")
+library(tidyverse)
+theme_set(theme_bw())
+```
+
+<style>
+.parallax {
+    /* The image used */
+    background-image: url("15_stat.jpg");
+    
+    /* Set a specific height */
+    min-height: 420px; 
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto;
+}
+</style>
+
+<div class="parallax"></div>
+
+### 1. Probability destribution
+
+* A probability value must be nonnegative. 
+* The sum of the probabilities across all events in the entire sample space must be 1. 
+* For any two mutually exclusive events, the probability that one or the other occurs is the sum of their individual probabilities.
+
+#### Discrete case: 
+$$p(⚀) + p(⚁) + p(⚂) + p(⚃) + p(⚄) + p(⚅) = \sum_{i = 0}^{n} p(x_i) = 1$$
+
+#### Continuouse case:
+
+```{r}
+set.seed(42)
+data.frame(value = rnorm(100, 100, 20)) %>% 
+  ggplot(aes(value)) +
+  geom_density(fill = "lightblue")+
+  labs(x="", y = "")+
+  xlim(20, 180)
+```
+$$ = \int p(x)dx = 1$$
+
+<div class="parallax"></div>
+
+### 2. Two-way destribution
+
+#### Joint probability
+$$p(A, B) = p(B, A)$$
+
+#### Conditional probability
+$$p(B|A) = p(A, B)/P(A)$$
+
+#### Discrete case:
+```{r}
+library(vcd)
+mosaic(HairEyeColor[,,1]+HairEyeColor[,,2], shade=TRUE, legend=TRUE)
+d <- round(addmargins(prop.table(HairEyeColor[,,1]+HairEyeColor[,,2])), 2)
+as.data.frame(d) %>% 
+  spread(Eye, Freq)
+```
+
+* _joint probability_: probability of having blue eyesand blond hair:
+$$p(Hair = Blond, Eye = Blue) = p(Eye = Blue, Hair = Blond) = 0.16$$
+* _conditional probability_: probability of having blond hair, if eyes are blue:
+$$p(Hair = Blond|Eye = Blue) = \frac{p(Eye = Blue, Hair = Blond)}{\sum_{i=1}^{n} p(Eye = Blue, Hair = x_i)} = \frac{0.16}{0.36} \approx 0.45$$
+
+#### Continuouse case:
+
+```{r, cache=TRUE}
+multilingualism <- read_csv("https://github.com/LingConLab/2018_suplementary_for_Gendered_multilingualism_in_highland_Daghestan_story_of_a_loss/blob/master/data.csv?raw=true")
+multilingualism %>% 
+  distinct(`year of birth`, sex, index) %>% 
+  ggplot(aes(`year of birth`,  fill = sex)) +
+  geom_density(alpha = 0.4)+
+  xlim(1870, 2015)
+```
+
+* _joint probability_: probability of having blue eyesand blond hair:
+$$p(sex = f, year = 1945) = p(year = 1945, sex = f)$$
+* _conditional probability_: probability of having blond hair, if eyes are blue:
+$$p(year = 1945|sex = f) = \frac{p(sex = f, year = 1945)}{\int p(sex = f, year = x)dx}$$
+
+<div class="parallax"></div>
+
+### 3. Bayes rule
+
+$$p(A|B) = \frac{p(A, B)}{p(B)}\Rightarrow p(A|B) \times p(B) = p(A, B)$$
+$$p(B|A) = \frac{p(B, A)}{p(A)}\Rightarrow p(B|A) \times p(A) = p(B, A)$$
+$$p(A|B) \times p(B) = p(B|A) \times p(A)$$
+$$p(A|B) = \frac{p(B|A)p(A)}{p(B)}$$
+$$p(A|B) = \frac{p(B|A)p(A)}{\sum_{i=1}^{n} p(B, a_i) \times p(a_i)}$$
+<div class="parallax"></div>
+
+### 4. Bayes inference
+
+<div class="parallax"></div>
+
+### 5. How stop afraid to choose a prior?
+
+<div class="parallax"></div>
+
+### 6. Empirical Bayes Estimation
+
+<div class="parallax"></div>

@@ -108,11 +108,13 @@ tt_row <- data.frame(tt_ca$rowcoord)
 tt_row$rows <- rownames(tt_ca$rowcoord)
 
 tt_col %>% 
-  ggplot(aes(Dim1, Dim2, label = rows))+
-  geom_text(color = "blue")+
-  geom_text(data = tt_row, color = "red")+
-  labs(x = "Dim1 (38.63%)",
-       y = "Dim2 (20.01%)")
+  ggplot(aes(Dim1, Dim2))+
+  geom_hline(yintercept = 0, linetype = 2)+
+  geom_vline(xintercept = 0,linetype = 2)+
+  geom_point(data = tt_row, aes(Dim1, Dim2), color = "red")+
+  geom_text(aes(label = rows), color = "blue")+
+  labs(x = "Dim1 (39.06%)",
+       y = "Dim2 (19.72%)")
 ```
 
 ## MCA 
