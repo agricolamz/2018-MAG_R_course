@@ -101,17 +101,97 @@ $$p(A|B) = \frac{p(A, B)}{p(B)}\Rightarrow p(A|B) \times p(B) = p(A, B)$$
 $$p(B|A) = \frac{p(B, A)}{p(A)}\Rightarrow p(B|A) \times p(A) = p(B, A)$$
 $$p(A|B) \times p(B) = p(B|A) \times p(A)$$
 $$p(A|B) = \frac{p(B|A)p(A)}{p(B)}$$
+
+#### Discrete case:
 $$p(A|B) = \frac{p(B|A)p(A)}{\sum_{i=1}^{n} p(B, a_i) \times p(a_i)}$$
+
+#### Continuouse case:
+$$p(A|B) = \frac{p(B|A)p(A)}{\int p(B, a) \times p(a)da}$$
+
+* what is happening in numerator: 
+![](15_bayes.jpg)
+
+* what is happening during the division: 
+
+$$\frac{w}{w+x+y+z}:\frac{w+x}{w+x+y+z} = \frac{w}{w+x}$$
+
 <div class="parallax"></div>
 
 ### 4. Bayes inference
 
+* p(θ) --- parametor values
+* p(Data) --- data values
+
+$$p(θ|Data) = \frac{p(Data|θ)\times p(θ)}{p(Data)}$$
+
+* p(θ|Data) --- posterior
+* p(Data|θ) --- likelihood, conjugate prior
+* p(θ) --- prior
+* p(Data) --- data
+
+Bayes’ rule gets us from a prior belief, p(θ), to a posterior belief, p(θ|D), when we take into account some data D. Now suppose we observe some more data, which we’ll denote D'. We can then update our beliefs again, from p(θ|D) to p(θ|D', D). Does our final belief depend on whether we update with D first and D' second, or update with D' first and D second?
+
+$$p(θ|Data, Data') = p(θ|Data', Data)$$
+
+So for correct modeling we need to know destribution family and conjugate prior:
+
+```{r}
+data_frame(likelihood = c("Bernulli", "Multinomial", "...", "Normal with known variance", "Uniform","..."),
+           `conjugate prior distribution` = c("Beta", "Dirichlet", "...", "Normal", "Pareto", "..."))
+```
+
 <div class="parallax"></div>
 
-### 5. How stop afraid to choose a prior?
+### 5. Binomial example
+
+$$P(k | n, θ) = \frac{n!}{k!(n-k)!} \times θ^k \times (1-θ)^{n-k} =  {n \choose k} \times θ^k \times (1-θ)^{n-k}$$
+$$ 0 \leq θ \leq 1; n, k > 0$$
+
+```{r}
+probabilities <- c(0.23, 0.33, 0.69)
+density <- c(dbinom(x = 1:83, size = 83, prob = probabilities[1]),
+             dbinom(x = 1:83, size = 83, prob = probabilities[2]),
+             dbinom(x = 1:83, size = 83, prob = probabilities[3]))
+params <- rep(paste("n = 83, p =", probabilities), each = 83)
+id <- rep(1:83, 3)
+binomials <- data_frame(density, params, id)
+
+binomials %>% 
+  ggplot(aes(id, density, fill = params))+
+  geom_polygon(alpha = 0.8)+
+  labs(title = "PDF for three binomial distributions")+
+  theme_bw()
+```
+
+$$P(x; α, β) = \frac{x^{α-1}\times (1-x)^{β-1}}{B(α, β)}; 0 \leq x \leq 1; α, β > 0$$
+Beta function:
+$$Β(α, β) = \frac{Γ(α)\times Γ(β)}{Γ(α+β)} = \frac{(α-1)!(β-1)!}{(α+β-1)!} $$
+
+```{r}
+x <- seq(0, 1, length = 100)
+alpha <- c(23, 33, 69)
+beta <- 83-alpha
+density <- c(dbeta(x, shape1 = alpha[1], shape2 = beta[1]),
+             dbeta(x, shape1 = alpha[2], shape2 = beta[2]),
+             dbeta(x, shape1 = alpha[3], shape2 = beta[3]))
+params <- rep(paste("α =", alpha, ", β =", beta), each = 100)
+betas <- data_frame(density, params, id = rep(x, 3))
+
+betas %>% 
+  ggplot(aes(id, density, fill = params))+
+  geom_polygon(alpha = 0.8)+
+  labs(title = "PDF for three beta destributions")+
+  theme_bw()
+```
+
+
 
 <div class="parallax"></div>
 
-### 6. Empirical Bayes Estimation
+### 6. How stop afraid to choose a prior?
+
+<div class="parallax"></div>
+
+### 7. Empirical Bayes Estimation
 
 <div class="parallax"></div>
