@@ -142,7 +142,7 @@ data_frame(likelihood = c("Bernulli", "Multinomial", "...", "Normal with known v
 
 <div class="parallax"></div>
 
-### 5. Binomial example
+### 5. Binomial and Beta destributions
 
 $$P(k | n, θ) = \frac{n!}{k!(n-k)!} \times θ^k \times (1-θ)^{n-k} =  {n \choose k} \times θ^k \times (1-θ)^{n-k}$$
 $$ 0 \leq θ \leq 1; n, k > 0$$
@@ -184,14 +184,56 @@ betas %>%
   theme_bw()
 ```
 
-
-
-<div class="parallax"></div>
-
-### 6. How stop afraid to choose a prior?
+```{r, echo = TRUE, eval= FALSE}
+shiny::runGitHub("agricolamz/beta_distribution_shiny") 
+```
 
 <div class="parallax"></div>
 
-### 7. Empirical Bayes Estimation
+### 6. Binomial example
+
+In corpus based frequency dictionary noun *не* has frequency 0.05389. In some text (61981 words) this preposition appears 2540 times. How does it change our prior knoledge?
+
+* p(θ) --- prior is a Beta destribution
+* p(Data|θ) --- conjugate prior is a Binomial destribution
+* p(θ|Data) --- posterior is a Beta destribution
+* p(Data) --- ... we don't need it since numerator is Beta destribution
+
+* Alpha and beta for prior destribution
+$$\mu = \frac{\alpha}{\alpha+\beta} \Rightarrow \alpha = \mu \times (\alpha+\beta) = 6198 \times 0.05389 \approx  3330.156$$
+$$\beta = 6198 - 3340.156 = 2857.844$$
+
+* Alpha and beta for posterior destribution
+$$\alpha_{posterior} = \alpha_{prior} + \# success = 3340.156 + 2540 $$
+$$\beta_{posterior} = \beta_{prior} + \# failure = 2857.844 + 6198 - 2540$$
+
+```{r}
+mu_prior <-  0.05389
+overall <- 6198
+alpha_data <- 2540
+alpha_prior <-overall*mu_prior
+beta_prior <- overall - alpha_prior
+beta_data <- overall - alpha_data
+alpha_post <- alpha_prior + alpha_data
+beta_post <- beta_prior + beta_data
+x <- seq(0, 1, length = 100)
+data_frame(p = rep(x, 3),
+           density = c(dbeta(x, alpha_prior, beta_prior),
+                       dbeta(x, alpha_data, beta_data),
+                       dbeta(x, alpha_post, beta_post)),
+           type = rep(c("prior", "likelihood", "posterior"), each = 100))%>% 
+  ggplot(aes(x = p, y = density, color = type))+
+  geom_line()
+```
+<div class="parallax"></div>
+
+### 7. How stop be afraid of choosing a prior?
+* Prior is the way of incorporating previous knowledge.
+* Prior is more scintific way of thinking.
+* If you are really scared you coud choose non-informative prior.
+* ... sometimes you have a trick --- Empirical Bayes Estimation.
+
+#### Empirical Bayes estimation
+Then we could calculate proportion of "не" in each of them. After that it is possible to approximate a Beta destribution from the destribution of "не" proportions from different novels and use it as a prior. What we will get is a shrinked mean. The true outliers will be vissible then.
 
 <div class="parallax"></div>

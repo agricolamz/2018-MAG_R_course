@@ -90,19 +90,20 @@ title: "Linguistic data: quantitative analysis and visualisation"
 * (02.06.2018) Lecture 14 [slides](https://agricolamz.github.io/2018-MAG_R_course/Lec14_CA_MCA.html)
 * (02.06.2018) [Lab 14: t-SNE, CA, MCA](https://agricolamz.github.io/2018-MAG_R_course/Lab_14.html)
 
-### 14. Empirical Bayes (CL)
-
+### 15. Time series data (TL)
 * (05.06.2018) lecture
-* (05.06.2018) Lab 14, Assignment link
+* (05.06.2018) Lab 
+
+### 15. Empirical Bayes (CL)
+
+* (09.06.2018) [lecture](https://agricolamz.github.io/2018-MAG_R_course/Lec_15_Comp_Bayes.html)
+* (09.06.2018) Lab 15, [Assignment link](https://docs.google.com/forms/d/e/1FAIpQLSf8lFqFkAMn01y7pWlISJXcuAC2IYMD-BIWoTRzjHYtacVEgg/viewform)
 
 ### 15. Statistics for Hackers (CL)
 
 * (14.06.2018) lecture
 * (14.06.2018) Lab 15, Assignment link
 
-### 16. Time series data (TL)
-* (05.06.2018) lecture
-* (05.06.2018) Lab 
 
 
 ### Exam: Project presentation

@@ -25,6 +25,49 @@
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
 
 
 <style type="text/css">
@@ -303,26 +346,47 @@ $(document).ready(function () {
 
 </div>
 </div>
-<div id="binomial-example" class="section level3">
-<h3>5. Binomial example</h3>
+<div id="binomial-and-beta-destributions" class="section level3">
+<h3>5. Binomial and Beta destributions</h3>
 <p><span class="math display">\[P(k | n, θ) = \frac{n!}{k!(n-k)!} \times θ^k \times (1-θ)^{n-k} =  {n \choose k} \times θ^k \times (1-θ)^{n-k}\]</span> <span class="math display">\[ 0 \leq θ \leq 1; n, k &gt; 0\]</span></p>
 <p><img src="Lec_15_Comp_Bayes_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
-<p><span class="math display">\[f(x; α, β) = \frac{x^{α-1}\times (1-x)^{β-1}}{B(α, β)}; 0 \leq x \leq 1; α, β &gt; 0\]</span> Beta function: <span class="math display">\[Β(α, β) = \frac{Γ(α)\times Γ(β)}{Γ(α+β)} = \frac{(α-1)!(β-1)!}{(α+β-1)!} \]</span></p>
+<p><span class="math display">\[P(x; α, β) = \frac{x^{α-1}\times (1-x)^{β-1}}{B(α, β)}; 0 \leq x \leq 1; α, β &gt; 0\]</span> Beta function: <span class="math display">\[Β(α, β) = \frac{Γ(α)\times Γ(β)}{Γ(α+β)} = \frac{(α-1)!(β-1)!}{(α+β-1)!} \]</span></p>
 <p><img src="Lec_15_Comp_Bayes_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">shiny<span class="op">::</span><span class="kw">runGitHub</span>(<span class="st">&quot;agricolamz/beta_distribution_shiny&quot;</span>) </code></pre></div>
 <div class="parallax">
 
 </div>
 </div>
-<div id="how-stop-afraid-to-choose-a-prior" class="section level3">
-<h3>6. How stop afraid to choose a prior?</h3>
+<div id="binomial-example" class="section level3">
+<h3>6. Binomial example</h3>
+<p>In corpus based frequency dictionary noun <em>не</em> has frequency 0.05389. In some text (61981 words) this preposition appears 2540 times. How does it change our prior knoledge?</p>
+<ul>
+<li>p(θ) — prior is a Beta destribution</li>
+<li>p(Data|θ) — conjugate prior is a Binomial destribution</li>
+<li>p(θ|Data) — posterior is a Beta destribution</li>
+<li><p>p(Data) — … we don’t need it since numerator is Beta destribution</p></li>
+<li><p>Alpha and beta for prior destribution <span class="math display">\[\mu = \frac{\alpha}{\alpha+\beta} \Rightarrow \alpha = \mu \times (\alpha+\beta) = 6198 \times 0.05389 \approx  3330.156\]</span> <span class="math display">\[\beta = 6198 - 3340.156 = 2857.844\]</span></p></li>
+<li><p>Alpha and beta for posterior destribution <span class="math display">\[\alpha_{posterior} = \alpha_{prior} + \# success = 3340.156 + 2540 \]</span> <span class="math display">\[\beta_{posterior} = \beta_{prior} + \# failure = 2857.844 + 6198 - 2540\]</span></p></li>
+</ul>
+<img src="Lec_15_Comp_Bayes_files/figure-html/unnamed-chunk-8-1.png" width="672" />
 <div class="parallax">
 
 </div>
 </div>
-<div id="empirical-bayes-estimation" class="section level3">
-<h3>7. Empirical Bayes Estimation</h3>
+<div id="how-stop-be-afraid-of-choosing-a-prior" class="section level3">
+<h3>7. How stop be afraid of choosing a prior?</h3>
+<ul>
+<li>Prior is the way of incorporating previous knowledge.</li>
+<li>Prior is more scintific way of thinking.</li>
+<li>If you are really scared you coud choose non-informative prior.</li>
+<li>… sometimes you have a trick — Empirical Bayes Estimation.</li>
+</ul>
+<div id="empirical-bayes-estimation" class="section level4">
+<h4>Empirical Bayes estimation</h4>
+<p>Then we could calculate proportion of “не” in each of them. After that it is possible to approximate a Beta destribution from the destribution of “не” proportions from different novels and use it as a prior. What we will get is a shrinked mean. The true outliers will be vissible then.</p>
 <div class="parallax">
 
+</div>
 </div>
 </div>
 
