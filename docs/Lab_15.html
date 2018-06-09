@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="G. Moroz" />
+
+
+<title>Lab_15</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/lumen.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 54px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+
+.section h2 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h3 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h4 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h5 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h6 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Lab_15</h1>
+<h4 class="author"><em>G. Moroz</em></h4>
+
+</div>
+
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
+chekhov &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&quot;https://goo.gl/o18uj7&quot;</span>)
+chekhov <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">trunc_titles =</span> <span class="kw">str_trunc</span>(titles, <span class="dv">25</span>, <span class="dt">side =</span> <span class="st">&quot;right&quot;</span>),
+         <span class="dt">average =</span> n<span class="op">/</span>n_words) -&gt;
+<span class="st">  </span>chekhov
+<span class="kw">head</span>(chekhov)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["titles"],"name":[1],"type":["chr"],"align":["left"]},{"label":["word"],"name":[2],"type":["chr"],"align":["left"]},{"label":["n"],"name":[3],"type":["int"],"align":["right"]},{"label":["n_words"],"name":[4],"type":["int"],"align":["right"]},{"label":["trunc_titles"],"name":[5],"type":["chr"],"align":["left"]},{"label":["average"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"Письмо к ученому соседу","2":"письмо","3":"2","4":"1327","5":"Письмо к ученому соседу","6":"0.0015071590"},{"1":"Письмо к ученому соседу","2":"к","3":"4","4":"1327","5":"Письмо к ученому соседу","6":"0.0030143180"},{"1":"Письмо к ученому соседу","2":"ученому","3":"1","4":"1327","5":"Письмо к ученому соседу","6":"0.0007535795"},{"1":"Письмо к ученому соседу","2":"соседу","3":"1","4":"1327","5":"Письмо к ученому соседу","6":"0.0007535795"},{"1":"Письмо к ученому соседу","2":"село","3":"1","4":"1327","5":"Письмо к ученому соседу","6":"0.0007535795"},{"1":"Письмо к ученому соседу","2":"блины","3":"1","4":"1327","5":"Письмо к ученому соседу","6":"0.0007535795"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">chekhov <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(word <span class="op">==</span><span class="st"> &quot;не&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">select</span>(trunc_titles, word, average) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(average)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">fill =</span> <span class="st">&quot;lightblue&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_bw</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&#39;Frequency of &quot;не&quot; in 305 novels by Chekhov&#39;</span>)</code></pre></div>
+<p><img src="Lab_15_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mu &lt;-<span class="st"> </span><span class="kw">mean</span>(chekhov<span class="op">$</span>average[chekhov<span class="op">$</span>word <span class="op">==</span><span class="st"> &quot;не&quot;</span>])
+var &lt;-<span class="st"> </span><span class="kw">var</span>(chekhov<span class="op">$</span>average[chekhov<span class="op">$</span>word <span class="op">==</span><span class="st"> &quot;не&quot;</span>])
+alpha0 &lt;-<span class="st"> </span>((<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>mu) <span class="op">/</span><span class="st"> </span>var <span class="op">-</span><span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span>mu) <span class="op">*</span><span class="st"> </span>mu <span class="op">^</span><span class="st"> </span><span class="dv">2</span>
+beta0 &lt;-<span class="st"> </span>alpha0 <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span>mu <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)
+
+x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="fl">0.1</span>, <span class="dt">length =</span> <span class="dv">1000</span>)
+estimation &lt;-<span class="st"> </span><span class="kw">data_frame</span>(
+  <span class="dt">x =</span> x,
+  <span class="dt">density =</span> <span class="kw">c</span>(<span class="kw">dbeta</span>(x, <span class="dt">shape1 =</span> alpha0, <span class="dt">shape2 =</span> beta0)))
+
+chekhov <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(word <span class="op">==</span><span class="st"> &quot;не&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">select</span>(trunc_titles, word, average) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(average)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">fill =</span> <span class="st">&quot;lightblue&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data =</span> estimation, <span class="kw">aes</span>(x, density), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_bw</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&#39;Frequency of &quot;не&quot; in 305 novels by Chekhov&#39;</span>,
+       <span class="dt">subtitle =</span> <span class="st">&quot;red line is the fitted Beta distribution&quot;</span>)</code></pre></div>
+<p><img src="Lab_15_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">chekhov <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(word <span class="op">==</span><span class="st"> &quot;не&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">slice</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">30</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(titles) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">alpha_post =</span> n<span class="op">+</span>alpha0,
+         <span class="dt">beta_post =</span> n_words<span class="op">-</span>n<span class="op">+</span>beta0,
+         <span class="dt">average_post =</span> alpha_post<span class="op">/</span>(alpha_post<span class="op">+</span>beta_post),
+         <span class="dt">cred_int_l =</span> <span class="kw">qbeta</span>(.<span class="dv">025</span>, alpha_post, beta_post),
+         <span class="dt">cred_int_h =</span> <span class="kw">qbeta</span>(.<span class="dv">975</span>, alpha_post, beta_post)) -&gt;
+<span class="st">  </span>posterior
+
+posterior <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">select</span>(titles, n_words, average, average_post) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">arrange</span>(n_words)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["titles"],"name":[1],"type":["chr"],"align":["left"]},{"label":["n_words"],"name":[2],"type":["int"],"align":["right"]},{"label":["average"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["average_post"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"Темною ночью","2":"298","3":"0.020134228","4":"0.02109308"},{"1":"На гвозде","2":"425","3":"0.011764706","4":"0.01553524"},{"1":"Патриот своего отечества","2":"428","3":"0.009345794","4":"0.01396120"},{"1":"Добродетельный кабатчик","2":"473","3":"0.016913319","4":"0.01871070"},{"1":"Размазня","2":"481","3":"0.027027027","4":"0.02546681"},{"1":"Загадочная натура","2":"595","3":"0.015126050","4":"0.01716883"},{"1":"Случай из судебной практики","2":"660","3":"0.013636364","4":"0.01592460"},{"1":"Смерть чиновника","2":"691","3":"0.039073806","4":"0.03479090"},{"1":"Тысяча одна страсть, или Страшная ночь","2":"954","3":"0.008385744","4":"0.01115362"},{"1":"Раз в год","2":"1002","3":"0.022954092","4":"0.02282885"},{"1":"Вор","2":"1040","3":"0.020192308","4":"0.02058321"},{"1":"Темпераменты","2":"1041","3":"0.027857829","4":"0.02682729"},{"1":"Трагик","2":"1050","3":"0.022857143","4":"0.02275442"},{"1":"Герой-барыня","2":"1075","3":"0.013953488","4":"0.01546061"},{"1":"Верба","2":"1091","3":"0.015582035","4":"0.01678045"},{"1":"За двумя зайцами погонишься, ни одного не поймаешь","2":"1311","3":"0.032036613","4":"0.03054625"},{"1":"Письмо к ученому соседу","2":"1327","3":"0.024114544","4":"0.02383953"},{"1":"В вагоне","2":"1442","3":"0.022884882","4":"0.02280223"},{"1":"Перед свадьбой","2":"1459","3":"0.041124058","4":"0.03849426"},{"1":"Грешник из Толедо","2":"1683","3":"0.021984551","4":"0.02202337"},{"1":"Папаша","2":"1686","3":"0.041518387","4":"0.03915045"},{"1":"Месть","2":"1764","3":"0.023809524","4":"0.02363069"},{"1":"Летающие острова","2":"1778","3":"0.016310461","4":"0.01701462"},{"1":"Исповедь, или Оля, Женя, Зоя","2":"1942","3":"0.021627188","4":"0.02170025"},{"1":"Барон","2":"1965","3":"0.029516539","4":"0.02873998"},{"1":"Сказки Мельпомены","2":"2404","3":"0.027038270","4":"0.02661312"},{"1":"Он понял!","2":"2837","3":"0.022206556","4":"0.02221369"},{"1":"Два скандала","2":"3130","3":"0.021725240","4":"0.02176562"},{"1":"Петров день","2":"3312","3":"0.026268116","4":"0.02600316"},{"1":"Жены артистов","2":"3686","3":"0.024688009","4":"0.02454374"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">posterior <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(trunc_titles, average_post, <span class="dt">ymin =</span> cred_int_l, <span class="dt">ymax =</span> cred_int_h))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_pointrange</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">coord_flip</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_bw</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;95% credible interval for random 30 novels&quot;</span>)</code></pre></div>
+<p><img src="Lab_15_files/figure-html/unnamed-chunk-1-3.png" width="672" /></p>
+
+<br>
+<br>
+<br>
+<br>
+<p> <center> &copy; О. Ляшевская, И. Щуров, Г. Мороз, code on
+<a href="https://github.com/agricolamz/2018-MAG_R_course"> GitHub<img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png"  style="width:30px;height:30px;border:0"> </center></p>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
