@@ -384,6 +384,10 @@ $(document).ready(function () {
 <div id="empirical-bayes-estimation" class="section level4">
 <h4>Empirical Bayes estimation</h4>
 <p>Then we could calculate proportion of “не” in each of them. After that it is possible to approximate a Beta destribution from the destribution of “не” proportions from different novels and use it as a prior. What we will get is a shrinked mean. The true outliers will be vissible then.</p>
+<p>The easeast and the worst way to fit the Beta destribution. From this systme of equations:</p>
+<p><span class="math display">\[\mu = \frac{\alpha}{\alpha+\beta}\]</span> <span class="math display">\[\sigma = \frac{\alpha\times\beta}{(\alpha+\beta)^2\times(\alpha+\beta+1)}\]</span></p>
+<p>…we can get <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>:</p>
+<p><span class="math display">\[\alpha = \left(\frac{1-\mu}{\sigma^2} - \frac{1}{\mu}\right)\times \mu^2\]</span> <span class="math display">\[\beta = \alpha\times\left(\frac{1}{\mu} - 1\right)\]</span></p>
 <div class="parallax">
 
 </div>
