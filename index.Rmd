@@ -99,7 +99,7 @@ title: "Linguistic data: quantitative analysis and visualisation"
 * (09.06.2018) [lecture](https://agricolamz.github.io/2018-MAG_R_course/Lec_15_Comp_Bayes.html)
 * (09.06.2018) [Lab 15](https://agricolamz.github.io/2018-MAG_R_course/Lab_15.html), [Assignment link](https://docs.google.com/forms/d/e/1FAIpQLSf8lFqFkAMn01y7pWlISJXcuAC2IYMD-BIWoTRzjHYtacVEgg/viewform)
 
-### 15. Statistics for Hackers (CL)
+### 16. Statistics for Hackers (CL)
 
 * (14.06.2018) lecture
 * (14.06.2018) Lab 15, Assignment link
