@@ -1,0 +1,69 @@
+---
+title: "Lab 16"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE)
+```
+
+### [Assignment link](https://goo.gl/yYXc72)
+
+```{r}
+library(tidyverse)
+df <- read.csv("https://goo.gl/7gIjvK")
+
+df %>%
+filter(aspiration == "yes",speaker == "tt01") %>%
+select(vowel.dur) ->
+asp_vowel_duration
+
+library(bootstrap)
+set.seed(42)
+bootsraped_1 <- bootstrap(asp_vowel_duration$vowel.dur,
+                          nboot = 1000,
+                          theta = mean)
+str(bootsraped_1)
+
+bootsraped_2 <- bootstrap(asp_vowel_duration$vowel.dur,
+                          nboot = 1000,
+                          theta = sd)
+str(bootsraped_2)
+
+trimed_mean <- function(x){
+  q <- quantile(x, probs = c(0.05, 0.95))
+  x <- x[x > q[1] & x < q[2]]
+  mean(x)
+}
+
+set.seed(42)
+bootsraped_3 <- bootstrap(asp_vowel_duration$vowel.dur,
+nboot = 1000,
+theta = trimed_mean)
+str(bootsraped_3)
+
+df %>%
+  filter(speaker == "tt01") %>%
+  select(vowel.dur, aspiration) ->
+  vowel_duration
+
+library(mosaic)
+
+set.seed(42)
+do(1000) * (
+  vowel_duration %>%
+    mutate(vowel.dur = shuffle(vowel.dur)) %>%
+    group_by(aspiration) %>%
+    summarise(mean_value = mean(vowel.dur))) ->
+  many.shuffles
+
+tail(many.shuffles)
+
+many.shuffles %>%
+  ggplot(aes(mean_value, color = aspiration))+
+  geom_density(alpha = 0.5)
+
+many.shuffles %>%
+  ggplot(aes(mean_value))+
+  geom_histogram()
+```
+
