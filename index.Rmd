@@ -101,7 +101,7 @@ title: "Linguistic data: quantitative analysis and visualisation"
 
 ### 16. Statistics for Hackers (CL)
 
-* (14.06.2017) [lecture](https://goo.gl/Uf5BYc)
+* (14.06.2017) [lecture](https://agricolamz.github.io/2018-MAG_R_course/Lec_16_Statistics_for_Hackers.html)
 * (14.06.2017) [Lab 16](https://agricolamz.github.io/2018-MAG_R_course/Lab_16.html), [Assignment link](https://goo.gl/yYXc72)
 
 

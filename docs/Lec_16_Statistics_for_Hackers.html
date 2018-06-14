@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Statistics for Hackers</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/lumen.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 54px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+
+.section h2 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h3 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h4 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h5 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h6 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Statistics for Hackers</h1>
+<h3 class="subtitle"><em>(after Jake VanderPlas 2016)</em></h3>
+<h4 class="date"><em>14.06.2018</em></h4>
+
+</div>
+
+
+<div id="types-of-statistics" class="section level3">
+<h3>1. Types of statistics</h3>
+<p>Saying popularized by Mark Twain:</p>
+<blockquote>
+<p>There are three kinds of lies: lies, damned lies, and statistics.</p>
+</blockquote>
+<ul>
+<li>Frequentism</li>
+<li>Bayesianism</li>
+<li>Hackers’ approach</li>
+</ul>
+</div>
+<div id="simulation" class="section level3">
+<h3>2. Simulation</h3>
+<p>Whether a coin is fair: 27 heads and 13 tails</p>
+<p>The probability of obtaining h heads in n tosses of a coin with a probability of heads equal to p is given by the binomial distribution:</p>
+<p><span class="math display">\[P(H = h|p, n) = \binom{n}{h}\times p^h\times(1-p)^{1-h}\]</span></p>
+<p><em>Frequentist</em>: binomial test</p>
+<ul>
+<li>H<span class="math inline">\(_0\)</span> coin is fair</li>
+<li>α = 0.05</li>
+</ul>
+<p><img src="Lec_16_Statistics_for_Hackers_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>So we can reject H<span class="math inline">\(_0\)</span> on p &lt; 0.05.</p>
+<p><em>Hacker</em>: simulation</p>
+<ul>
+<li>Just simulate it!</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(mosaic)
+<span class="kw">set.seed</span>(<span class="dv">42</span>)
+<span class="kw">do</span>(<span class="dv">1000</span>)<span class="op">*</span>
+<span class="st">  </span><span class="kw">sum</span>(<span class="kw">sample</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">1</span>, <span class="dv">40</span>, <span class="dt">replace =</span> T)) -&gt;
+<span class="st">  </span>simulations</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">simulations <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">greater =</span> sum <span class="op">&gt;=</span><span class="st"> </span><span class="dv">27</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(greater) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">number =</span> <span class="kw">n</span>())</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["greater"],"name":[1],"type":["lgl"],"align":["right"]},{"label":["number"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"FALSE","2":"987"},{"1":"TRUE","2":"13"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">simulations <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(sum))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_density</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="dv">27</span>, <span class="dt">linetype =</span> <span class="dv">2</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_bw</span>()</code></pre></div>
+<p><img src="Lec_16_Statistics_for_Hackers_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="shuffling" class="section level3">
+<h3>3. Shuffling</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rus_est &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://goo.gl/11qut0&quot;</span>)
+
+rus_est <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(language) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(speech_rate))</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["language"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["mean"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"estonian","2":"4.826735"},{"1":"russian","2":"5.382458"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rus_est <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(speech_rate, <span class="dt">fill =</span> language, <span class="dt">color =</span> language))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">alpha =</span> <span class="fl">0.9</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_rug</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_bw</span>()</code></pre></div>
+<p><img src="Lec_16_Statistics_for_Hackers_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Is this difference of 0.549683 statistically significant?</p>
+<ul>
+<li>mean speech rate for russians: 5.382458</li>
+<li>mean speech rate for estonians: 4.826735</li>
+<li>difference: 0.555723</li>
+</ul>
+<p><em>Frequentist</em>: Two-sample t-test</p>
+<ul>
+<li>H<span class="math inline">\(_0\)</span> Difference is not statistically significant.</li>
+<li>α = 0.05</li>
+<li>Welch’s t-statistics</li>
+</ul>
+<p><span class="math display">\[t = \frac{\mu_A - \mu_B}{\sqrt{\frac{var_A}{n_A}+\frac{var_B}{n_B}}}\]</span></p>
+<p><span class="math inline">\(\mu\)</span> – mean of each group</p>
+<p><span class="math inline">\(var\)</span> – variance estimation</p>
+<p><span class="math inline">\(n\)</span> – number of observation in each group</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t &lt;-<span class="st"> </span><span class="kw">t.test</span>(rus_est[rus_est<span class="op">$</span>language <span class="op">==</span><span class="st"> &quot;russian&quot;</span>, ]<span class="op">$</span>speech_rate,
+       rus_est[rus_est<span class="op">$</span>language <span class="op">==</span><span class="st"> &quot;estonian&quot;</span>, ]<span class="op">$</span>speech_rate)
+
+t.value &lt;-<span class="st"> </span>t<span class="op">$</span>statistic
+t.value</code></pre></div>
+<pre><code>##       t 
+## 2.42811</code></pre>
+<ul>
+<li>find the degrees of freedom</li>
+</ul>
+<p><span class="math display">\[d.f. = \frac{(var_A/n_A+var_B/n_B)^2}{\frac{var_A/n_A^2}{n_A-1}+\frac{var_B/n_B^2}{n_B-1}}\]</span></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t &lt;-<span class="st"> </span><span class="kw">t.test</span>(rus_est[rus_est<span class="op">$</span>language <span class="op">==</span><span class="st"> &quot;russian&quot;</span>, ]<span class="op">$</span>speech_rate,
+       rus_est[rus_est<span class="op">$</span>language <span class="op">==</span><span class="st"> &quot;estonian&quot;</span>, ]<span class="op">$</span>speech_rate)
+
+df &lt;-<span class="st"> </span>t<span class="op">$</span>parameter
+df</code></pre></div>
+<pre><code>##       df 
+## 55.85354</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">5</span>, <span class="fl">0.1</span>)
+
+<span class="kw">data.frame</span>(x, <span class="dt">y =</span> <span class="kw">dt</span>(<span class="dt">x =</span> x, <span class="dt">df =</span> df)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(x, y))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_line</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_area</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">ifelse</span>(x<span class="op">&gt;=</span><span class="kw">qt</span>(<span class="fl">0.975</span>, df), x, <span class="ot">NA</span>)), <span class="dt">fill =</span> <span class="st">&quot;darkgreen&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> t.value, <span class="dt">linetype =</span> <span class="dv">2</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_bw</span>()</code></pre></div>
+<p><img src="Lec_16_Statistics_for_Hackers_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>So there is 0.0092123 probability to see this or more extreme result giving H<span class="math inline">\(_0\)</span> is true.</p>
+<p><em>Hacker</em>: shuffling</p>
+<p>If the language really don’t matter, then switching them shouldn’t change the result.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">42</span>)
+<span class="kw">do</span>(<span class="dv">1000</span>) <span class="op">*</span>
+<span class="st">  </span>(rus_est <span class="op">%&gt;%</span>
+<span class="st">     </span><span class="kw">mutate</span>(<span class="dt">speech_rate =</span> <span class="kw">shuffle</span>(speech_rate)) <span class="op">%&gt;%</span>
+<span class="st">     </span><span class="kw">group_by</span>(language) <span class="op">%&gt;%</span>
+<span class="st">     </span><span class="kw">summarize</span>(<span class="dt">mean_value =</span> <span class="kw">mean</span>(speech_rate))) -&gt;<span class="st">  </span>
+<span class="st">  </span>many.shuffles
+<span class="kw">tail</span>(many.shuffles)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["language"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["mean_value"],"name":[2],"type":["dbl"],"align":["right"]},{"label":[".row"],"name":[3],"type":["int"],"align":["right"]},{"label":[".index"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"estonian","2":"5.174085","3":"1","4":"998"},{"1":"russian","2":"5.058264","3":"2","4":"998"},{"1":"estonian","2":"5.165804","3":"1","4":"999"},{"1":"russian","2":"5.065993","3":"2","4":"999"},{"1":"estonian","2":"5.106634","3":"1","4":"1000"},{"1":"russian","2":"5.121219","3":"2","4":"1000"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Calculate the difference:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">many.shuffles <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(.index) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">diff =</span> <span class="kw">diff</span>(mean_value)) -&gt;
+<span class="st">  </span>shuffle.diff
+<span class="kw">tail</span>(shuffle.diff)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[".index"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["diff"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"995","2":"0.35012208"},{"1":"996","2":"0.03907386"},{"1":"997","2":"0.11074585"},{"1":"998","2":"-0.11582081"},{"1":"999","2":"-0.09981088"},{"1":"1000","2":"0.01458452"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">shuffle.diff <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">greater =</span> diff <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.555723</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(greater) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">number =</span> <span class="kw">n</span>())</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["greater"],"name":[1],"type":["lgl"],"align":["right"]},{"label":["number"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"FALSE","2":"994"},{"1":"TRUE","2":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">shuffle.diff <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> diff)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_density</span>(<span class="dt">fill =</span> <span class="st">&quot;darkgreen&quot;</span>)<span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_rug</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="fl">0.555723</span>, <span class="dt">linetype =</span> <span class="dv">2</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_bw</span>()</code></pre></div>
+<p><img src="Lec_16_Statistics_for_Hackers_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+<div id="bootstrapping" class="section level3">
+<h3>4. bootstrapping</h3>
+<p>Calculate 95% confidence interval for mean [s] duration variable for heterosexual speakers from our orientation set.</p>
+<p>95% CI formula again: <span class="math inline">\(mean \pm 1.96\frac{standard\ deviation}{\sqrt{number\ of\ observation}}\)</span></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homo &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://goo.gl/Zjr9aF&quot;</span>)
+homo <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(orientation) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(s.duration.ms),
+            <span class="dt">CI =</span> <span class="fl">1.96</span><span class="op">*</span><span class="kw">sd</span>(s.duration.ms)<span class="op">/</span><span class="kw">sqrt</span>(<span class="kw">length</span>(s.duration.ms)))</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["orientation"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["mean"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["CI"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"hetero","2":"58.46571","3":"5.299922"},{"1":"homo","2":"63.98286","3":"5.421385"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Simulate the distribution by drawing samples with replacement.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(bootstrap)
+
+data &lt;-<span class="st"> </span>homo[homo<span class="op">$</span>orientation <span class="op">==</span><span class="st"> &quot;homo&quot;</span>, <span class="st">&quot;s.duration.ms&quot;</span>]
+
+<span class="kw">set.seed</span>(<span class="dv">42</span>)
+boot_mean &lt;-<span class="st"> </span><span class="kw">bootstrap</span>(data, <span class="dt">nboot =</span> <span class="dv">1000</span>, <span class="dt">theta =</span> mean)
+boot_mean<span class="op">$</span>thetastar <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">data.frame</span>(<span class="dt">data =</span> .) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(data))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">fill =</span> <span class="st">&quot;darkgreen&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(data), <span class="dt">linetype =</span> <span class="dv">2</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_bw</span>()</code></pre></div>
+<p><img src="Lec_16_Statistics_for_Hackers_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">boot_mean<span class="op">$</span>thetastar <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">data.frame</span>(<span class="dt">data =</span> .) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(data),
+            <span class="dt">CI =</span> <span class="fl">1.96</span><span class="op">*</span><span class="kw">sd</span>(data)<span class="op">/</span><span class="kw">sqrt</span>(<span class="kw">length</span>(data)))</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["mean"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["CI"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"63.86911","2":"0.1552162"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<p> <center> &copy; О. Ляшевская, И. Щуров, Г. Мороз, code on
+<a href="https://github.com/agricolamz/2018-MAG_R_course"> GitHub<img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png"  style="width:30px;height:30px;border:0"> </center></p>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
