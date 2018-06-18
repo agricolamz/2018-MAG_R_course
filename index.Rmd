@@ -87,7 +87,7 @@ title: "Linguistic data: quantitative analysis and visualisation"
 
 * (31.05.2018) Lecture 13 [slides](https://agricolamz.github.io/2018-MAG_R_course/Lec_13_PCA.html) [3D slides](https://agricolamz.github.io/2018-MAG_R_course/Lec_13_PCA_3D.html)  
 * (31.05.2018) [Lab 13: PCA](https://goo.gl/forms/4F8kTY8WqZvNZwjY2), Assignment link  
-* (02.06.2018) Lecture 14 [slides](https://agricolamz.github.io/2018-MAG_R_course/Lec14_CA_MCA.html)
+* (02.06.2018) [Lecture 14](https://github.com/agricolamz/2018-MAG_R_course/raw/master/CA_MCA.pdf)
 * (02.06.2018) [Lab 14: t-SNE, CA, MCA](https://agricolamz.github.io/2018-MAG_R_course/Lab_14.html)
 
 ### 15. Time series data (TL)
