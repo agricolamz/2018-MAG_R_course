@@ -62,9 +62,9 @@ data.frame(x = c(1:10*0.1, 1:10),
   theme_bw()
 ```
 
-* if log(odds) are greater then 0, it means that we have more successes then failures;
+* if log(odds) are greater then 0, it means that we have more successes than failures;
 * if log(odds) is equal to 0, it means that we have the same number of successes and failures;
-* if log(odds) are less then 0, it means that we have less successes then failures;
+* if log(odds) are less then 0, it means that we have less successes than failures;
 
 ### 2.3 Probability and log(odds)
 ```{r, echo=FALSE}
@@ -254,7 +254,7 @@ Example: animacy and semantic class; animacy and the choice of syntactic constru
 
 ### 8. Conclusion: Generalized linear models (GLM)
 
-GLM is a broad class of models that include linear regression, logistic regression, log linear regression, Poisson regression, ANOVA, ANCOVA, etc. In order to call a particular method to be GLM, that method should have the following three components:
+GLM is a broad class of models that include a linear regression, logistic regression, log linear regression, Poisson regression, ANOVA, ANCOVA, etc. In order to call a particular method as GLM, that method should have the following three components:
 
 * __Random Component__: It refers a response variable (y), which need to satisfy some assumptions. Examples: Linear regression of y (dependent variable) follows normal distribution. Logistic regression response variable follows binomial distribution.  
 
